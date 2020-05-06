@@ -18,11 +18,16 @@ from django.urls import path
 from luogu.views import *
 
 urlpatterns = [
+    path('admin/', admin.site.urls),
     path('index', index),
+    path('index.html', index),
     path('login', login),
     path('register', register),
-    path('', login),
-    # path('index', index),
+    path('register/enter', registerEnter),
+    path('forgetPassword', forgetPassword),
+    path('changePassword', changePassword),
+    path('', index),
+
     # path('index', index),
     # path('index', index),
 ]

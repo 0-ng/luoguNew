@@ -221,7 +221,7 @@ html, body {
 .signup {
     width: 380px;
     float: left;
-	
+    margin-left: 20px;
 }
 .modal-body {
     padding: 24px 35px 35px;
@@ -434,19 +434,19 @@ p.get-pw {
 @media all and (max-width:1366px){
 .login-section {
     width: 58%;
-    margin: 4% 30% 0;
+    margin: 4% 25% 0;
 }
 }
 @media all and (max-width:1280px){
 .login-section {
     width: 62%;
-    margin: 4% 30% 0;
+    margin: 4% 25% 0;
 }
 }
 @media all and (max-width:1024px){
 .login-section {
     width: 78%;
-    margin: 4% 30% 0;
+    margin: 4% 25% 0;
 }
 #signup .validation01 {
     right: -135px;
@@ -498,7 +498,7 @@ input#name {
 	}
 .login-section {
     width: 91%;
-    margin: 4% 30% 0;
+    margin: 4% 25% 0;
 }
 #signup .validation01{ 
 	right: -65px;
@@ -507,7 +507,7 @@ input#name {
 @media only screen and (max-width:736px) {
 .login-section {
     width: 95%;
-    margin: 4% 30% 0;
+    margin: 4% 25% 0;
 }
 #signup .validation01{ 
 	right: -50px;
@@ -516,7 +516,7 @@ input#name {
 @media only screen and (max-width:667px) {
 .login-section {
     width: 51%;
-    margin: 4% 30% 0;
+    margin: 4% 25% 0;
 }
 .signup {
     margin-bottom: 20px;
@@ -528,7 +528,7 @@ input#name {
 @media only screen and (max-width:640px) {
 .modal-dialog {
 	width: 360px;
-	margin: 80px 30% 0;
+	margin: 80px 25% 0;
 }
 .login, .signup {
 	width: 360px;
@@ -553,7 +553,7 @@ input#name {
 @media only screen and (max-width:600px) {
 .login-section {
     width: 62%;
-    margin: 4% 30% 0;
+    margin: 4% 25% 0;
 }
 input#email {
     width: 93%;
@@ -568,13 +568,13 @@ input#name {
 @media only screen and (max-width:568px) {
 .login-section {
     width: 66%;
-    margin: 4% 30% 0;
+    margin: 4% 25% 0;
 }
 }
 @media only screen and (max-width:480px) {
 .login-section {
     width: 78%;
-    margin: 4% 30% 0;
+    margin: 4% 25% 0;
 }
 h1 {
     font-size: 30px;
@@ -620,7 +620,7 @@ p.footer {
 @media all and (max-width:414px){
 .login-section {
     width: 84%;
-    margin: 4% 30% 0;
+    margin: 4% 25% 0;
 }
 }
 @media all and (max-width:384px){
@@ -676,7 +676,7 @@ a.pp {
 }
 .login-section {
     width: 90%;
-    margin: 8% 30% 0;
+    margin: 8% 25% 0;
 }
 h1 {
     font-size: 24px;
