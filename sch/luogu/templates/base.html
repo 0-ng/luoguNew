@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <title>首页</title>
+    <link href="https://magicbox.bk.tencent.com/static_api/v3/assets/bootstrap-3.3.4/css/bootstrap.min.css"
+          rel="stylesheet">
+    <link href="https://magicbox.bk.tencent.com/static_api/v3/assets/bk-icon-2.0/iconfont.css" rel="stylesheet">
+    <link href="https://magicbox.bk.tencent.com/static_api/v3/bk/css/bk.css" rel="stylesheet">
+    <link href="https://magicbox.bk.tencent.com/static_api/v3/bk/css-pro/bk.css" rel="stylesheet">
+    <link href="/static/css/common.css" rel="stylesheet">
+    <link href="/static/css/index.css" rel="stylesheet">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title></title>
+    <!-- 若您需要使用Kendo UI Professional，请联系版权人获得合法的授权或许可。 -->
+    <!-- Bootstrap css -->
+    <link href="https://magicbox.bk.tencent.com/static_api/v3/assets/bootstrap-3.3.4/css/bootstrap.min.css"
+          rel="stylesheet">
+    <!-- kendo ui css -->
+    <link href="https://magicbox.bk.tencent.com/static_api/v3/assets/kendoui-2015.2.624/styles/kendo.common.min.css"
+          rel="stylesheet">
+    <link href="https://magicbox.bk.tencent.com/static_api/v3/assets/kendoui-2015.2.624/styles/kendo.default.min.css"
+          rel="stylesheet">
+    <!-- font-awesome -->
+    <link href="https://magicbox.bk.tencent.com/static_api/v3/assets/fontawesome/css/font-awesome.css" rel="stylesheet">
+    <!--蓝鲸提供的公用样式库 -->
+    <link href="https://magicbox.bk.tencent.com/static_api/v3/bk/css/bk.css" rel="stylesheet">
+    <link href="https://magicbox.bk.tencent.com/static_api/v3/bk/css/bk_pack.css" rel="stylesheet">
+    <!-- 如果要使用Bootstrap的js插件，必须先调入jQuery -->
+    <script src="https://magicbox.bk.tencent.com/static_api/v3/assets/js/jquery-1.10.2.min.js"></script>
+    <!-- 包括所有bootstrap的js插件或者可以根据需要使用的js插件调用　-->
+    <script src="https://magicbox.bk.tencent.com/static_api/v3/assets/echarts-2.0/echarts-all.js"></script>
+    <script src="https://magicbox.bk.tencent.com/static_api/v3/assets/bootstrap-3.3.4/js/bootstrap.min.js"></script>
+    <!-- 包括所有kendoui的js插件或者可以根据需要使用的js插件调用　-->
+    <script src="https://magicbox.bk.tencent.com/static_api/v3/assets/kendoui-2015.2.624/js/kendo.all.min.js"></script>
+    <script src="https://magicbox.bk.tencent.com/static_api/v3/assets/echarts-2.0/echarts-all.js"></script>
+    <script src="https://magicbox.bk.tencent.com/static_api/v3/bk/js/bk.js"></script>
+    <!-- 数据埋点统计 -->
+    <script src="http://magicbox.bk.tencent.com/static_api/analysis.js"></script>
+<!--    <script src="../static/icons/font_1844311_zfa89y5e5od/iconfont.js"></script>-->
+    <script src="C:/luogu/luogu/sch/luogu/static/icons/font_1844311_zfa89y5e5od/iconfont.js"></script>
+    <link rel="stylesheet" href="C:/luogu/luogu/sch/luogu/static/icons/font_1844311_zfa89y5e5od/iconfont.css">
+
+    <style>
+        .icon {
+          width: 1em;
+          height: 1em;
+          vertical-align: -0.15em;
+          fill: currentColor;
+          overflow: hidden;
+        }
+    </style>
+</head>
+
+<body style="background-color: gray;font-weight: 400;">
+
+<nav style="background-color: rgb(52,73,94);color: rgb(221,221,221);position: fixed;
+    width: 3.7em;height: 100%;display: flex;flex-direction: column;text-align: center;
+    line-height: 1.2;z-index: 5;font-size: 16px;">
+    <div style="background-color:rgb(52,152,219);box-sizing: border-box;display: block;color: rgb(221, 221, 221);">
+
+        <a href="index">
+        <img src="/static/icons/book4.svg" height="50px" width="50px">
+        </a>
+
+    </div>
+    <div style="font-size: 0.8em;line-height: 2em;margin-top: 0.2em;
+        cursor: pointer;box-sizing: border-box;display: block;color: rgb(221, 221, 221);">
+        应用
+        <img src="/static/icons/more.svg" height="20px" width="20px">
+
+    </div>
+    <a style="color: inherit;text-decoration: none;display: block;padding: .5em .5em;background-color: transparent;box-sizing: border-box;cursor: pointer;">
+        <span style="text-align: center;margin: 0 .3em;font-size: 1.1em;display: inline-block;width: 1.5em;
+            vertical-align: middle;box-sizing: border-box;color: inherit;cursor: pointer;">
+
+        </span>
+        <span>题库</span>
+    </a>
+    <a style="color: inherit;text-decoration: none;display: block;padding: .5em .5em;background-color: transparent;box-sizing: border-box;cursor: pointer;">
+        <span style="text-align: center;margin: 0 .3em;font-size: 1.1em;display: inline-block;width: 1.5em;
+            vertical-align: middle;box-sizing: border-box;color: inherit;cursor: pointer;">
+
+        </span>
+        <span>题库</span>
+    </a>
+    <a style="color: inherit;text-decoration: none;display: block;padding: .5em .5em;background-color: transparent;box-sizing: border-box;cursor: pointer;">
+        <span style="text-align: center;margin: 0 .3em;font-size: 1.1em;display: inline-block;width: 1.5em;
+            vertical-align: middle;box-sizing: border-box;color: inherit;cursor: pointer;">
+
+        </span>
+        <span>题库</span>
+    </a>
+    <a href="hub" style="color: inherit;text-decoration: none;display: block;padding: .5em .5em;background-color: transparent;box-sizing: border-box;cursor: pointer;">
+        <span style="text-align: center;margin: 0 .3em;font-size: 1.1em;display: inline-block;width: 1.5em;
+            vertical-align: middle;box-sizing: border-box;color: inherit;cursor: pointer;">
+
+
+        </span>
+        <span>真题库</span>
+    </a>
+</nav>
+<!--<div class="bk-layout bk-layout-has-sidebar" style="height:calc(100% - 60px);margin: 0px 0px 0px 60px">-->
+<div class="bk-layout bk-layout-has-sidebar"
+     style="background-color: rgb(239, 239, 239);margin: 0px 0px 0px 60px; float: left;">
+    <div style="width: 100%">
+        <!--上导航-->
+        <div style="height: 4em;background: #fff !important;padding-left: 1em;padding-right: 1em;position: relative;font-size: 16px;
+            line-height: 1.5;color: rgba(0, 0, 0, .85);box-sizing: border-box;display: block;font-weight: 400;">
+            <div style="float: left;background: linear-gradient(90deg, rgb(35, 37, 38), rgb(65, 67, 69)); filter: blur(0px) brightness(100%);">
+                <img src="/static/image/2.png" style="width: auto;height: 4em;">
+            </div>
+            <div style="display: flex;flex-direction: row;align-items: center;padding-left: 1em;padding-right: 1em;
+                height: 100%;color: #333;max-width: 1200px;margin-left: auto;margin-right: auto;ont-size: 16px;line-height: 1.5;">
+                <div style="display: block;color: #333;font-size: 16px;line-height: 1.5;">
+                    <img>
+                </div>
+                <div style="display:table;padding-left: 48px;color: #333;height: 100%;flex: 1;padding-left: 3em;font-size: 16px;line-height: 1.5;">
+                    <div style="float: left;display:flex;align-items: center;justify-content:center; height: 100%">
+                        <a href="index.html"
+                           style="width: 100px;vertical-align:middle;display:table-cell;margin-right:32px;vertical-align: middle;margin-right: 2em;text-decoration: none;color: #3498db;font-size: 16px;line-height: 1.5;">
+                            <span style="color: rgb(38, 38, 38);">洛谷网校</span>
+                        </a>
+                    </div>
+                    <div style="float: left;display:flex;align-items: center;justify-content:center; height: 100%">
+                        <a href="index.html"
+                           style="width: 100px;vertical-align:middle;display:table-cell;margin-right:32px;vertical-align: middle;margin-right: 2em;text-decoration: none;color: #3498db;font-size: 16px;line-height: 1.5;">
+                            <span style="color: rgb(38, 38, 38);">洛谷网校</span>
+                        </a>
+                    </div>
+
+                </div>
+                <nav style="position: relative;color: #333;font-size: 16px;line-height: 1.5;font-weight: 400;">
+                    <a href="/login"
+                       style="text-decoration: none;color: inherit;background-color: transparent;font-size: 16px;line-height: 1.5;">
+                        <span style="font-size: .8em;margin-left: .5em;color: inherit;">登录</span>
+                    </a>
+                    <a href="/register"
+                       style="text-decoration: none;color: inherit;background-color: transparent;font-size: 16px;line-height: 1.5;">
+                        <span style="font-size: .8em;margin-left: .5em;color: inherit;">注册</span>
+                    </a>
+                    <img src="/static/image/1.jpg" style="margin-left: .4em;vertical-align: middle;width: 35px;height: 35px;
+                            border-radius: 50%;border-style: none;box-sizing: border-box;border: 0;color: #333;font-size: 16px;line-height: 1.5;">
+                </nav>
+            </div>
+        </div>
+
+        <!--主体-->
+        {% block main %}{% endblock %}
+    </div>
+</div>
+
+<script src="https://magicbox.bk.tencent.com/static_api/v3/assets/js/jquery-1.10.2.min.js"></script>
+<script src="https://magicbox.bk.tencent.com/static_api/v3/assets/echarts-2.0/echarts-all.js"></script>
+<script src="/static/js/common.js"></script>
+<script src="/static/js/index.js"></script>
+
+<script>
+    $('.carousel').carousel()
+</script>
+
+</body>
+
+</html>

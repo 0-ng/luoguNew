@@ -24,6 +24,15 @@ def changePassword(request):
     return render(request, "changePassword.html")
 
 
+def question(request):
+    return render(request, "question.html")
+
+
+def hub(request):
+
+    return render(request, "hub.html", {"questions": [1,1,1,1,1,1,1,1,1,1,1,1,1,1]})
+
+
 def registerEnter(request):
     username = request.POST.get('username')
     password = request.POST.get('password')
