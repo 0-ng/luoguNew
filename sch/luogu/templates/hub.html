@@ -6,20 +6,68 @@
             <div style="margin-bottom: 32px;">
                 <div style="margin: 20px 51.729px 0px">
 
-                    {% for q in questions %}
+<!--                    <div style="display: block;box-sizing: border-box;overflow: hidden;">-->
+<!--                        <div style="padding: 0px 10px;overflow: hidden;">-->
+<!--                            <div style="margin: 0px 0px 15px;padding: 16px;background-color: rgba(255,255,255,.7);overflow: hidden;">-->
+<!--                                <div style="margin: 0px 10px;overflow: hidden;">-->
+
+<!--                                    <div style="float: left;">-->
+<!--                                        状态-->
+<!--                                    </div>-->
+<!--                                    <div style="float: left;">-->
+<!--                                        状态-->
+<!--                                    </div>-->
+<!--                                    <div style="float: left;">-->
+<!--                                        状态-->
+<!--                                    </div>-->
+<!--                                    <div style="float: left;">-->
+<!--                                        状态-->
+<!--                                    </div>-->
+<!--                                    <div style="float: left;">-->
+<!--                                        状态-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
                     <div style="display: block;box-sizing: border-box;overflow: hidden;">
                         <div style="padding: 0px 10px;overflow: hidden;">
                             <div style="margin: 0px 0px 15px;padding: 16px;background-color: rgba(255,255,255,.7);overflow: hidden;">
                                 <div style="margin: 0px 10px;overflow: hidden;">
-                                    你是傻逼
-<!--                                        <div>-->
-<!--                                            我是傻逼-->
-<!--                                        </div>-->
+
+<!--                    <div style="float: left;display:flex;align-items: center;justify-content:center; height: 100%">-->
+<!--                        <a href="index.html"-->
+<!--                           style="width: 100px;vertical-align:middle;display:table-cell;margin-right:32px;vertical-align: middle;margin-right: 2em;text-decoration: none;color: #3498db;font-size: 16px;line-height: 1.5;">-->
+<!--                            <span style="color: rgb(38, 38, 38);">洛谷网校</span>-->
+<!--                        </a>-->
+<!--                    </div>-->
+                                    <div style="float: left; width: 5%;background-color: skyblue; display:flex;align-items: center;justify-content:center;">状态</div>
+                                    <div style="float: left; width: 10%;background-color: silver; display:flex;align-items: center;justify-content:center;">题号</div>
+                                    <div style="float: left; width: 45%;background-color: tomato">题目</div>
+                                    <div style="float: left; width: 20%;background-color: aquamarine; display:flex;align-items: center;justify-content:center;">标签</div>
+                                    <div style="float: left; width: 10%;background-color: peru; display:flex;align-items: center;justify-content:center;">难度</div>
+                                    <div style="float: left; width: 10%;background-color: sandybrown; display:flex;align-items: center;justify-content:center;">通过率</div>
+<!--                                    <hr color="blue" size="4px">-->
                                 </div>
+                                <div class="divider" style="height: 5px"></div>
+                                {% for q in questions %}
+                                <div style="margin: 0px 10px;overflow: hidden;">
+                                    <div style="padding: 8px 6px 8px 0px; float: left; width: 5%; height: 100%; background-color: skyblue; display:flex;align-items: center;justify-content:center;"><img src="../static/icons/横杠.svg" style="height: 20px"></div>
+                                    <div style="padding: 8px 6px 8px 0px; float: left; width: 10%; height: 100%; background-color: silver; display:flex;align-items: center;justify-content:center;">题号</div>
+                                    <div style="padding: 8px 6px 8px 0px; float: left; width: 45%;height: 100%; background-color: tomato">题目</div>
+                                    <div style="padding: 8px 6px 8px 0px; float: left; width: 20%;height: 100%; background-color: aquamarine; display:flex;align-items: center;justify-content:center;">标签</div>
+                                    <div style="padding: 8px 6px 8px 0px; float: left; width: 10%;height: 100%; background-color: peru; display:flex;align-items: center;justify-content:center;">难度</div>
+                                    <div style="padding: 8px 6px 8px 0px; float: left; width: 10%;height: 100%; background-color: sandybrown; display:flex;align-items: center;justify-content:center;">通过率</div>
+<!--                                    <hr color="red" style="border: 6px"/>-->
+<!--                                    <br>-->
+
+                                </div>
+                                <div class="divider" style="height: 3px"></div>
+<!--                                    <hr color="blue" size=1px width=10% align="left">-->
+                                {% endfor %}
                             </div>
                         </div>
                     </div>
-                    {% endfor %}
 
                 </div>
             </div>
