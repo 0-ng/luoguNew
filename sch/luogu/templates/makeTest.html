@@ -59,14 +59,14 @@
                     <img>
                 </div>
                 <div style="display:table;padding-left: 48px;color: #333;height: 100%;flex: 1;padding-left: 3em;font-size: 16px;line-height: 1.5;">
-                    <a href="index.html"
-                       style="width: 100px;vertical-align:middle;display:table-cell;margin-right:32px;vertical-align: middle;margin-right: 2em;text-decoration: none;color: #3498db;font-size: 16px;line-height: 1.5;">
-                        <span style="color: rgb(38, 38, 38);">洛谷网校</span>
-                    </a>
-                    <a href="index.html"
-                       style="vertical-align:middle;display:table-cell;margin-right:32px;vertical-align: middle;margin-right: 2em;text-decoration: none;color: #3498db;font-size: 16px;line-height: 1.5;">
-                        <span style="color: rgb(38, 38, 38);">洛谷有题</span>
-                    </a>
+<!--                    <a href="index.html"-->
+<!--                       style="width: 100px;vertical-align:middle;display:table-cell;margin-right:32px;vertical-align: middle;margin-right: 2em;text-decoration: none;color: #3498db;font-size: 16px;line-height: 1.5;">-->
+<!--                        <span style="color: rgb(38, 38, 38);">洛谷网校</span>-->
+<!--                    </a>-->
+<!--                    <a href="index.html"-->
+<!--                       style="vertical-align:middle;display:table-cell;margin-right:32px;vertical-align: middle;margin-right: 2em;text-decoration: none;color: #3498db;font-size: 16px;line-height: 1.5;">-->
+<!--                        <span style="color: rgb(38, 38, 38);">洛谷有题</span>-->
+<!--                    </a>-->
                 </div>
                 <nav style="position: relative;color: #333;font-size: 16px;line-height: 1.5;font-weight: 400;">
                     <a href="/login"
@@ -96,10 +96,21 @@
             <script src="https://cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
             <script src="../static/makeNews/editormd.min.js"></script>
 
-            {% block js %} {% endblock %}
-<!--            <script type="text/javascript">-->
+        <!--引入样式文件-->
+        <link rel="stylesheet" href="../static/makeNews/examples/css/style.css" />
+        <link rel="stylesheet" href="../static/makeNews/css/editormd.preview.css" />
 
-<!--            </script>-->
+        <!--引入js文件-->
+        <script src="../static/makeNews/examples/js/jquery.min.js"></script>
+        <script src="../static/makeNews/lib/marked.min.js"></script>
+        <script src="../static/makeNews/lib/prettify.min.js"></script>
+        <script src="../static/makeNews/lib/raphael.min.js"></script>
+        <script src="../static/makeNews/lib/underscore.min.js"></script>
+        <script src="../static/makeNews/lib/sequence-diagram.min.js"></script>
+        <script src="../static/makeNews/lib/flowchart.min.js"></script>
+        <script src="../static/makeNews/lib/jquery.flowchart.min.js"></script>
+        <script src="../static/makeNews/editormd.js"></script>
+            {% block js %} {% endblock %}
 
         </main>
     </div>

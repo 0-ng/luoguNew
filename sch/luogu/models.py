@@ -36,3 +36,12 @@ class LuoguUser(models.Model):
 #         return "{} on {}".format(self.author, self.status)
 
 
+class Question(models.Model):
+    no = models.CharField(max_length=10, null=False, blank=False)
+    title = models.CharField(max_length=50, null=False, blank=False)
+    tag = models.CharField(max_length=20, null=True, blank=True)
+    difficulty = models.CharField(max_length=20, null=True, blank=True)
+    question = models.CharField(max_length=500, null=False, blank=False)
+    answer = models.CharField(max_length=500, null=False, blank=False)
+    accepted = models.IntegerField()
+    attempted = models.IntegerField()

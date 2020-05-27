@@ -15,21 +15,25 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.conf.urls import url
 from luogu.views import *
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('index', index),
-    path('index.html', index),
-    path('login', login),
-    path('register', register),
-    path('register/enter', registerEnter),
-    path('forgetPassword', forgetPassword),
-    path('changePassword', changePassword),
-    path('makeNews', question),
-    path('question', question),
-    path('hub', hub),
-    path('', index),
+    url('admin/', admin.site.urls),
+    url('index$', index),
+    url('index.html$', index),
+    url('login$', login),
+    url('register$', register),
+    url('register/enter$', registerEnter),
+    url('forgetPassword$', forgetPassword),
+    url('changePassword$', changePassword),
+    url('makeNews$', question),
+    url('question$', question),
+    url('hub$', hub),
+    # url(r'hub/P([0-9]{4})/$', hub),
+    url(r'P[0-9]{4}', detail),
+    url(r'垃圾', 垃圾),
+    url('^$', index),
 
     # path('index', index),
     # path('index', index),
