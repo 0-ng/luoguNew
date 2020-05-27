@@ -62,6 +62,38 @@ def hub(request):
          "difficulty": "普及-",
          "pass": 0.4
          },
+        {"status": 0,
+         "no": "P1003",
+         "title": "铺地毯",
+         "link": "https://www.luogu.com.cn/problem/P1003",
+         "tag": "NOIp提高组",
+         "difficulty": "普及-",
+         "pass": 0.4
+         },
+        {"status": 0,
+         "no": "P1003",
+         "title": "铺地毯",
+         "link": "https://www.luogu.com.cn/problem/P1003",
+         "tag": "NOIp提高组",
+         "difficulty": "普及-",
+         "pass": 0.4
+         },
+        {"status": 0,
+         "no": "P1003",
+         "title": "铺地毯",
+         "link": "https://www.luogu.com.cn/problem/P1003",
+         "tag": "NOIp提高组",
+         "difficulty": "普及-",
+         "pass": 0.4
+         },
+        {"status": 0,
+         "no": "P1003",
+         "title": "铺地毯",
+         "link": "https://www.luogu.com.cn/problem/P1003",
+         "tag": "NOIp提高组",
+         "difficulty": "普及-",
+         "pass": 0.4
+         },
     ]
     return render(request, "hub.html", {"questions": ls})
 

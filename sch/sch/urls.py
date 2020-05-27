@@ -27,6 +27,7 @@ urlpatterns = [
     path('forgetPassword', forgetPassword),
     path('changePassword', changePassword),
     path('makeNews', question),
+    path('question', question),
     path('hub', hub),
     path('', index),
 
