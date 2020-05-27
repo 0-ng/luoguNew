@@ -1,46 +1,50 @@
 {% extends "base.html" %}
 
 {% block main %}
+<div style="background-color: rgba(0, 0, 0, .75); height: 15%">
+    <div style="height: 10%"></div>
+    <div style="margin-left: 20px"><h3 style="color: white">题目列表</h3></div>
 
+
+</div>
         <main>
             <div style="margin-bottom: 32px;">
                 <div style="margin: 20px 51.729px 0px">
 
-<!--                    <div style="display: block;box-sizing: border-box;overflow: hidden;">-->
-<!--                        <div style="padding: 0px 10px;overflow: hidden;">-->
-<!--                            <div style="margin: 0px 0px 15px;padding: 16px;background-color: rgba(255,255,255,.7);overflow: hidden;">-->
-<!--                                <div style="margin: 0px 10px;overflow: hidden;">-->
+                    <div style="display: block;box-sizing: border-box;overflow: hidden;">
+                        <div style="padding: 0px 10px;overflow: hidden;">
+                            <div style="margin: 0px 0px 15px;padding: 16px;background-color: rgba(255,255,255,.7);overflow: hidden;">
+                                <div>
+                                    <div style="margin: 20px 20px 20px 20px; height: 100%">
+                                        <div style="float: left">
+                                            <h3 style="margin: 0 10px 0 0">查找题目</h3>
+                                        </div>
+                                        <div style="float: left; width: 70%; height: 100%">
+                                            <input type="text" style="height: 100%; width: 100%; margin: 0 0 0 0; border-color: rgb(52, 152, 219);">
 
-<!--                                    <div style="float: left;">-->
-<!--                                        状态-->
-<!--                                    </div>-->
-<!--                                    <div style="float: left;">-->
-<!--                                        状态-->
-<!--                                    </div>-->
-<!--                                    <div style="float: left;">-->
-<!--                                        状态-->
-<!--                                    </div>-->
-<!--                                    <div style="float: left;">-->
-<!--                                        状态-->
-<!--                                    </div>-->
-<!--                                    <div style="float: left;">-->
-<!--                                        状态-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
+                                        </div>
+                                        <button style="border: 0; height: 100%; width: fit-content;  margin: 0 0 0 0; background-color: rgb(52, 152, 219);">
+                                                <h5 style="margin: 2px 0 2px 0; color: white">搜索</h5>
+                                        </button>
+<!--                                        <div style="float: left">-->
+<!--                                        </div>-->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div style="margin-bottom: 32px;">
+                <div style="margin: 20px 51.729px 0px">
+
                     <div style="display: block;box-sizing: border-box;overflow: hidden;">
                         <div style="padding: 0px 10px;overflow: hidden;">
                             <div style="margin: 0px 0px 15px;padding: 16px;background-color: rgba(255,255,255,.7);overflow: hidden;">
                                 <div style="margin: 0px 10px;overflow: hidden;">
 
-<!--                    <div style="float: left;display:flex;align-items: center;justify-content:center; height: 100%">-->
-<!--                        <a href="index.html"-->
-<!--                           style="width: 100px;vertical-align:middle;display:table-cell;margin-right:32px;vertical-align: middle;margin-right: 2em;text-decoration: none;color: #3498db;font-size: 16px;line-height: 1.5;">-->
-<!--                            <span style="color: rgb(38, 38, 38);">洛谷网校</span>-->
-<!--                        </a>-->
-<!--                    </div>-->
                                     <div style="float: left; width: 5%;background-color: skyblue; display:flex;align-items: center;justify-content:center;">状态</div>
                                     <div style="float: left; width: 10%;background-color: silver; display:flex;align-items: center;justify-content:center;">题号</div>
                                     <div style="float: left; width: 45%;background-color: tomato">题目</div>
@@ -52,12 +56,12 @@
                                 <div class="divider" style="height: 5px"></div>
                                 {% for q in questions %}
                                 <div style="margin: 0px 10px;overflow: hidden;">
-                                    <div style="padding: 8px 6px 8px 0px; float: left; width: 5%; height: 100%; background-color: skyblue; display:flex;align-items: center;justify-content:center;"><img src="../static/icons/横杠.svg" style="height: 20px"></div>
-                                    <div style="padding: 8px 6px 8px 0px; float: left; width: 10%; height: 100%; background-color: silver; display:flex;align-items: center;justify-content:center;">题号</div>
-                                    <div style="padding: 8px 6px 8px 0px; float: left; width: 45%;height: 100%; background-color: tomato">题目</div>
-                                    <div style="padding: 8px 6px 8px 0px; float: left; width: 20%;height: 100%; background-color: aquamarine; display:flex;align-items: center;justify-content:center;">标签</div>
-                                    <div style="padding: 8px 6px 8px 0px; float: left; width: 10%;height: 100%; background-color: peru; display:flex;align-items: center;justify-content:center;">难度</div>
-                                    <div style="padding: 8px 6px 8px 0px; float: left; width: 10%;height: 100%; background-color: sandybrown; display:flex;align-items: center;justify-content:center;">通过率</div>
+                                    <div style="padding: 8px 6px 8px 0px; float: left; width: 5%; height: 100%; background-color: white; display:flex;align-items: center;justify-content:center;"><img src="../static/icons/横杠.svg" style="height: 20px"></div>
+                                    <div style="padding: 8px 6px 8px 0px; float: left; width: 10%; height: 100%; background-color: white; display:flex;align-items: center;justify-content:center;">{{ q.no }}</div>
+                                    <div style="padding: 8px 6px 8px 0px; float: left; width: 45%;height: 100%; background-color: white"><a href="{{ q.link }}">{{ q.title }}</a></div>
+                                    <div style="padding: 8px 6px 8px 0px; float: left; width: 20%;height: 100%; background-color: white; display:flex;align-items: center;justify-content:center;">{{ q.tag }}</div>
+                                    <div style="padding: 8px 6px 8px 0px; float: left; width: 10%;height: 100%; background-color: white; display:flex;align-items: center;justify-content:center;">{{ q.difficulty }}</div>
+                                    <div style="padding: 8px 6px 8px 0px; float: left; width: 10%;height: 100%; background-color: white; display:flex;align-items: center;justify-content:center;">{{ q.pass }}</div>
 <!--                                    <hr color="red" style="border: 6px"/>-->
 <!--                                    <br>-->
 
