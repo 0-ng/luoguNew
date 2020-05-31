@@ -122,6 +122,16 @@
 
                 </div>
                 <nav style="position: relative;color: #333;font-size: 16px;line-height: 1.5;font-weight: 400;">
+                    {% if request.session.is_login %}
+                        <a href="/user/{{ request.session.user_name }}"
+                           style="text-decoration: none;color: inherit;background-color: transparent;font-size: 16px;line-height: 1.5;">
+                            <span style="font-size: .8em;margin-left: .5em;color: inherit;">{{ request.session.user_id }}</span>
+                        </a>
+                        <a href="#"
+                           style="text-decoration: none;color: inherit;background-color: transparent;font-size: 16px;line-height: 1.5;">
+                            <span style="font-size: .8em;margin-left: .5em;color: inherit;">{{ request.session.user_name }}</span>
+                        </a>
+                    {% else %}
                     <a href="/login"
                        style="text-decoration: none;color: inherit;background-color: transparent;font-size: 16px;line-height: 1.5;">
                         <span style="font-size: .8em;margin-left: .5em;color: inherit;">登录</span>
@@ -130,6 +140,7 @@
                        style="text-decoration: none;color: inherit;background-color: transparent;font-size: 16px;line-height: 1.5;">
                         <span style="font-size: .8em;margin-left: .5em;color: inherit;">注册</span>
                     </a>
+                    {% endif %}
                     <img src="/static/image/1.jpg" style="margin-left: .4em;vertical-align: middle;width: 35px;height: 35px;
                             border-radius: 50%;border-style: none;box-sizing: border-box;border: 0;color: #333;font-size: 16px;line-height: 1.5;">
                 </nav>

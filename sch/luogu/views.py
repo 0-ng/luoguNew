@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
-from .models import LuoguUser, User, Question
+from .models import User, Question
 from django.contrib.auth import authenticate, login
 from django.views.decorators.csrf import csrf_exempt
 # Create your views here.
@@ -14,27 +14,60 @@ def 垃圾(request):
     return render(request, "垃圾.html", {"question": ls})
 
 
-@csrf_exempt
 def login(request):
+    # print(666)
+    message = "傻逼"
+    result = False
+    if request.method == "POST":
+        username = request.POST.get('id')
+        password = request.POST.get('psw')
+        print(username)
+        print(password)
+        if username and password:
+            try:
+                user = User.objects.get(username=username)
+                print(1)
+                if user.password == password:
+                    print(2)
+                    # return redirect('/index')
+                    request.session['is_login'] = True
+                    request.session['user_id'] = user.id
+                    request.session['user_name'] = user.username
+                    return JsonResponse({"result": True})
+                else:
+                    print(3)
+                    message = "密码不正确!"
+            except:
+                print(4)
+                message = "用户不存在!"
+            return JsonResponse({"result": False, "message": message})
+        print(5)
+        # print(username)
+        # print(password)
+
+        # return render(request, "login.html", {"message": message})
+        return JsonResponse({"result": False, "message": message})
+
     return render(request, "login.html")
+    # return JsonResponse({"result": result, "message": message})
 
 
-@csrf_exempt
-def loginSubmit(request):
-    username = request.POST.get('id')
-    password = request.POST.get('psw')
-    print(username)
-    print(password)
-    if username.split() == [] or password.split() == []:
-        return JsonResponse({"result": False})
-    print(1)
-    user = authenticate(username=username, password=password)
-    print(2)
-    if user is not None:
-        login(request, user)
-        return JsonResponse({"result": True})
-    else:
-        return JsonResponse({"result": False})
+# def loginSubmit(request):
+#     if request.method == "POST":
+#         username = request.POST.get('id')
+#         password = request.POST.get('psw')
+#         print(username)
+#         print(password)
+#         if username.split() == [] or password.split() == []:
+#             return JsonResponse({"result": False})
+#         print(1)
+#         user = authenticate(username=username, password=password)
+#         print(2)
+#         if user is not None:
+#             login(request, user)
+#             return JsonResponse({"result": True})
+#         else:
+#             return JsonResponse({"result": False})
 
 
 def register(request):
@@ -126,7 +159,7 @@ def hub(request):
 
 
 def detail(request):
-    print(request.path.split('/'))
+    # print(request.path.split('/'))
     try:
         ls = Question.objects.get(no=request.path.split('/')[1])
     except:
@@ -142,7 +175,7 @@ def registerEnter(request):
         user = User(username=username, email=email)
         user.set_password(password)
         user.save()
-        LuoguUser.objects.create(user=user)
+        User.objects.create(user=user)
     except Exception as err:
         result = False
         message = str(err)
@@ -174,4 +207,22 @@ def makeNews(request):
 
     return JsonResponse({"result": True})
 
+
+
+def personalPage(request):
+    # print(request.path)
+    try:
+        print(1)
+        user = User.objects.get(username=request.path.split('/')[2])
+        print(2)
+        if user:
+            print(3)
+            return render(request, "personalPage.html", {"user": user})
+        else:
+            print(4)
+            return render(request, "error.html")
+        # print(request.path.split('/')[2])
+    except:
+        return render(request, "error.html")
+    return JsonResponse({"result": True})
 

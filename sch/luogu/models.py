@@ -1,15 +1,18 @@
 from django.db import models
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
 # Create your models here.
 
-class LuoguUser(models.Model):
-    user = models.OneToOneField(User, models.CASCADE)
+class User(models.Model):
+    # user = models.OneToOneField(User, models.CASCADE)
+    username = models.CharField(max_length=20, null=False, blank=False, default="")
+    email = models.CharField(max_length=20, null=False, blank=False, default="")
+    password = models.CharField(max_length=20, null=False, blank=False, default="")
     motto = models.CharField(max_length=100, null=True, blank=True, default="")
     pic = models.CharField(max_length=50, null=True, blank=True, default="")
     region = models.CharField(max_length=60, null=True, blank=True, default="")
 
     def __str__(self):
-        return self.user.username
+        return self.username
 
 
 # class Status(models.Model):

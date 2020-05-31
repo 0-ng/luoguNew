@@ -23,7 +23,7 @@ urlpatterns = [
     url('index$', index),
     url('index.html$', index),
     url('login$', login),
-    url('login/submit$', loginSubmit),
+    # url('login/submit$', loginSubmit),
     url('register$', register),
     url('register/enter$', registerEnter),
     url('forgetPassword$', forgetPassword),
@@ -36,6 +36,7 @@ urlpatterns = [
     url(r'垃圾', 垃圾),
     url('^$', index),
 
+    url('user/', personalPage)
     # path('index', index),
     # path('index', index),
 ]
