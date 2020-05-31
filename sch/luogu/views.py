@@ -2,6 +2,8 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
 from .models import LuoguUser, User, Question
+from django.contrib.auth import authenticate, login
+from django.views.decorators.csrf import csrf_exempt
 # Create your views here.
 
 def index(request):
@@ -12,8 +14,27 @@ def 垃圾(request):
     return render(request, "垃圾.html", {"question": ls})
 
 
+@csrf_exempt
 def login(request):
     return render(request, "login.html")
+
+
+@csrf_exempt
+def loginSubmit(request):
+    username = request.POST.get('id')
+    password = request.POST.get('psw')
+    print(username)
+    print(password)
+    if username.split() == [] or password.split() == []:
+        return JsonResponse({"result": False})
+    print(1)
+    user = authenticate(username=username, password=password)
+    print(2)
+    if user is not None:
+        login(request, user)
+        return JsonResponse({"result": True})
+    else:
+        return JsonResponse({"result": False})
 
 
 def register(request):
@@ -28,8 +49,8 @@ def changePassword(request):
     return render(request, "changePassword.html")
 
 
-def question(request):
-    return render(request, "question.html")
+def makeNewQuestion(request):
+    return render(request, "makeNewQuestion.html")
 
 
 def hub(request):
@@ -106,8 +127,6 @@ def hub(request):
 
 def detail(request):
     print(request.path.split('/'))
-    # for i in Question.objects.all():
-    #     print(i.no)
     try:
         ls = Question.objects.get(no=request.path.split('/')[1])
     except:
@@ -119,9 +138,6 @@ def registerEnter(request):
     username = request.POST.get('username')
     password = request.POST.get('password')
     email = request.POST.get('email')
-    print(username)
-    print(password)
-    print(email)
     try:
         user = User(username=username, email=email)
         user.set_password(password)
@@ -135,3 +151,27 @@ def registerEnter(request):
         message = "Register success"
 
     return JsonResponse({"result": result, "message": message})
+
+
+def makeNews(request):
+    question = request.POST.get('question')
+    answer = request.POST.get('answer')
+    title = request.POST.get('title')
+    # print(question.split())
+    # print(question.split() == [])
+    if question.split() == [] or answer.split() == [] or title.split() == []:
+        return JsonResponse({"result": False})
+
+    try:
+        Q = Question(question=question, answer=answer)
+        Q.save()
+    except Exception as err:
+        result = False
+        message = str(err)
+    else:
+        result = True
+        message = "Register success"
+
+    return JsonResponse({"result": True})
+
+
