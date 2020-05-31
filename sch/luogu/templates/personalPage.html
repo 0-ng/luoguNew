@@ -3,28 +3,24 @@
 {% block main %}
 
 
-<main>
-    <div style="margin-bottom: 32px;">
-        <div style="margin: 20px 51.729px 0px; background-image: url('https://cdn.luogu.org/images/bg/fe/DSCF0530-shrink.jpg');">
-            <div style="display: block;box-sizing: border-box;overflow: hidden;">
-                <div style="padding: 0px 10px;overflow: hidden;">
-                    <div style="margin: 0px 0px 15px;padding: 16px;overflow: hidden;">
-                        <div style="margin: 0px 10px;overflow: hidden;">
-                            <div class="king-container clearfix"
-                                 style="width: 66.66666667%;padding: 0px 10px;float: left">
-                                <div id="demo1" data-ride="carousel" class="carousel slide ">
-                                    用户名
-                                </div>
-                            </div>
-                            <div style="width: 33.333333333%;padding: 0px 10px;float: left">
-                                <img alt="" src="/static/image/demo4.jpg">
-                            </div>
-                        </div>
-                    </div>
+<main style="display: block;background-color:rgb(239, 239, 239); padding-left: 1em; padding-right: 1em; flex: 1">
+    <div style="max-width: 1200px; margin-left: auto; margin-right: auto;">
+        <div style="margin-top: 1.5rem;margin-bottom: 1.3em;background-color:#fff;box-shadow: 0 1px 3px rgba(26, 26, 26, .1); box-sizing: border-box">
+            <div style="background-image: url('https://cdn.luogu.org/images/bg/fe/DSCF0530-shrink.jpg'); position: relative; height: 240px;background-size: cover;background-position:center;">
+                <img style="width: 64px; height: 64px; border-radius: 50%; position: absolute; bottom: 24px; left: 24px; border: 1px solid #979797" src="/static/image/personalHead/{{ request.session.user_name }}.jpg" alt="{{ request.session.user_name }}">
+                <div style="color: #fff;position:absolute;bottom: 30px;left: 96px;text-shadow: 1px 1px 3px #333">
+                    <div style="font-size: 1.5em; color: #fff;text-shadow: 1px 1px 3px #333">{{ request.session.user_name }}</div>
+                    <div style="font-size: 0.875em;color: #fff;text-shadow: 1px 1px 3px #333">{{ motto }}</div>
+                </div>
+                <div style="font-size: 0.875em;vertical-align: middle;position: absolute;bottom: 24px;right: 12px;color: #fff">
+                    <a>个人博客</a>
+                    <a>个人设置</a>
                 </div>
             </div>
         </div>
     </div>
 </main>
+
+
 
 {% endblock %}
