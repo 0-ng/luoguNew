@@ -16,6 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.conf.urls import url
+import django
 from luogu.views import *
 
 urlpatterns = [
@@ -23,6 +24,7 @@ urlpatterns = [
     url('index$', index),
     url('index.html$', index),
     url('login$', login),
+    # url('login$', 'django.contrib.auth.views.login'),
     # url('login/submit$', loginSubmit),
     url('register$', register),
     url('register/enter$', registerEnter),

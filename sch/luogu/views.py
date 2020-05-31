@@ -186,6 +186,7 @@ def registerEnter(request):
     return JsonResponse({"result": result, "message": message})
 
 
+@login_required
 def makeNews(request):
     question = request.POST.get('question')
     answer = request.POST.get('answer')
@@ -208,7 +209,7 @@ def makeNews(request):
     return JsonResponse({"result": True})
 
 
-
+@login_required
 def personalPage(request):
     # print(request.path)
     try:
