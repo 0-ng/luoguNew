@@ -84,23 +84,23 @@
 <script>
     $("#btn").click(function () {
         $.ajaxSetup({
-            data: {
-                csrfmiddlewaretoken: '{{ csrf_token }}',
+            data:{
+                csrfmiddlewaretoken: '{{ csrf_token }}'
             }
         })
         $.ajax({
             url: "/login",
             type: "post",
+            async: false,
             data: {
                 "id": $("#id").val(),
                 "psw": $("#psw").val(),
             },
             success: function (res) {
+                {#alert(4444);#}
                 if (res['result'] == false) {
-                    alert("账号/密码错误");
-                } else {
-                    alert("登录成功");
-                    window.location = "index";
+                    {#alert("账号/密码错误");#}
+                    alert(res['message']);
                 }
             }
         })

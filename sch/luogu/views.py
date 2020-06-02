@@ -1,13 +1,14 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
-from .models import User, Question
-from django.contrib.auth import authenticate, login
+from .models import User, Question, myUser
+from django.contrib import auth
 from django.views.decorators.csrf import csrf_exempt
 # Create your views here.
 
 def index(request):
     return render(request, "tmp.html")
+
 
 def 垃圾(request):
     ls = Question.objects.get(no="P0004")
@@ -25,27 +26,17 @@ def login(request):
         print(password)
         if username and password:
             try:
-                user = User.objects.get(username=username)
-                print(1)
-                if user.password == password:
-                    print(2)
-                    # return redirect('/index')
-                    request.session['is_login'] = True
-                    request.session['user_id'] = user.id
-                    request.session['user_name'] = user.username
-                    return JsonResponse({"result": True})
+                user = auth.authenticate(username=username, password=password)
+                if user is not None and user.is_active:
+                    auth.login(request, user)
+                    return render(request, "tmp.html")
                 else:
-                    print(3)
                     message = "密码不正确!"
             except:
                 print(4)
                 message = "用户不存在!"
             return JsonResponse({"result": False, "message": message})
-        print(5)
-        # print(username)
-        # print(password)
 
-        # return render(request, "login.html", {"message": message})
         return JsonResponse({"result": False, "message": message})
 
     return render(request, "login.html")
@@ -78,10 +69,12 @@ def forgetPassword(request):
     return render(request, "forgetPassword.html")
 
 
+@login_required
 def changePassword(request):
     return render(request, "changePassword.html")
 
 
+@login_required
 def makeNewQuestion(request):
     return render(request, "makeNewQuestion.html")
 
@@ -175,7 +168,7 @@ def registerEnter(request):
         user = User(username=username, email=email)
         user.set_password(password)
         user.save()
-        User.objects.create(user=user)
+        myUser.objects.create(user=user)
     except Exception as err:
         result = False
         message = str(err)
