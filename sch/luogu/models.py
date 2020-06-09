@@ -4,9 +4,6 @@ from django.contrib.auth.models import User
 
 class myUser(models.Model):
     user = models.OneToOneField(User, models.CASCADE)
-    # username = models.CharField(max_length=20, null=False, blank=False, default="")
-    # email = models.CharField(max_length=20, null=False, blank=False, default="")
-    # password = models.CharField(max_length=20, null=False, blank=False, default="")
     motto = models.CharField(max_length=100, null=True, blank=True, default="")
     # pic = models.CharField(max_length=50, null=True, blank=True, default="")
     region = models.CharField(max_length=60, null=True, blank=True, default="")
@@ -15,36 +12,21 @@ class myUser(models.Model):
         return self.user.username
 
 
-# class Status(models.Model):
-#     user = models.ForeignKey(WeChatUser, models.CASCADE)
-#     text = models.CharField(max_length=280)
-#     pics = models.CharField(max_length=100, null=True, blank=True)
-#     pub_time = models.DateTimeField(auto_now_add=True)
-#
-#     def __str__(self):
-#         return self.text
-#
-#     class Meta:
-#         ordering = ["-id"]
-#
-#
-# class Reply(models.Model):
-#     status = models.ForeignKey(Status, models.CASCADE)
-#     author = models.CharField(max_length=50)
-#     type = models.CharField(max_length=10, choices=(("0", "like"), ("1", "comment")))
-#     at_person = models.CharField(max_length=50, null=True, blank=True)
-#     text = models.CharField(max_length=200, null=True, blank=True)
-#
-#     def __str__(self):
-#         return "{} on {}".format(self.author, self.status)
-
-
 class Question(models.Model):
-    no = models.CharField(max_length=10, null=False, blank=False)
+    subject = models.CharField(max_length=5, null=True, blank=True)
+    no = models.IntegerField(null=False, blank=False)
     title = models.CharField(max_length=50, null=False, blank=False)
-    tag = models.CharField(max_length=20, null=True, blank=True)
-    difficulty = models.CharField(max_length=20, null=True, blank=True)
     question = models.CharField(max_length=500, null=False, blank=False)
     answer = models.CharField(max_length=500, null=False, blank=False)
-    accepted = models.IntegerField()
-    attempted = models.IntegerField()
+    tag = models.CharField(max_length=20, null=True, blank=True)
+    difficulty = models.CharField(max_length=20, null=True, blank=True)
+    accepted = models.IntegerField(null=True, blank=True)
+    attempted = models.IntegerField(null=True, blank=True)
+
+
+class Status(models.Model):
+    username = models.CharField(max_length=50, null=False, blank=False)
+    subject = models.CharField(max_length=5, null=False, blank=False)
+    no = models.IntegerField(null=False, blank=False)
+    status = models.IntegerField(null=False, blank=False)
+

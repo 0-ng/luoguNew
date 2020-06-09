@@ -125,12 +125,15 @@
                     {% if request.session.is_login %}
                         <a href="/user/{{ request.session.user_name }}"
                            style="text-decoration: none;color: inherit;background-color: transparent;font-size: 16px;line-height: 1.5;">
-                            <span style="font-size: .8em;margin-left: .5em;color: inherit;">{{ request.session.user_id }}</span>
-                        </a>
-                        <a href="#"
-                           style="text-decoration: none;color: inherit;background-color: transparent;font-size: 16px;line-height: 1.5;">
                             <span style="font-size: .8em;margin-left: .5em;color: inherit;">{{ request.session.user_name }}</span>
                         </a>
+                        <a href="/logout"
+                           style="text-decoration: none;color: inherit;background-color: transparent;font-size: 16px;line-height: 1.5;">
+                            <span style="font-size: .8em;margin-left: .5em;color: inherit;">退出</span>
+                        </a>
+                        <img src="/static/image/personalHead/{{ request.session.user_name }}.jpg" style="margin-left: .4em;vertical-align: middle;width: 35px;height: 35px;
+                            border-radius: 50%;border-style: none;box-sizing: border-box;border: 0;color: #333;font-size: 16px;line-height: 1.5;">
+
                     {% else %}
                     <a href="/login"
                        style="text-decoration: none;color: inherit;background-color: transparent;font-size: 16px;line-height: 1.5;">
@@ -140,9 +143,10 @@
                        style="text-decoration: none;color: inherit;background-color: transparent;font-size: 16px;line-height: 1.5;">
                         <span style="font-size: .8em;margin-left: .5em;color: inherit;">注册</span>
                     </a>
-                    {% endif %}
-                    <img src="/static/image/1.jpg" style="margin-left: .4em;vertical-align: middle;width: 35px;height: 35px;
+                    <img src="/static/image/personalHead/none.jpg" style="margin-left: .4em;vertical-align: middle;width: 35px;height: 35px;
                             border-radius: 50%;border-style: none;box-sizing: border-box;border: 0;color: #333;font-size: 16px;line-height: 1.5;">
+
+                    {% endif %}
                 </nav>
             </div>
         </div>
@@ -158,7 +162,7 @@
 <script src="/static/js/common.js"></script>
 <script src="/static/js/index.js"></script>
 
-        {% block js %}{% endblock %}
+{% block js %}{% endblock %}
 </body>
 
 </html>

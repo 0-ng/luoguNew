@@ -82,12 +82,12 @@
 </div>
 
 <script>
+    $.ajaxSetup({
+        data:{
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        }
+    })
     $("#btn").click(function () {
-        $.ajaxSetup({
-            data:{
-                csrfmiddlewaretoken: '{{ csrf_token }}'
-            }
-        })
         $.ajax({
             url: "/login",
             type: "post",
@@ -97,10 +97,11 @@
                 "psw": $("#psw").val(),
             },
             success: function (res) {
-                {#alert(4444);#}
                 if (res['result'] == false) {
-                    {#alert("账号/密码错误");#}
                     alert(res['message']);
+                }else{
+                    window.location.replace('/');
+                    alert("登录成功");
                 }
             }
         })
