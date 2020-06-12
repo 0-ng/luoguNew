@@ -19,10 +19,10 @@
                                             <h3 style="margin: 0 10px 0 0">查找题目</h3>
                                         </div>
                                         <div style="float: left; width: 65%; height: 100%">
-                                            <input type="text" placeholder="请输入题目编号" style="padding: 4px 10px ;height: 100%; width: 100%; margin: 0 0 0 0; border-color: rgb(52, 152, 219);">
+                                            <input id="input" type="text" placeholder="请输入题目编号" style="padding: 4px 10px ;height: 100%; width: 100%; margin: 0 0 0 0; border-color: rgb(52, 152, 219);">
 
                                         </div>
-                                        <button style="border: 0; height: 100%; width: 10%;  margin: 0 0 0 0; background-color: rgb(52, 152, 219);">
+                                        <button id="input-btn" onclick="submit()" style="border: 0; height: 100%; width: 10%;  margin: 0 0 0 0; background-color: rgb(52, 152, 219);">
                                                 <h5 style="margin: 2px 0 2px 0; color: white;">搜索</h5>
                                         </button>
 <!--                                        <div style="float: left">-->
@@ -75,4 +75,29 @@
             </div>
 
         </main>
+{% endblock %}
+{% block js %}
+
+    <script type="text/javascript">
+        $.ajaxSetup({
+            data:{
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            }
+        })
+
+        function submit() {
+            $.ajax({
+                url: "hub",
+                type: "post",
+                async: false,
+                data: {
+                    "no": $("#input").val(),
+                    csrfmiddlewaretoken: '{{ csrf_token  }}'
+                },
+                success: function (res) {
+
+                }
+            })
+        }
+    </script>
 {% endblock %}

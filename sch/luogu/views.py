@@ -4,6 +4,7 @@ from django.http import HttpResponse, JsonResponse
 from .models import User, Question, myUser, Status
 from django.contrib import auth
 from django.views.decorators.csrf import csrf_exempt
+from fuzzywuzzy import fuzz
 # Create your views here.
 
 def index(request):
@@ -69,9 +70,25 @@ def makeNewQuestion(request):
 
 
 def hub(request):
-    ls = Question.objects.all()
+    if request.method == "POST":
+        try:
+            print(1)
+            no = request.POST.get('no')
+            pls = Question.objects.all()
+            ls = []
+            print(2)
+            for q in pls:
+                if fuzz.token_sort_ratio(no, q.no) >= 60:
+                    ls.append(q)
+            print(3)
+
+            print(4)
+        except:
+            return render(request, "error.html")
+    else:
+        ls = Question.objects.all()
+    print(ls)
     attemped = Status.objects.filter(username=request.user.username)
-    # ls.filter(no=attemped.values("no")).update(status=1)
     for i in attemped:
         ls.filter(no=i.no).update(status=i.status)
     return render(request, "hub.html", {"questions": ls, "attemped": attemped})
