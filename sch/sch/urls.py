@@ -37,7 +37,6 @@ urlpatterns = [
     url('feedback$', feedback),
     # url(r'hub/P([0-9]{4})/$', hub),
     url(r'M[0-9]{4}', detail),
-    url(r'垃圾', 垃圾),
     url('^$', index),
 
     url('user/', personalPage),

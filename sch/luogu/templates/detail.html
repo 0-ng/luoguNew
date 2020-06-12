@@ -24,12 +24,12 @@
         </div>
 
         <div style="height: 5%"></div>
+{#        <div style="float: left; margin-left: 20px">#}
+{#            <h3 id="subject" style="color: white;">#}
+{#                {{ question.subject }}#}
+{#            </h3>#}
+{#        </div>#}
         <div style="float: left; margin-left: 20px">
-            <h3 id="subject" style="color: white;">
-                {{ question.subject }}
-            </h3>
-        </div>
-        <div style="float: left; margin-left: 0px">
             <h3 id="no" style="color: white;">
                 {{ question.no }}
             </h3>
@@ -165,8 +165,9 @@
                 type: "post",
                 async: false,
                 data: {
-                    "subject": document.getElementById("subject").innerHTML,
-                    "no": document.getElementById("no").innerHTML,
+                    {#"subject": document.getElementById("subject").innerText.slice(),#}
+                    "subject": document.getElementById("no").innerText.slice(0, -4),
+                    "no": document.getElementById("no").innerText.slice(-4),
                     "status": "wa",
                     csrfmiddlewaretoken: '{{ csrf_token  }}'
                 },
@@ -182,8 +183,8 @@
                 type: "post",
                 async: false,
                 data: {
-                    "subject": document.getElementById("subject").innerHTML,
-                    "no": document.getElementById("no").innerHTML,
+                    "subject": document.getElementById("no").innerText.slice(0, -4),
+                    "no": document.getElementById("no").innerText.slice(-4),
                     "status": "ac",
                     csrfmiddlewaretoken: '{{ csrf_token  }}'
                 },

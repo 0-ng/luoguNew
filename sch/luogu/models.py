@@ -10,23 +10,38 @@ class myUser(models.Model):
 
     def __str__(self):
         return self.user.username
+    class Meta:
+        db_table="myUser"
 
 
 class Question(models.Model):
-    subject = models.CharField(max_length=5, null=True, blank=True)
-    no = models.IntegerField(null=False, blank=False)
-    title = models.CharField(max_length=50, null=False, blank=False)
-    question = models.CharField(max_length=500, null=False, blank=False)
-    answer = models.CharField(max_length=500, null=False, blank=False)
-    tag = models.CharField(max_length=20, null=True, blank=True)
-    difficulty = models.CharField(max_length=20, null=True, blank=True)
-    accepted = models.IntegerField(null=True, blank=True)
-    attempted = models.IntegerField(null=True, blank=True)
+    subject = models.CharField(max_length=5, null=True, blank=True, default="")
+    # no = models.IntegerField(null=False, blank=False)
+    no = models.CharField(max_length=6, null=True, blank=True, default="")
+    title = models.CharField(max_length=50, null=False, blank=False, default="")
+    question = models.CharField(max_length=500, null=False, blank=False, default="")
+    answer = models.CharField(max_length=500, null=False, blank=False, default="")
+    tag = models.CharField(max_length=20, null=True, blank=True, default="")
+    difficulty = models.CharField(max_length=20, null=True, blank=True, default="")
+    accepted = models.IntegerField(null=True, blank=True, default=0)
+    attempted = models.IntegerField(null=True, blank=True, default=0)
+    status = models.IntegerField(null=False, blank=False, default=0)
+    def __str__(self):
+        return self.no
+
+
+    class Meta:
+        db_table="Question"
 
 
 class Status(models.Model):
-    username = models.CharField(max_length=50, null=False, blank=False)
-    subject = models.CharField(max_length=5, null=False, blank=False)
-    no = models.IntegerField(null=False, blank=False)
-    status = models.IntegerField(null=False, blank=False)
+    username = models.CharField(max_length=50, null=False, blank=False, default="")
+    subject = models.CharField(max_length=5, null=False, blank=False, default="")
+    # no = models.IntegerField(null=False, blank=False)
+    no = models.CharField(max_length=6, null=True, blank=True, default="")
+    status = models.IntegerField(null=False, blank=False, default=0)
+    def __str__(self):
+        return self.no
+    class Meta:
+        db_table="Status"
 

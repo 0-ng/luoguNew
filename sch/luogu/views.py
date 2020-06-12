@@ -8,17 +8,14 @@ from django.views.decorators.csrf import csrf_exempt
 
 def index(request):
     return render(request, "tmp.html")
-
-
-def 垃圾(request):
-    ls = Question.objects.get(no="P0004")
-    return render(request, "垃圾.html", {"question": ls})
-
+    return render(request, "error.html")
 
 
 def logout(request):
     auth.logout(request)
     return render(request, "tmp.html")
+    return render(request, "error.html")
+
 
 
 def login(request):
@@ -45,15 +42,19 @@ def login(request):
         return JsonResponse({"result": False, "message": message})
 
     return render(request, "login.html")
+    return render(request, "error.html")
+
 
 
 
 def register(request):
     return render(request, "register.html")
+    return render(request, "error.html")
 
 
 def forgetPassword(request):
     return render(request, "forgetPassword.html")
+    return render(request, "error.html")
 
 
 @login_required
@@ -64,72 +65,79 @@ def changePassword(request):
 @login_required
 def makeNewQuestion(request):
     return render(request, "makeNewQuestion.html")
+    return render(request, "error.html")
 
 
 def hub(request):
     ls = Question.objects.all()
     attemped = Status.objects.filter(username=request.user.username)
+    # ls.filter(no=attemped.values("no")).update(status=1)
+    for i in attemped:
+        ls.filter(no=i.no).update(status=i.status)
     return render(request, "hub.html", {"questions": ls, "attemped": attemped})
+    return render(request, "error.html")
 
 
 def detail(request):
     try:
-        ls = Question.objects.get(no=int(request.path.split('/')[1][1:]))
+        ls = Question.objects.get(no=request.path.split('/')[1])
     except:
         return render(request, "error.html")
     return render(request, "detail.html", {"question": ls})
+    return render(request, "error.html")
+
 
 
 def feedback(request):
-    print(0)
     if request.method == "POST":
         try:
-            subject = request.POST.get('subject').split()[0]
-            no = int(request.POST.get('no').split()[0])
+            subject = request.POST.get('subject')
+            no = request.POST.get('no')
             status = request.POST.get('status')
             username = request.user.username
-            print(request.POST)
-            print(1)
             try:
-                tS = Status.objects.get(subject=subject, no=no, username=username)
+                tS = Status.objects.get(subject=subject, no=subject+no, username=username)
                 if tS is not None:
                     if tS.status == 1:
-                        print(3)
                         return JsonResponse({"result": True})
                     if status == 'ac':
-                        print(4)
-                        Status.objects.filter(subject=subject, no=no, username=username).update(status=1)
+                        Status.objects.filter(subject=subject, no=subject+no, username=username).update(status=1)
             except:
                 try:
-                    print(2)
                     if status == 'ac':
-                        print(5)
-                        S = Status(status=1, subject=subject, no=no, username=username)
+                        S = Status(status=1, subject=subject, no=subject+no, username=username)
                     else:
-                        print(6)
-                        S = Status(status=0, subject=subject, no=no, username=username)
+                        S = Status(status=2, subject=subject, no=subject+no, username=username)
                     S.save()
-                    print(7)
-                    Question.objects.get(subject=subject, no=no).update(attempted=Question.objects.get(subject=subject, no=no).attempted+1)
+                    Question.objects.get(subject=subject, no=subject+no).update(attempted=Question.objects.get(subject=subject, no=subject+no).attempted+1)
                     return JsonResponse({"result": True})
                 except:
-                    print(8)
                     return render(request, "error.html")
         except:
             return render(request, "error.html")
     else:
         return render(request, "error.html")
+    return render(request, "error.html")
 
 
 def registerEnter(request):
     username = request.POST.get('username')
     password = request.POST.get('password')
     email = request.POST.get('email')
+    print(username)
+    print(password)
+    print(email)
+
     try:
+        print(1)
         user = User(username=username, email=email)
+        print(2)
         user.set_password(password)
+        print(3)
         user.save()
+        print(4)
         myUser.objects.create(user=user)
+        print(5)
     except Exception as err:
         result = False
         message = str(err)
@@ -138,6 +146,7 @@ def registerEnter(request):
         message = "Register success"
 
     return JsonResponse({"result": result, "message": message})
+    return render(request, "error.html")
 
 
 @login_required
@@ -146,12 +155,13 @@ def makeNews(request):
     question = request.POST.get('question')
     answer = request.POST.get('answer')
     title = request.POST.get('title')
-    No = len(Question.objects.all())+1
+    No = "%04d" % (Question.objects.count()+1)
+    print(No)
     if question.split() == [] or answer.split() == [] or title.split() == []:
         return JsonResponse({"result": False})
 
     try:
-        Q = Question(subject=subject, no=No, title=title, question=question, answer=answer)
+        Q = Question(subject=subject, no=subject+No, title=title, question=question, answer=answer)
         Q.save()
     except Exception as err:
         print(3)
@@ -162,6 +172,7 @@ def makeNews(request):
         result = True
         message = "Register success"
     return JsonResponse({"result": True})
+    return render(request, "error.html")
 
 
 @login_required
@@ -184,4 +195,5 @@ def personalPage(request):
     except:
         return render(request, "error.html")
     return JsonResponse({"result": True})
+    return render(request, "error.html")
 
