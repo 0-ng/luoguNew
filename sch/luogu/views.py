@@ -7,6 +7,11 @@ from django.views.decorators.csrf import csrf_exempt
 from fuzzywuzzy import fuzz
 # Create your views here.
 
+# def search(request):
+
+
+
+
 def index(request):
     return render(request, "tmp.html")
     return render(request, "error.html")
@@ -46,8 +51,6 @@ def login(request):
     return render(request, "error.html")
 
 
-
-
 def register(request):
     return render(request, "register.html")
     return render(request, "error.html")
@@ -70,35 +73,34 @@ def makeNewQuestion(request):
 
 
 def hub(request):
-    if request.method == "POST":
-        try:
-            print(1)
-            no = request.POST.get('no')
-            pls = Question.objects.all()
-            ls = []
-            print(2)
-            for q in pls:
-                if fuzz.token_sort_ratio(no, q.no) >= 60:
-                    ls.append(q)
-            print(3)
-
-            print(4)
-        except:
-            return render(request, "error.html")
-    else:
-        ls = Question.objects.all()
+    print(1)
+    ls = Question.objects.all()
+    print(2)
+    no = request.GET.get('no')
+    print(3)
+    if no:
+        print(1)
+        print(no)
+        for q in ls:
+            ls.filter(no=q.no).update(score=fuzz.token_sort_ratio(no, q.no))
+        ls = ls.order_by("-score")
+        print(ls)
     print(ls)
     attemped = Status.objects.filter(username=request.user.username)
     for i in attemped:
         ls.filter(no=i.no).update(status=i.status)
-    return render(request, "hub.html", {"questions": ls, "attemped": attemped})
+    print(ls)
+    return render(request, "hub.html", {"questions": ls})
     return render(request, "error.html")
 
 
 def detail(request):
     try:
-        ls = Question.objects.get(no=request.path.split('/')[1])
+        # print(request.path)
+        # print(request.path.split('/'))
+        ls = Question.objects.get(no=request.path.split('/')[-1])
     except:
+        # print("???")
         return render(request, "error.html")
     return render(request, "detail.html", {"question": ls})
     return render(request, "error.html")

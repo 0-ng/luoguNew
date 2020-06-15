@@ -26,6 +26,7 @@ class Question(models.Model):
     accepted = models.IntegerField(null=True, blank=True, default=0)
     attempted = models.IntegerField(null=True, blank=True, default=0)
     status = models.IntegerField(null=False, blank=False, default=0)
+    score = models.IntegerField(null=False, blank=False, default=0)
     def __str__(self):
         return self.no
 

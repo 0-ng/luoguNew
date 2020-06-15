@@ -24,7 +24,7 @@ urlpatterns = [
     url('index$', index),
     url('index.html$', index),
     url('login$', login),
-    url('logout$', logout ),
+    url('logout$', logout),
     # url('login$', 'django.contrib.auth.views.login'),
     # url('login/submit$', loginSubmit),
     url('register$', register),
@@ -33,14 +33,14 @@ urlpatterns = [
     url('changePassword$', changePassword),
     url('makeNews$', makeNewQuestion),
     url('makeNews/submit$', makeNews),
-    url('hub$', hub),
+    url(r'^hub/$', hub),
     url('feedback$', feedback),
     # url(r'hub/P([0-9]{4})/$', hub),
-    url(r'M[0-9]{4}', detail),
+    url(r'^hub/M[0-9]{4}', detail),
     url('^$', index),
 
     url('user/', personalPage),
     # url('headimgChange', headimgChange)
-    # path('index', index),
-    # path('index', index),
+
+    # url(r'^search/$', search),
 ]
