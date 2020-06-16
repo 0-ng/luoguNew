@@ -18,12 +18,14 @@ from django.urls import path
 from django.conf.urls import url
 import django
 from luogu.views import *
+from django.contrib.auth.views import LoginView
+
 
 urlpatterns = [
     url('admin/', admin.site.urls),
     url('index$', index),
     url('index.html$', index),
-    url('login$', login),
+    url(r'^login/$', login),
     url('logout$', logout),
     # url('login$', 'django.contrib.auth.views.login'),
     # url('login/submit$', loginSubmit),
@@ -41,6 +43,6 @@ urlpatterns = [
 
     url('user/', personalPage),
     # url('headimgChange', headimgChange)
-
+    url(r'^accounts/login/', LoginView.as_view(template_name="/login/")),
     # url(r'^search/$', search),
 ]

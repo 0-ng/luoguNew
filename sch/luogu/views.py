@@ -10,6 +10,10 @@ from fuzzywuzzy import fuzz
 # def search(request):
 
 
+def acc_login(request):
+    return render(request, "login.html")
+
+
 
 
 def index(request):
@@ -106,7 +110,7 @@ def detail(request):
     return render(request, "error.html")
 
 
-
+@login_required
 def feedback(request):
     if request.method == "POST":
         try:
