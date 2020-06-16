@@ -100,8 +100,6 @@ def hub(request):
 
 def detail(request):
     try:
-        # print(request.path)
-        # print(request.path.split('/'))
         ls = Question.objects.get(no=request.path.split('/')[-1])
     except:
         # print("???")
