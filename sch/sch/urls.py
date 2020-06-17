@@ -37,6 +37,7 @@ urlpatterns = [
     url('makeNews$', makeNewQuestion),
     url('makeNews/submit$', makeNews),
     url(r'^hub/$', hub),
+    url(r'^blob/$', blob),
     url('feedback$', feedback),
     # url(r'hub/P([0-9]{4})/$', hub),
     url(r'^hub/M[0-9]{4}', detail),

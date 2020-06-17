@@ -298,8 +298,8 @@ def personalPage(request):
     try:
         user = User.objects.get(username=request.path.split('/')[2])
         if user:
-            # print(1)
-            # ls = Contributions.objects.filter(username=user.username)
+            print(1)
+            contributions = Contributions.objects.filter(username=user.username)
             # print(2)
             # ls = ls.order_by("date")
             # print(ls)
@@ -319,7 +319,11 @@ def personalPage(request):
                     for j in range(now.weekday()+1):
                         tmp = dict()
                         tmp['date'] = last_year.__str__()
-                        tmp['num'] = random.randint(0, 35)
+                        # tmp['num'] = random.randint(0, 35)
+                        try:
+                            tmp['num'] = contributions.get(date=last_year).num
+                        except:
+                            tmp['num'] = 0
                         tmp['y'] = j*15
                         last_year += one_day
                         tmpls["ls"].append(tmp)
@@ -327,7 +331,11 @@ def personalPage(request):
                     for j in range(7):
                         tmp = dict()
                         tmp['date'] = last_year.__str__()
-                        tmp['num'] = random.randint(0, 35)
+                        # tmp['num'] = random.randint(0, 35)
+                        try:
+                            tmp['num'] = contributions.get(date=last_year).num
+                        except:
+                            tmp['num'] = 0
                         tmp['y'] = j*15
                         last_year += one_day
                         tmpls["ls"].append(tmp)
@@ -342,3 +350,6 @@ def personalPage(request):
         return render(request, "error.html")
     return render(request, "error.html")
 
+
+def blob(request):
+    return render(request, "blob.html")
