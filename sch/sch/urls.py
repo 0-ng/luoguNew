@@ -45,5 +45,5 @@ urlpatterns = [
     url('user/', personalPage),
     # url('headimgChange', headimgChange)
     url(r'^accounts/login/', LoginView.as_view(template_name="/login/")),
-    # url(r'^search/$', search),
+    url(r'^test/$', test),
 ]

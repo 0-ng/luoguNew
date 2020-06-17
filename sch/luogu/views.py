@@ -1,5 +1,5 @@
 import json
-
+import random
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
@@ -11,7 +11,8 @@ from fuzzywuzzy import fuzz
 import datetime
 # Create your views here.
 
-# def search(request):
+def test(request):
+    return render(request, "垃圾.html")
 
 
 def acc_login(request):
@@ -315,10 +316,10 @@ def personalPage(request):
                     "offset": i*16
                 }
                 if i == 51:
-                    for j in range(now.weekday()):
+                    for j in range(now.weekday()+1):
                         tmp = dict()
                         tmp['date'] = last_year.__str__()
-                        tmp['num'] = 1
+                        tmp['num'] = random.randint(0, 35)
                         tmp['y'] = j*15
                         last_year += one_day
                         tmpls["ls"].append(tmp)
@@ -326,13 +327,13 @@ def personalPage(request):
                     for j in range(7):
                         tmp = dict()
                         tmp['date'] = last_year.__str__()
-                        tmp['num'] = 1
+                        tmp['num'] = random.randint(0, 35)
                         tmp['y'] = j*15
                         last_year += one_day
                         tmpls["ls"].append(tmp)
                 ls.append(tmpls)
 
-            print(ls)
+            # print(ls)
 
             return render(request, "personalPage.html", {"user": user, "a": ls})
         else:

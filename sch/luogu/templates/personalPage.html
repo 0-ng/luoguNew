@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-
 {% block main %}
 
 
@@ -18,10 +17,10 @@
                         <div style="font-size: 1.5em; color: #fff;text-shadow: 1px 1px 3px #333">{{ request.session.user_name }}</div>
                         <div style="font-size: 0.875em;color: #fff;text-shadow: 1px 1px 3px #333">{{ motto }}</div>
                     </div>
-                    <div style="font-size: 0.875em;vertical-align: middle;position: absolute;bottom: 24px;right: 12px;color: #fff">
-                        <a>个人博客</a>
-                        <a>个人设置</a>
-                    </div>
+{#                    <div style="font-size: 0.875em;vertical-align: middle;position: absolute;bottom: 24px;right: 12px;color: #fff">#}
+{#                        <a>个人博客</a>#}
+{#                        <a>个人设置</a>#}
+{#                    </div>#}
                 </div>
             </div>
         </div>
@@ -29,59 +28,47 @@
             <div style="margin-top: 1.5rem;margin-bottom: 1.3em;background-color:#fff;box-shadow: 0 1px 3px rgba(26, 26, 26, .1); box-sizing: border-box">
                 <div style="position: relative; height: 240px;background-size: cover;background-position:center;">
                     <div style="border-top-left-radius: 3px;border-top-right-radius: 3px;padding-top: 8px!important;padding-bottom: 8px!important;border-color: #d1d5da!important;border: 1px solid #e1e4e8!important;box-sizing: border-box;">
-                        <div style="display: flex!important;text-align: center!important;padding-top: 4px!important;margin-right: 16px!important;margin-left: 16px!important;height: 100%!important;overflow: hidden!important;align-items: center!important;flex-direction: column!important;">
-
-                            <svg width="864" height="128" class="js-calendar-graph-svg">
-
-                                <g transform="translate(10, 20)"
-                                   data-hydro-click="{&quot;event_type&quot;:&quot;user_profile.click&quot;,&quot;payload&quot;:{&quot;profile_user_id&quot;:49059247,&quot;target&quot;:&quot;CONTRIBUTION_CALENDAR_SQUARE&quot;,&quot;user_id&quot;:49059247,&quot;originating_url&quot;:&quot;https://github.com/0-ng&quot;}}"
-                                   data-hydro-click-hmac="afa09c21ecc21f6b9a40a11b4583f6ae846d467349e29233056b617c7d7f213f">
-                                    {% for g in a %}
-                                    <g transform="translate({{ g.offset }}, 0)">
-                                        {% for rect in g.ls %}
-                                        <rect class="day" width="12" height="12" x="16" y="{{ rect.y }}" fill="#ebedf0"
-                                              data-count="{{ rect.num }}" data-date="2019-06-16"></rect>
-{#                                        <rect class="day" width="12" height="12" x="16" y="15" fill="#ebedf0"#}
-{#                                              data-count="0" data-date="2019-06-17"></rect>#}
-{#                                        <rect class="day" width="12" height="12" x="16" y="30" fill="#ebedf0"#}
-{#                                              data-count="0" data-date="2019-06-18"></rect>#}
+                        <div style="border: 8px; border-color: lightgray; display: flex!important;text-align: center!important;padding-top: 4px!important;margin-right: 16px!important;margin-left: 16px!important;height: 100%!important;overflow: hidden!important;align-items: center!important;flex-direction: column!important;">
+                            <div style="float:left;width: 90%">
+                            <h4 style="float: left">10086 contributions in the last year</h4>
+                            </div>
+                            <div style="float:left;width: 10%"></div>
+                            <svg width="890" height="128" class="js-calendar-graph-svg">
+{#                                <div style="border: 8px; border-color: lightgray">#}
+                                    <g transform="translate(10, 20)"
+                                       data-hydro-click="{&quot;event_type&quot;:&quot;user_profile.click&quot;,&quot;payload&quot;:{&quot;profile_user_id&quot;:49059247,&quot;target&quot;:&quot;CONTRIBUTION_CALENDAR_SQUARE&quot;,&quot;user_id&quot;:49059247,&quot;originating_url&quot;:&quot;https://github.com/0-ng&quot;}}"
+                                       data-hydro-click-hmac="afa09c21ecc21f6b9a40a11b4583f6ae846d467349e29233056b617c7d7f213f">
+                                        {% for g in a %}
+                                        <g transform="translate({{ g.offset }}, 0)">
+                                            {% for rect in g.ls %}
+                                                    <a data-container="body" data-toggle="popover" data-placement="top" data-trigger="hover"
+                                                        data-content="{% if rect.num == 0 %}No contributions{% elif rect.num == 1 %}1 contribution{% else %}{{ rect.num }} contributions{% endif %} on {{ rect.date }}">
+                                                    <rect style="background-image: none;" class="day" width="12" height="12" x="16" y="{{ rect.y }}" fill="#{% if rect.num == 0 %}ebedf0{% elif rect.num < 5 %}d0edff{% elif rect.num < 10 %}a3dcff{% elif rect.num < 15 %}6bc6ff{% elif rect.num < 20 %}2baeff{% elif rect.num < 25 %}009dff{% else %}007ecc{% endif %}"
+                                                          data-count="{{ rect.num }}" data-date="{{ rect.date }}"></rect>
+                                                    </a>
+                                            {% endfor %}
+                                        </g>
                                         {% endfor %}
+
                                     </g>
-                                    {% endfor %}
-{#                                    <g transform="translate(16, 0)">#}
-{#                                        <rect class="day" width="12" height="12" x="15" y="0" fill="#ebedf0"#}
-{#                                              data-count="0" data-date="2019-06-23"></rect>#}
-{#                                        <rect class="day" width="12" height="12" x="15" y="15" fill="#ebedf0"#}
-{#                                              data-count="0" data-date="2019-06-24"></rect>#}
-{#                                        <rect class="day" width="12" height="12" x="15" y="30" fill="#ebedf0"#}
-{#                                              data-count="0" data-date="2019-06-25"></rect>#}
-{#                                        <rect class="day" width="12" height="12" x="15" y="45" fill="#ebedf0"#}
-{#                                              data-count="0" data-date="2019-06-26"></rect>#}
-{#                                        <rect class="day" width="12" height="12" x="15" y="60" fill="#ebedf0"#}
-{#                                              data-count="0" data-date="2019-06-27"></rect>#}
-{#                                        <rect class="day" width="12" height="12" x="15" y="75" fill="#ebedf0"#}
-{#                                              data-count="0" data-date="2019-06-28"></rect>#}
-{#                                        <rect class="day" width="12" height="12" x="15" y="90" fill="#ebedf0"#}
-{#                                              data-count="0" data-date="2019-06-29"></rect>#}
-{#                                    </g>#}
-{#                                    <g transform="translate(32, 0)">#}
-{#                                        <rect class="day" width="12" height="12" x="14" y="0" fill="#ebedf0"#}
-{#                                              data-count="0" data-date="2019-06-30"></rect>#}
-{#                                        <rect class="day" width="12" height="12" x="14" y="15" fill="#ebedf0"#}
-{#                                              data-count="0" data-date="2019-07-01"></rect>#}
-{#                                        <rect class="day" width="12" height="12" x="14" y="30" fill="#ebedf0"#}
-{#                                              data-count="0" data-date="2019-07-02"></rect>#}
-{#                                        <rect class="day" width="12" height="12" x="14" y="45" fill="#ebedf0"#}
-{#                                              data-count="0" data-date="2019-07-03"></rect>#}
-{#                                        <rect class="day" width="12" height="12" x="14" y="60" fill="#ebedf0"#}
-{#                                              data-count="0" data-date="2019-07-04"></rect>#}
-{#                                        <rect class="day" width="12" height="12" x="14" y="75" fill="#ebedf0"#}
-{#                                              data-count="0" data-date="2019-07-05"></rect>#}
-{#                                        <rect class="day" width="12" height="12" x="14" y="90" fill="#ebedf0"#}
-{#                                              data-count="0" data-date="2019-07-06"></rect>#}
-{#                                    </g>#}
-                                    </text>
-                                </g>
+                            <text x="16" y="-9" class="month">Jun</text>
+      <text x="61" y="15" class="month">Jul</text>
+      <text x="121" y="15" class="month">Aug</text>
+      <text x="181" y="15" class="month">Sep</text>
+      <text x="256" y="15" class="month">Oct</text>
+      <text x="316" y="15" class="month">Nov</text>
+      <text x="376" y="15" class="month">Dec</text>
+      <text x="451" y="15" class="month">Jan</text>
+      <text x="511" y="15" class="month">Feb</text>
+      <text x="571" y="15" class="month">Mar</text>
+      <text x="646" y="15" class="month">Apr</text>
+      <text x="706" y="15" class="month">May</text>
+      <text x="781" y="15" class="month">Jun</text>
+    <text text-anchor="start" class="wday" dx="860" dy="30">Mon</text>
+    <text text-anchor="start" class="wday" dx="860" dy="61">Wed</text>
+    <text text-anchor="start" class="wday" dx="860" dy="89">Fri</text>
+    <text text-anchor="start" class="wday" dx="860" dy="120">Sun</text>
+{#                                </div>#}
                             </svg>
 
                         </div>
@@ -93,16 +80,31 @@
         </div>
     </main>
 
-
 {% endblock %}
 {% block js %}
     <script>
+        $(function () {
+            $("[data-toggle='popover']").popover();
+        });
+    </script>
+    <script>
         $(document).ready(function () {
+
             $('#headimg').click(function () {
                 $('#headimg-upload').click();
             })
-        });
+            $('.day').mouseleave(function (e) {
+                console.log("leave");
 
+            })
+            $('.day').mouseenter(function (e) {
+                var xx = e.originalEvent.x || e.originalEvent.layerX || 0;
+                var yy = e.originalEvent.y || e.originalEvent.layerY || 0;
+                console.log(e)
+                console.log(e.currentTarget.dataset.count);
+                console.log(e.currentTarget.dataset.date);
+            })
+        });
         function uploadimg() {
             var img_file = $('#headimg-upload')[0].files[0];
             var reader_file = new FileReader();
