@@ -27,6 +27,7 @@ urlpatterns = [
     url('index.html$', index),
     url(r'^login/$', login),
     url('logout$', logout),
+    url('^404$', error),
     # url('login$', 'django.contrib.auth.views.login'),
     # url('login/submit$', loginSubmit),
     url('register$', register),

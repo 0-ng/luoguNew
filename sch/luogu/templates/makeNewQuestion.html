@@ -1,132 +1,242 @@
 {% extends "makeTest.html" %}
+{% block css %}
+    <style type="text/css">
+        body {
+            margin: 0px;
+        }
+
+        .zhezhao {
+            position: fixed;
+            left: 0px;
+            top: 0px;
+            background: #000;
+            width: 100%;
+            height: 100%;
+            opacity: 1;
+        }
+
+        .tankuang {
+            position: relative;
+            background: #fff;
+            width: 50%;
+            height: 50%;
+            border-radius: 5px;
+            margin: 5% auto;
+        }
+
+        #header {
+            height: 40px;
+        }
+
+        #header-right {
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            border-radius: 5px;
+            background: red;
+            color: #fff;
+            right: 5px;
+            top: 5px;
+            text-align: center;
+        }
+    </style>
+
+
+{% endblock %}
 
 {% block content %}
-<div style="width: 100%; height: 100%;">
-    <div style="width: 70%; height: 100%; float:left;display:flex;align-items: center;">
-        <div style="float: left; height: 100%">
-            <h1 style="float: left; padding: 10px 10px">请输入题目信息</h1>
-        </div>
-        <div style="float: left; height: 100%; width: 60%;">
-            <input id="title"; type="text" placeholder="请输入题目" style="padding: 8px 10px ;height: 100%; width: 100%; margin: 0 0 0 0; border-color: rgb(52, 152, 219);">
+    <div style="width: 100%; height: 100%;">
+        <div style="margin-top: 5px; width: 60%; height: 100%; float:left;display:flex;align-items: center;">
+            <div style="float: left; height: 100%">
+                <h1 style="float: left; padding: 10px 10px">请输入题目信息</h1>
+            </div>
+            <div style="float: left; height: 100%; width: 60%;margin-top: 10px">
+                <input id="title" type="text" placeholder="请输入题目"
+                       style="padding: 8px 10px ;height: 100%; width: 100%; margin: 0 0 0 0; border-color: rgb(52, 152, 219);">
 
+            </div>
         </div>
-    </div>
-    <div style="width: 10%; padding: 10px; margin: 10px; float: right; height: 100%">
-        <div style="float: left; display:flex;align-items: center;justify-content:center; ">
-            <button id="btn" ;name="goto" style="border-radius: 5px;font-size: 1.4rem;color: #fff;background-color: #dd514c;border-color: #dd514c;display: inline-block;margin-bottom: 0;
+        <div style="margin-top: 5px;width: 20%; height: 100%; float:left;display:flex;align-items: center;">
+            <div>
+                <h1 style="float: left; padding: 10px 10px">选择科目</h1>
+            </div>
+            <div style="margin-top: 5px;">
+                <select style="float: left; padding: 8px 10px ;height: 100%;  margin: 0 0 0 0; border-color: rgb(52, 152, 219);">
+                    <option value="1">高等数学</option>
+                    <option value="2">概率论</option>
+                    <option value="3">线性代数</option>
+                </select>
+            </div>
+        </div>
+        <div style="width: 10%; padding: 10px; margin: 10px; float: right; height: 100%">
+            <div style="float: left; display:flex;align-items: center;justify-content:center; ">
+                <button id="btn1" type="button" onclick="dianwo()" name="goto" style="border-radius: 5px;font-size: 1.4rem;color: #fff;background-color: #dd514c;border-color: #dd514c;display: inline-block;margin-bottom: 0;
             padding: .5em 1em;font-weight: 400;line-height: 1.2;text-align: center;white-space: nowrap;border: 1px solid transparent;cursor: pointer;outline: 0;
             transition: background-color 300ms ease-out,border-color 300ms ease-out;vertical-align: middle;text-transform: none;overflow: visible;font-family: inherit;">
-                提交
-            </button>
-        </div>
-    </div>
+                    提交
+                </button>
+                <div class="zhezhao" id='zhezhao'>
+                    <div class="tankuang">
+                        <div id="header">
+{#                            <div id="header-right" onclick="hidder()">x</div>#}
+                            <div style="padding: 50px 0 50px 0 "><h1>选择标签</h1></div>
+                            <div>
+                                <div style="padding: 10px">
+                                        <h3><input name="choices" value=1 style="height: 19px; width: 25px;" type="checkbox">函数与极限
+                                            <input name="choices" value=2 style="height: 19px; width: 25px;" type="checkbox">导数与微分</h3>
+                                </div>
+                                <div style="padding: 10px">
+                                        <h3><input name="choices" value=3 style="height: 19px; width: 25px;" type="checkbox">微分中值定理与导数的应用
+                                            <input name="choices" value=4 style="height: 19px; width: 25px;" type="checkbox">不定积分</h3>
+                                </div>
+                                <div style="padding: 10px">
+                                        <h3><input name="choices" value=5 style="height: 19px; width: 25px;" type="checkbox">定积分
+                                            <input name="choices" value=6 style="height: 19px; width: 25px;" type="checkbox">微分方程
+                                            <input name="choices" value=7 style="height: 19px; width: 25px;" type="checkbox">向量代数与空间解析几何</h3>
+                                </div>
+                                <div style="padding: 10px">
+                                        <h3><input name="choices" value=8 style="height: 19px; width: 25px;" type="checkbox">多元函数微分法及其应用
+                                            <input name="choices" value=9 style="height: 19px; width: 25px;" type="checkbox">重积分</h3>
+                                </div>
+                                <div style="padding: 10px">
+                                        <h3>
+                                            <input name="choices" value=10 style="height: 19px; width: 25px;" type="checkbox">曲线积分与曲面积分
+                                            <input name="choices" value=11 style="height: 19px; width: 25px;" type="checkbox">无穷级数</h3>
+                                </div>
+                            </div>
+                            <div>
 
-</div>
-<div id="question-editor">
-    <textarea id="question"; style="display:none;">##题目
+                                <p style="margin: 16px 0px">
+                                    <button onclick="hidder()" name="goto" style="border-radius: 5px;font-size: 1.4rem;color: #fff;background-color: #dd514c;border-color: #dd514c;display: inline-block;margin-bottom: 0;
+                                    padding: .5em 1em;font-weight: 400;line-height: 1.2;text-align: center;white-space: nowrap;border: 1px solid transparent;cursor: pointer;outline: 0;
+                                    transition: background-color 300ms ease-out,border-color 300ms ease-out;vertical-align: middle;text-transform: none;overflow: visible;font-family: inherit;">
+                                        取消
+                                    </button>
+                                    <button id="btn2" name="gotorandom" style="border-radius: 5px;font-size: 1.4rem;color: #fff;background-color: #0c79b1;border-color: #0a6999;display: inline-block;margin-bottom: 0;
+                                    padding: .5em 1em;font-weight: 400;line-height: 1.2;text-align: center;white-space: nowrap;border: 1px solid transparent;cursor: pointer;outline: 0;
+                                    transition: background-color 300ms ease-out,border-color 300ms ease-out;vertical-align: middle;text-transform: none;overflow: visible;font-family: inherit;">
+                                        提交
+                                    </button>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+    <div id="question-editor">
+    <textarea id="question" ; style="display:none;">##题目
 #### 使用KeTex编写题目
 [KaTex怎么写?](https://katex.org/docs/api.html)</textarea>
-</div>
-<div id="answer-editor">
-    <textarea id="answer"; style="display:none;">##答案
+    </div>
+    <div id="answer-editor">
+    <textarea id="answer" ; style="display:none;">##答案
 #### 使用KeTex编写答案</textarea>
-</div>
+    </div>
 {% endblock %}
 
 {% block js %}
-<script type="text/javascript">
-    $(function () {
-        var timu = editormd("question-editor", {
-            height: 250,
-            path: '../static/makeNews/lib/',
-            codeFold: true,
-            saveHTMLToTextarea: true,    // 保存 HTML 到 Textarea
-            searchReplace: true,
-            htmlDecode: "style,script,iframe|on*",            // 开启 HTML 标签解析，为了安全性，默认不开启
-            toolbar  : false,             //关闭工具栏
-            emoji: true,
-            taskList: true,
-            tocm: true,         // Using [TOCM]
-            tex: true,                   // 开启科学公式TeX语言支持，默认关闭
-            flowChart: true,             // 开启流程图支持，默认关闭
-            sequenceDiagram: true,       // 开启时序/序列图支持，默认关闭,
-            imageUpload: true,
-            imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
-            imageUploadURL: "./php/upload.php",
-            onload: function () {
-                console.log('onload', this);
-            }
-        });
-        var daan = editormd("answer-editor", {
-            height: 250,
-            path: '../static/makeNews/lib/',
-            codeFold: true,
-            saveHTMLToTextarea: true,    // 保存 HTML 到 Textarea
-            searchReplace: true,
-            htmlDecode: "style,script,iframe|on*",            // 开启 HTML 标签解析，为了安全性，默认不开启
-            toolbar  : false,             //关闭工具栏
-            emoji: true,
-            taskList: true,
-            tocm: true,         // Using [TOCM]
-            tex: true,                   // 开启科学公式TeX语言支持，默认关闭
-            flowChart: true,             // 开启流程图支持，默认关闭
-            sequenceDiagram: true,       // 开启时序/序列图支持，默认关闭,
-            imageUpload: true,
-            imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
-            imageUploadURL: "./php/upload.php",
-            onload: function () {
-                console.log('onload', this);
-            }
-        });
-
-        $("#btn").click(function () {
-            $.ajaxSetup({
-                data: {
-                    csrfmiddlewaretoken: '{{ csrf_token }}',
+                <script type="text/javascript">
+                    document.getElementById('zhezhao').style.display="none";
+                    function dianwo(){
+                        document.getElementById('zhezhao').style.display="";
+                        document.getElementById('zhezhao').style.zIndex=51;
+                        {#document.getElementById('question-editor').style.zIndex=10;#}
+                        {#document.getElementById('answer-editor').style.zIndex=10;#}
+                    }
+                    function hidder(){
+                        document.getElementById('zhezhao').style.display="none";
+                        {#document.getElementById('question-editor').style.zIndex=10;#}
+                        {#document.getElementById('answer-editor').style.zIndex=10;#}
+                    }
+                </script>
+    <script type="text/javascript">
+        $(function () {
+            var timu = editormd("question-editor", {
+                height: 250,
+                path: '../static/makeNews/lib/',
+                codeFold: true,
+                saveHTMLToTextarea: true,    // 保存 HTML 到 Textarea
+                searchReplace: true,
+                htmlDecode: "style,script,iframe|on*",            // 开启 HTML 标签解析，为了安全性，默认不开启
+                toolbar: false,             //关闭工具栏
+                emoji: true,
+                taskList: true,
+                tocm: true,         // Using [TOCM]
+                tex: true,                   // 开启科学公式TeX语言支持，默认关闭
+                flowChart: true,             // 开启流程图支持，默认关闭
+                sequenceDiagram: true,       // 开启时序/序列图支持，默认关闭,
+                imageUpload: true,
+                imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+                imageUploadURL: "./php/upload.php",
+                onload: function () {
+                    console.log('onload', this);
                 }
+            });
+            var daan = editormd("answer-editor", {
+                height: 250,
+                path: '../static/makeNews/lib/',
+                codeFold: true,
+                saveHTMLToTextarea: true,    // 保存 HTML 到 Textarea
+                searchReplace: true,
+                htmlDecode: "style,script,iframe|on*",            // 开启 HTML 标签解析，为了安全性，默认不开启
+                toolbar: false,             //关闭工具栏
+                emoji: true,
+                taskList: true,
+                tocm: true,         // Using [TOCM]
+                tex: true,                   // 开启科学公式TeX语言支持，默认关闭
+                flowChart: true,             // 开启流程图支持，默认关闭
+                sequenceDiagram: true,       // 开启时序/序列图支持，默认关闭,
+                imageUpload: true,
+                imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+                imageUploadURL: "./php/upload.php",
+                onload: function () {
+                    console.log('onload', this);
+                }
+            });
+
+            $("#btn2").click(function () {
+                var test_list = []
+                $("[name=choices]:checked").each(function () {
+                     test_list.push($(this).val())
+                });
+                if(test_list.length>3){
+                    alert("最多只能选3个标签");
+                    return
+                }
+                var test_str = JSON.stringify(test_list );
+                console.log(test_str);
+                $.ajaxSetup({
+                    data: {
+                        csrfmiddlewaretoken: '{{ csrf_token }}',
+                    }
+                })
+                $.ajax({
+                    url: "/makeNews/submit",
+                    type: "post",
+                    traditional: true,
+                    data: {
+                        "question": timu.getMarkdown(),
+                        "answer": daan.getMarkdown(),
+                        "title": $("#title").val(),
+                        "tags": JSON.stringify(test_list),
+                    },
+                    success: function (res) {
+                        if (res['result'] == false) {
+                            alert("请补充完整标题、题目、答案");
+                        } else {
+                            alert("提交成功");
+                            window.location = "/hub";
+                        }
+                    }
+                })
             })
-             $.ajax({
-                url: "/makeNews/submit",
-                type: "post",
-                data: {
-                    "question": timu.getMarkdown(),
-                    "answer": daan.getMarkdown(),
-                    "title": $("#title").val(),
-            },
-            success: function (res) {
-                if(res['result'] == false){
-                    alert("请补充完整标题、题目、答案");
-                }else{
-                    alert("提交成功");
-                    window.location="/hub";
-                }
-            }
-        })
-        })
-    });
-    // $(function () {
-    // });
-    // function submit() {
-        // $.ajaxSetup({
-        //     data: {
-        //         csrfmiddlewaretoken: '{{ csrf_token }}',
-        //     }
-        // })
-        // $.ajax({
-        //     url: "/makeNews/submit",
-        //     type: "post",
-        //     data: {
-        //         "question": $("#question").val(),
-        //         "answer": $("#answer").val(),
-        //     },
-        //     success: function (res) {
-        //         // alert(res['message']);
-        //     }
-        // })
-        // alert(555);
-    // }
+        });
 
-</script>
+    </script>
 {% endblock %}
 
 

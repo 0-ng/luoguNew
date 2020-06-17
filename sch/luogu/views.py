@@ -1,10 +1,14 @@
+import json
+
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
-from .models import User, Question, myUser, Status
+from .models import User, Question, myUser, Status, Contributions, Tag
 from django.contrib import auth
 from django.views.decorators.csrf import csrf_exempt
+from django.forms.models import model_to_dict
 from fuzzywuzzy import fuzz
+import datetime
 # Create your views here.
 
 # def search(request):
@@ -69,6 +73,9 @@ def forgetPassword(request):
 def changePassword(request):
     return render(request, "changePassword.html")
 
+def error(request):
+    return render(request, "error.html")
+
 
 @login_required
 def makeNewQuestion(request):
@@ -77,24 +84,58 @@ def makeNewQuestion(request):
 
 
 def hub(request):
-    print(1)
     ls = Question.objects.all()
-    print(2)
+
+    orderBy = request.GET.get('orderBy')
+    order = request.GET.get('order')
+    if orderBy:
+        if order == "asc":
+            ls = ls.order_by("-" + orderBy)
+        elif order == "desc":
+            ls = ls.order_by(orderBy)
+    else:
+        orderBy == "none"
+        order == "none"
+
+
+    select_tag = request.GET.get('select_tag')
+    print("select_tag", select_tag)
+    if select_tag:
+        choices = [
+            "",
+            '函数与极限',
+            '导数与微分',
+            '微分中值定理与导数的应用',
+            '不定积分',
+            '定积分',
+            '微分方程',
+            '向量代数与空间解析几何',
+            '多元函数微分法及其应用',
+            '重积分',
+            '曲线积分与曲面积分',
+            '无穷级数'
+        ]
+        print("tag ", select_tag)
+        ls = ls.filter(tag__name__contains=choices[int(select_tag)])
+        print("fill ok")
+
     no = request.GET.get('no')
-    print(3)
+    print(no)
     if no:
         print(1)
-        print(no)
         for q in ls:
+            print(2)
             ls.filter(no=q.no).update(score=fuzz.token_sort_ratio(no, q.no))
-        ls = ls.order_by("-score")
         print(ls)
-    print(ls)
+        ls = ls.order_by("-score")
+
     attemped = Status.objects.filter(username=request.user.username)
     for i in attemped:
         ls.filter(no=i.no).update(status=i.status)
-    print(ls)
-    return render(request, "hub.html", {"questions": ls})
+    ls = list(ls)
+    for i in range(len(ls)):
+        ls[i] = model_to_dict(ls[i])
+    return render(request, "hub.html", {"questions": ls, "order": order, "orderBy": orderBy})
     return render(request, "error.html")
 
 
@@ -102,7 +143,6 @@ def detail(request):
     try:
         ls = Question.objects.get(no=request.path.split('/')[-1])
     except:
-        # print("???")
         return render(request, "error.html")
     return render(request, "detail.html", {"question": ls})
     return render(request, "error.html")
@@ -116,9 +156,25 @@ def feedback(request):
             no = request.POST.get('no')
             status = request.POST.get('status')
             username = request.user.username
+            if status == 'ac':
+                num = Question.objects.get(subject=subject, no=subject + no).accepted
+                Question.objects.filter(subject=subject, no=subject + no).update(accepted=num+1)
+            else:
+                try:
+                    num = Contributions.objects.get(username=username, date=datetime.date.today()).num
+                    Contributions.objects.filter(username=username, date=datetime.date.today()).update(num=num+1)
+                    print("更新ok")
+                except:
+                    Contributions(username=username, num=1).save()
+                    print("创建ok")
+                num = Question.objects.get(subject=subject, no=subject + no).attempted
+                Question.objects.filter(subject=subject, no=subject + no).update(attempted=num+1)
+
+            Question.objects.filter(subject=subject, no=subject + no).update(
+                pass_ratio=100*Question.objects.get(subject=subject, no=subject + no).accepted/Question.objects.get(subject=subject, no=subject + no).attempted)
             try:
                 tS = Status.objects.get(subject=subject, no=subject+no, username=username)
-                if tS is not None:
+                if tS is not None:  # 做过了
                     if tS.status == 1:
                         return JsonResponse({"result": True})
                     if status == 'ac':
@@ -130,7 +186,6 @@ def feedback(request):
                     else:
                         S = Status(status=2, subject=subject, no=subject+no, username=username)
                     S.save()
-                    Question.objects.get(subject=subject, no=subject+no).update(attempted=Question.objects.get(subject=subject, no=subject+no).attempted+1)
                     return JsonResponse({"result": True})
                 except:
                     return render(request, "error.html")
@@ -176,23 +231,55 @@ def makeNews(request):
     question = request.POST.get('question')
     answer = request.POST.get('answer')
     title = request.POST.get('title')
+    tags = json.loads(request.POST.get('tags'))
     No = "%04d" % (Question.objects.count()+1)
-    print(No)
+    # print("tags:", tags)
+    # for i in tags:
+    #     print(i)
+    # print()
+    # print(No)
     if question.split() == [] or answer.split() == [] or title.split() == []:
         return JsonResponse({"result": False})
 
     try:
         Q = Question(subject=subject, no=subject+No, title=title, question=question, answer=answer)
+        # print(1)
         Q.save()
+        choices = [
+            "",
+            '函数与极限',
+            '导数与微分',
+            '微分中值定理与导数的应用',
+            '不定积分',
+            '定积分',
+            '微分方程',
+            '向量代数与空间解析几何',
+            '多元函数微分法及其应用',
+            '重积分',
+            '曲线积分与曲面积分',
+            '无穷级数'
+        ]
+        for i in tags:
+            try:
+                tag = Tag.objects.get(name=choices[int(i)])
+            except:
+                tag = Tag(name=choices[int(i)])
+                tag.save()
+            # print(tag.name)
+            # print("tag ok ")
+            Q.tag.add(tag)
+            # print("Q ok")
+
+        # print(2)
     except Exception as err:
-        print(3)
+        # print(3)
         result = False
         message = str(err)
     else:
-        print(4)
+        # print(4)
         result = True
         message = "Register success"
-    return JsonResponse({"result": True})
+    return JsonResponse({"result": result})
     return render(request, "error.html")
 
 
@@ -210,11 +297,47 @@ def personalPage(request):
     try:
         user = User.objects.get(username=request.path.split('/')[2])
         if user:
-            return render(request, "personalPage.html", {"user": user})
+            # print(1)
+            # ls = Contributions.objects.filter(username=user.username)
+            # print(2)
+            # ls = ls.order_by("date")
+            # print(ls)
+            # print(3)
+            ls = []
+            now = datetime.datetime.now().date()
+            monday = now + datetime.timedelta(days=-now.weekday())
+            offset = datetime.timedelta(days=-51*7)
+            last_year = monday+offset
+            one_day = datetime.timedelta(days=1)
+            for i in range(52):
+                tmpls = {
+                    "ls":[],
+                    "offset": i*16
+                }
+                if i == 51:
+                    for j in range(now.weekday()):
+                        tmp = dict()
+                        tmp['date'] = last_year.__str__()
+                        tmp['num'] = 1
+                        tmp['y'] = j*15
+                        last_year += one_day
+                        tmpls["ls"].append(tmp)
+                else:
+                    for j in range(7):
+                        tmp = dict()
+                        tmp['date'] = last_year.__str__()
+                        tmp['num'] = 1
+                        tmp['y'] = j*15
+                        last_year += one_day
+                        tmpls["ls"].append(tmp)
+                ls.append(tmpls)
+
+            print(ls)
+
+            return render(request, "personalPage.html", {"user": user, "a": ls})
         else:
             return render(request, "error.html")
     except:
         return render(request, "error.html")
-    return JsonResponse({"result": True})
     return render(request, "error.html")
 
