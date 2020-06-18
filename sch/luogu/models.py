@@ -36,7 +36,6 @@ class Tag(models.Model):
 
 class Question(models.Model):
     subject = models.CharField(max_length=5, null=True, blank=True, default="")
-    # no = models.IntegerField(null=False, blank=False)
     no = models.CharField(max_length=6, null=True, blank=True, default="")
     title = models.CharField(max_length=50, null=False, blank=False, default="")
     question = models.CharField(max_length=500, null=False, blank=False, default="")
@@ -59,11 +58,10 @@ class Question(models.Model):
 class Status(models.Model):
     username = models.CharField(max_length=50, null=False, blank=False, default="")
     subject = models.CharField(max_length=5, null=False, blank=False, default="")
-    # no = models.IntegerField(null=False, blank=False)
     no = models.CharField(max_length=6, null=True, blank=True, default="")
     status = models.IntegerField(null=False, blank=False, default=0)
     def __str__(self):
-        return self.no
+        return self.status
     class Meta:
         db_table="Status"
 
@@ -75,3 +73,13 @@ class Contributions(models.Model):
     class Meta:
         db_table="Contributions"
 
+
+class History(models.Model):
+    '''做题历史'''
+    username = models.CharField(max_length=50, null=False, blank=False, default="")
+    question = models.ForeignKey(Question, on_delete=models.CASCADE, default=None)
+    status = models.IntegerField(null=False, blank=False, default=0)
+    date = models.DateTimeField(auto_now_add=True)
+    class Meta:
+        db_table="History"
+        get_latest_by = "date"

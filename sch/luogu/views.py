@@ -3,7 +3,7 @@ import random
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
-from .models import User, Question, myUser, Status, Contributions, Tag
+from .models import User, Question, myUser, Status, Contributions, Tag, History
 from django.contrib import auth
 from django.views.decorators.csrf import csrf_exempt
 from django.forms.models import model_to_dict
@@ -153,26 +153,47 @@ def detail(request):
 def feedback(request):
     if request.method == "POST":
         try:
+            '''获取post信息'''
             subject = request.POST.get('subject')
             no = request.POST.get('no')
             status = request.POST.get('status')
             username = request.user.username
+
+            '''更新该题正确数目'''
             if status == 'ac':
                 num = Question.objects.get(subject=subject, no=subject + no).accepted
                 Question.objects.filter(subject=subject, no=subject + no).update(accepted=num+1)
+                '''更新个人做题历史'''
+                print("准备更新正确")
+                his = History.objects.filter(username=username, question__no=subject + no).last()
+                History.objects.filter(username=username, question__no=subject + no, date=his.date).update(status=1)
+                print("更新正确")
+
             else:
+                '''更新个人contributions数目'''
                 try:
                     num = Contributions.objects.get(username=username, date=datetime.date.today()).num
                     Contributions.objects.filter(username=username, date=datetime.date.today()).update(num=num+1)
                     print("更新ok")
+                    pass
                 except:
                     Contributions(username=username, num=1).save()
                     print("创建ok")
+
+                '''更新该题尝试数目'''
                 num = Question.objects.get(subject=subject, no=subject + no).attempted
                 Question.objects.filter(subject=subject, no=subject + no).update(attempted=num+1)
 
+                '''更新个人做题历史'''
+                print("准备创建历史")
+                History(username=username, question=Question.objects.get(subject=subject, no=subject + no), status=0).save()
+                print("创建历史成功")
+
+            '''更新正确率'''
             Question.objects.filter(subject=subject, no=subject + no).update(
                 pass_ratio=100*Question.objects.get(subject=subject, no=subject + no).accepted/Question.objects.get(subject=subject, no=subject + no).attempted)
+
+            '''更新个人正确错误状态'''
             try:
                 tS = Status.objects.get(subject=subject, no=subject+no, username=username)
                 if tS is not None:  # 做过了
@@ -191,6 +212,7 @@ def feedback(request):
                 except:
                     return render(request, "error.html")
         except:
+            print("大")
             return render(request, "error.html")
     else:
         return render(request, "error.html")
@@ -234,11 +256,6 @@ def makeNews(request):
     title = request.POST.get('title')
     tags = json.loads(request.POST.get('tags'))
     No = "%04d" % (Question.objects.count()+1)
-    # print("tags:", tags)
-    # for i in tags:
-    #     print(i)
-    # print()
-    # print(No)
     if question.split() == [] or answer.split() == [] or title.split() == []:
         return JsonResponse({"result": False})
 
@@ -300,10 +317,6 @@ def personalPage(request):
         if user:
             print(1)
             contributions = Contributions.objects.filter(username=user.username)
-            # print(2)
-            # ls = ls.order_by("date")
-            # print(ls)
-            # print(3)
             ls = []
             now = datetime.datetime.now().date()
             monday = now + datetime.timedelta(days=-now.weekday())
@@ -341,9 +354,17 @@ def personalPage(request):
                         tmpls["ls"].append(tmp)
                 ls.append(tmpls)
 
-            # print(ls)
+            his = History.objects.filter(username=user).order_by("-date")
+            date = request.GET.get('date')
+            print(date)
+            if date:
+                year, month, day = date.split('-')
+                print(date.split('-'))
+                his = his.filter(date__year=year, date__month=month, date__day=day)
+            else:
+                his = his[:min(10, his.count())]
 
-            return render(request, "personalPage.html", {"user": user, "a": ls})
+            return render(request, "personalPage.html", {"user": user, "a": ls, "his": his})
         else:
             return render(request, "error.html")
     except:
@@ -351,5 +372,5 @@ def personalPage(request):
     return render(request, "error.html")
 
 
-def blob(request):
-    return render(request, "blob.html")
+# def blob(request):
+#     return render(request, "blob.html")
