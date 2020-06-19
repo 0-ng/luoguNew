@@ -126,9 +126,9 @@ USE_TZ = True
 STATIC_URL = '/static/'
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/status'
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static"),  # 静态文件存放位置
-]
+# STATICFILES_DIRS = [
+#     os.path.join(BASE_DIR, "static"),  # 静态文件存放位置
+# ]
 #设置文件上传路径，图片上传、文件上传都会存放在此目录里
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+# MEDIA_URL = '/media/'
+# MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

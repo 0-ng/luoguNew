@@ -13,38 +13,49 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.conf import settings
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, re_path, include
 from django.conf.urls import url
 import django
-from luogu.views import *
+import luogu.views as luogu
+import blog.views as blog
 from django.contrib.auth.views import LoginView
 
-
+app_name = 'blog'
 urlpatterns = [
     url('admin/', admin.site.urls),
-    url('index$', index),
-    url('index.html$', index),
-    url(r'^login/$', login),
-    url('logout$', logout),
-    url('^404$', error),
+    url('index$', luogu.index),
+    url('index.html$', luogu.index),
+    url(r'^login/$', luogu.login),
+    url('logout$', luogu.logout),
+    url('^404$', luogu.error),
     # url('login$', 'django.contrib.auth.views.login'),
     # url('login/submit$', loginSubmit),
-    url('register$', register),
-    url('register/enter$', registerEnter),
-    url('forgetPassword$', forgetPassword),
-    url('changePassword$', changePassword),
-    url('makeNews$', makeNewQuestion),
-    url('makeNews/submit$', makeNews),
-    url(r'^hub/$', hub),
-    # url(r'^blob/$', blob),
-    url('feedback$', feedback),
-    # url(r'hub/P([0-9]{4})/$', hub),
-    url(r'^hub/M[0-9]{4}', detail),
-    url('^$', index),
+    url('register$', luogu.register),
+    url('register/enter$', luogu.registerEnter),
+    url('forgetPassword$', luogu.forgetPassword),
+    url('changePassword$', luogu.changePassword),
+    url('makeNews$', luogu.makeNewQuestion),
+    url('makeNews/submit$', luogu.makeNews),
+    url(r'^hub/$', luogu.hub),
+    url('feedback$', luogu.feedback),
+    url(r'^hub/M[0-9]{4}', luogu.detail),
+    # url('^$', luogu.index),
+    url('user/', luogu.personalPage),
 
-    url('user/', personalPage),
-    # url('headimgChange', headimgChange)
     url(r'^accounts/login/', LoginView.as_view(template_name="/login/")),
-    url(r'^test/$', test),
+    url(r'^test/$', luogu.test),
+
+
+    # url(r"^blog$", blog.index, name='index'),
+    path('', blog.index, name='index'),#网站首页
+    # path('', include('blog.urls', namespace='index')),#网站首页
+    path('list-<int:lid>.html', blog.list, name='list'),#列表页
+    path('show-<int:sid>.html', blog.show, name='show'),#内容页
+    path('tag/<tag>', blog.tag, name='tags'),#标签列表页
+    path('s/', blog.search, name='search'),#搜索列表页
+    path('about/', blog.about, name='about'),#联系我们单页
+    # path('ueditor/', include('DjangoUeditor.urls')),
+    # re_path('^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
 ]

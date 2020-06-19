@@ -12,24 +12,24 @@ import datetime
 # Create your views here.
 
 def test(request):
-    return render(request, "垃圾.html")
+    return render(request, "luogu/垃圾.html")
 
 
 def acc_login(request):
-    return render(request, "login.html")
+    return render(request, "luogu/login.html")
 
 
 
 
 def index(request):
-    return render(request, "tmp.html")
-    return render(request, "error.html")
+    return render(request, r"luogu/tmp.html")
+    return render(request, "luogu/error.html")
 
 
 def logout(request):
     auth.logout(request)
-    return render(request, "tmp.html")
-    return render(request, "error.html")
+    return render(request, "luogu/tmp.html")
+    return render(request, "luogu/error.html")
 
 
 
@@ -56,32 +56,32 @@ def login(request):
 
         return JsonResponse({"result": False, "message": message})
 
-    return render(request, "login.html")
-    return render(request, "error.html")
+    return render(request, "luogu/login.html")
+    return render(request, "luogu/error.html")
 
 
 def register(request):
-    return render(request, "register.html")
-    return render(request, "error.html")
+    return render(request, "luogu/register.html")
+    return render(request, "luogu/error.html")
 
 
 def forgetPassword(request):
-    return render(request, "forgetPassword.html")
-    return render(request, "error.html")
+    return render(request, "luogu/forgetPassword.html")
+    return render(request, "luogu/error.html")
 
 
 @login_required
 def changePassword(request):
-    return render(request, "changePassword.html")
+    return render(request, "luogu/changePassword.html")
 
 def error(request):
-    return render(request, "error.html")
+    return render(request, "luogu/error.html")
 
 
 @login_required
 def makeNewQuestion(request):
-    return render(request, "makeNewQuestion.html")
-    return render(request, "error.html")
+    return render(request, "luogu/makeNewQuestion.html")
+    return render(request, "luogu/error.html")
 
 
 def hub(request):
@@ -136,17 +136,17 @@ def hub(request):
     ls = list(ls)
     for i in range(len(ls)):
         ls[i] = model_to_dict(ls[i])
-    return render(request, "hub.html", {"questions": ls, "order": order, "orderBy": orderBy})
-    return render(request, "error.html")
+    return render(request, "luogu/hub.html", {"questions": ls, "order": order, "orderBy": orderBy})
+    return render(request, "luogu/error.html")
 
 
 def detail(request):
     try:
         ls = Question.objects.get(no=request.path.split('/')[-1])
     except:
-        return render(request, "error.html")
-    return render(request, "detail.html", {"question": ls})
-    return render(request, "error.html")
+        return render(request, "luogu/error.html")
+    return render(request, "luogu/detail.html", {"question": ls})
+    return render(request, "luogu/error.html")
 
 
 @login_required
@@ -210,13 +210,13 @@ def feedback(request):
                     S.save()
                     return JsonResponse({"result": True})
                 except:
-                    return render(request, "error.html")
+                    return render(request, "luogu/error.html")
         except:
             print("大")
-            return render(request, "error.html")
+            return render(request, "luogu/error.html")
     else:
-        return render(request, "error.html")
-    return render(request, "error.html")
+        return render(request, "luogu/error.html")
+    return render(request, "luogu/error.html")
 
 
 def registerEnter(request):
@@ -245,7 +245,7 @@ def registerEnter(request):
         message = "Register success"
 
     return JsonResponse({"result": result, "message": message})
-    return render(request, "error.html")
+    return render(request, "luogu/error.html")
 
 
 @login_required
@@ -298,7 +298,7 @@ def makeNews(request):
         result = True
         message = "Register success"
     return JsonResponse({"result": result})
-    return render(request, "error.html")
+    return render(request, "luogu/error.html")
 
 
 @login_required
@@ -364,12 +364,12 @@ def personalPage(request):
             else:
                 his = his[:min(10, his.count())]
 
-            return render(request, "personalPage.html", {"user": user, "a": ls, "his": his})
+            return render(request, "luogu/personalPage.html", {"user": user, "a": ls, "his": his})
         else:
-            return render(request, "error.html")
+            return render(request, "luogu/error.html")
     except:
-        return render(request, "error.html")
-    return render(request, "error.html")
+        return render(request, "luogu/error.html")
+    return render(request, "luogu/error.html")
 
 
 # def blob(request):
