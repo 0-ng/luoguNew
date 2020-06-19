@@ -1,0 +1,201 @@
+{% extends "luogu/base.html" %}
+{% block jsUp %}
+    <!--引入样式文件-->
+    <link rel="stylesheet" href="../static/makeNews/examples/css/style.css"/>
+    <link rel="stylesheet" href="../static/makeNews/css/editormd.preview.css"/>
+
+    <!--引入js文件-->
+    <script src="../static/makeNews/examples/js/jquery.min.js"></script>
+    <script src="../static/makeNews/lib/marked.min.js"></script>
+    <script src="../static/makeNews/lib/prettify.min.js"></script>
+    <script src="../static/makeNews/lib/raphael.min.js"></script>
+    <script src="../static/makeNews/lib/underscore.min.js"></script>
+    <script src="../static/makeNews/lib/sequence-diagram.min.js"></script>
+    <script src="../static/makeNews/lib/flowchart.min.js"></script>
+    <script src="../static/makeNews/lib/jquery.flowchart.min.js"></script>
+    <script src="../static/makeNews/editormd.js"></script>
+
+{% endblock %}
+{% block main %}
+    <div style="background-color: rgba(0, 0, 0, .75); height: 15%">
+        <div style="height: 5%"></div>
+        <div style="margin-left: 20px;" align="left">
+            <h5 style="color: white;">题目详情</h5>
+        </div>
+
+        <div style="height: 5%"></div>
+{#        <div style="float: left; margin-left: 20px">#}
+{#            <h3 id="subject" style="color: white;">#}
+{#                {{ question.subject }}#}
+{#            </h3>#}
+{#        </div>#}
+        <div style="float: left; margin-left: 20px">
+            <h3 id="no" style="color: white;">
+                {{ question.no }}
+            </h3>
+        </div>
+        <div style="float: left; margin-left: 20px"><h3 style="color: white">{{ question.title }}</h3></div>
+    </div>
+    <div style="margin-bottom: 32px;">
+    <div style="margin: 20px 51.729px 0px;">
+
+        <div style="display: block;box-sizing: border-box;overflow: hidden; ">
+            <div style="padding: 0px 10px;overflow: hidden;">
+                <div style="margin: 0px 0px 15px;padding: 16px;background-color: rgba(255,255,255,.7);overflow: hidden;">
+
+                    <div style="width: 100%; height: 100%">
+                        <div style="height: 200px">
+                            <div style="float: left; margin-left: 20px"><h3 style="color: black">题目描述</h3></div>
+
+                            <div id="question" style="height: 500px;">
+                                <textarea style="display:none; "></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div id="feedback" style="height: 30px"></div>
+    <div></div>
+    <div style="margin: 20px 51.729px 0px;">
+        <div style="display: block;box-sizing: border-box;overflow: hidden; ">
+            <div style="padding: 0px 10px;overflow: hidden;">
+                <div style="margin: 0px 0px 15px;padding: 16px;background-color: rgba(255,255,255,.7);overflow: hidden;">
+
+                    <div style="width: 100%; height: 100%">
+                        <div style="height: 200px">
+                            <div style="float: left; margin-left: 20px"><h3 style="color: black">参考答案</h3></div>
+
+                            <div id="answer" style="height: 150px;">
+                                <br>
+                                <br>
+                                {% if request.session.is_login %}
+                                    <button onclick="mdToHmlA();" style="height: 100%; width: 100%">点击查看答案</button>
+                                {% else %}
+                                    <button onclick="window.location.href='/login'" style="height: 100%; width: 100%">
+                                        登录查看答案
+                                    </button>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div>
+        <div id="abc" style="color: rgb(239,239,239)">{{ question.question }}</div>
+        {% if request.session.is_login %}
+            <div id="def" style="color: rgb(239,239,239)">{{ question.answer }}</div>
+        {% endif %}
+    </div>
+    <!--</div>-->
+{% endblock %}
+
+{% block js %}
+
+    <script type="text/javascript">
+        $.ajaxSetup({
+            data:{
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            }
+        })
+        $(document).ready(function () {
+            mdToHml();
+            $("#abc").html("");//获取需要转换的内容
+        });
+
+        function mdToHml() {
+            //先对容器初始化，在需要展示的容器中创建textarea隐藏标签，
+            $("#question").html('<textarea id="appendTest1" style="display:none;">你</textarea>');
+
+            var content = document.getElementById("abc").innerHTML;//获取需要转换的内容
+            $("#appendTest1").val(content);//将需要转换的内容加到转换后展示容器的textarea隐藏标签中
+            editormd.markdownToHTML("question", {
+                htmlDecode: "style,script,iframe", //可以过滤标签解码
+                emoji: true,
+                taskList: true,
+                tex: true,               // 默认不解析
+                flowChart: true,         // 默认不解析
+                sequenceDiagram: true,  // 默认不解析
+            });
+        }
+
+        function mdToHmlA() {
+            $("#answer").html('<textarea id="appendTest2" style="display:none;">你</textarea>');
+            var content = document.getElementById("def").innerHTML;//获取需要转换的内容
+            document.getElementById("def").innerHTML = "";
+            $("#appendTest2").val(content);//将需要转换的内容加到转换后展示容器的textarea隐藏标签中
+
+            editormd.markdownToHTML("answer", {
+                htmlDecode: "style,script,iframe", //可以过滤标签解码
+                emoji: true,
+                taskList: true,
+                tex: true,               // 默认不解析
+                flowChart: true,         // 默认不解析
+                sequenceDiagram: true,  // 默认不解析
+            });
+
+
+            $("#feedback").html(
+                "        <p style=\"margin: 16px 0px\">\n" +
+                "        <div style=\"float: left;width: 40%\"><h1>做对了吗傻逼</h1></div>\n" +
+                "        <div style=\"float: left;width: 60%\">\n" +
+                "            <button id=\"wa\" onclick=\"wa()\" style=\"float: left; border-radius: 5px;font-size: 1.4rem;color: #fff;background-color: #dd514c;border-color: #dd514c;display: inline-block;margin-bottom: 0;\n" +
+                "                padding: .5em 1em;font-weight: 400;line-height: 1.2;text-align: center;white-space: nowrap;border: 1px solid transparent;cursor: pointer;outline: 0;\n" +
+                "                transition: background-color 300ms ease-out,border-color 300ms ease-out;vertical-align: middle;text-transform: none;overflow: visible;font-family: inherit;\">\n" +
+                "                <h3>下次一定</h3>\n" +
+                "            </button>\n" +
+                "            <button id=\"ac\" onclick=\"ac()\" style=\"float: left; border-radius: 5px;font-size: 1.4rem;color: #fff;background-color: #5cb85c;border-color: #0a6999;display: inline-block;margin-bottom: 0;\n" +
+                "                padding: .5em 1em;font-weight: 400;line-height: 1.2;text-align: center;white-space: nowrap;border: 1px solid transparent;cursor: pointer;outline: 0;\n" +
+                "                transition: background-color 300ms ease-out,border-color 300ms ease-out;vertical-align: middle;text-transform: none;overflow: visible;font-family: inherit;\">\n" +
+                "                <h3>对了吧</h3>\n" +
+                "            </button>\n" +
+                "        </div>\n" +
+                "        </p>\n"
+            )
+
+
+            $.ajax({
+                url: "/feedback",
+                type: "post",
+                async: false,
+                data: {
+                    {#"subject": document.getElementById("subject").innerText.slice(),#}
+                    "subject": document.getElementById("no").innerText.slice(0, -4),
+                    "no": document.getElementById("no").innerText.slice(-4),
+                    "status": "wa",
+                    csrfmiddlewaretoken: '{{ csrf_token  }}'
+                },
+                success: function (res) {
+
+                }
+            })
+
+        }
+        function ac() {
+            $.ajax({
+                url: "../feedback",
+                type: "post",
+                async: false,
+                data: {
+                    "subject": document.getElementById("no").innerText.slice(0, -4),
+                    "no": document.getElementById("no").innerText.slice(-4),
+                    "status": "ac",
+                    csrfmiddlewaretoken: '{{ csrf_token  }}'
+                },
+                success: function (res) {
+                    $("#feedback").html("");
+                }
+            })
+        }
+        function wa() {
+            $("#feedback").html("");
+        }
+    </script>
+    <script src="https://cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+{% endblock %}
