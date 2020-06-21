@@ -37,27 +37,37 @@ def login(request):
     message = "傻逼"
     result = False
     if request.method == "POST":
-        username = request.POST.get('id')
-        password = request.POST.get('psw')
+        username = request.POST.get('username')
+        password = request.POST.get('password')
         if username and password:
             try:
+                print(1)
+                print(username)
+                print(password)
                 user = auth.authenticate(username=username, password=password)
                 if user is not None:
+                    print(2)
                     auth.login(request, user)
                     request.session['is_login'] = True
                     request.session['user_id'] = str(user.id)
                     request.session['user_name'] = str(user)
+                    print(3)
+                    # return redirect(request, "luogu/index.html")
+
                     return JsonResponse({"result": True, "message": message})
                 else:
+                    print(4)
                     message = "密码不正确!"
             except:
+                print(5)
                 message = "用户不存在!"
             return JsonResponse({"result": False, "message": message})
+        print(6)
 
         return JsonResponse({"result": False, "message": message})
-
-    return render(request, "luogu/login.html")
-    return render(request, "luogu/error.html")
+    else:
+        return render(request, "luogu/login.html")
+        return render(request, "luogu/error.html")
 
 
 def register(request):
@@ -121,7 +131,7 @@ def hub(request):
         print("fill ok")
 
     no = request.GET.get('no')
-    print(no)
+    # print(no)
     if no:
         print(1)
         for q in ls:
@@ -130,13 +140,19 @@ def hub(request):
         print(ls)
         ls = ls.order_by("-score")
 
+    ret = dict()
+    for i in ls:
+        ret[i.no] = dict()
+        ret[i.no]["no"] = i.no
+        ret[i.no]["title"] = i.title
+        ret[i.no]["tag"] = [j for j in i.tag.all()]
+        ret[i.no]["difficulty"] = i.difficulty
+        ret[i.no]["pass_ratio"] = i.pass_ratio
+        ret[i.no]["status"] = 0
     attemped = Status.objects.filter(username=request.user.username)
     for i in attemped:
-        ls.filter(no=i.no).update(status=i.status)
-    ls = list(ls)
-    for i in range(len(ls)):
-        ls[i] = model_to_dict(ls[i])
-    return render(request, "luogu/hub.html", {"questions": ls, "order": order, "orderBy": orderBy})
+        ret[i.no]["status"] = i.status
+    return render(request, "luogu/hub.html", {"questions": ret, "order": order, "orderBy": orderBy})
     return render(request, "luogu/error.html")
 
 
@@ -237,12 +253,15 @@ def registerEnter(request):
         print(4)
         myUser.objects.create(user=user)
         print(5)
+        result = True
+        message = "Register success"
+
+        with open("luogu/static/image/personalHead/none.jpg", 'rb') as f:
+            with open("luogu/static/image/personalHead/{}.jpg".format(username), 'wb') as f2:
+                f2.write(f.read())
     except Exception as err:
         result = False
         message = str(err)
-    else:
-        result = True
-        message = "Register success"
 
     return JsonResponse({"result": result, "message": message})
     return render(request, "luogu/error.html")
@@ -328,13 +347,16 @@ def personalPage(request):
                     "ls":[],
                     "offset": i*16
                 }
+                sum = 0
                 if i == 51:
                     for j in range(now.weekday()+1):
                         tmp = dict()
                         tmp['date'] = last_year.__str__()
                         # tmp['num'] = random.randint(0, 35)
                         try:
-                            tmp['num'] = contributions.get(date=last_year).num
+                            a = contributions.get(date=last_year).num
+                            tmp['num'] = a
+                            sum += a
                         except:
                             tmp['num'] = 0
                         tmp['y'] = j*15
@@ -364,7 +386,7 @@ def personalPage(request):
             else:
                 his = his[:min(10, his.count())]
 
-            return render(request, "luogu/personalPage.html", {"user": user, "a": ls, "his": his})
+            return render(request, "luogu/personalPage.html", {"user": user, "a": ls, "his": his, "sum": sum})
         else:
             return render(request, "luogu/error.html")
     except:

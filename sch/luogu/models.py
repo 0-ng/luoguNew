@@ -61,7 +61,7 @@ class Status(models.Model):
     no = models.CharField(max_length=6, null=True, blank=True, default="")
     status = models.IntegerField(null=False, blank=False, default=0)
     def __str__(self):
-        return self.status
+        return self.username + " " + self.no
     class Meta:
         db_table="Status"
 

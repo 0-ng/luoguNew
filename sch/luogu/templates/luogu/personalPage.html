@@ -8,6 +8,8 @@
             <img  width="260" id="headimg" style="border-radius: 50%"
                  src="/static/image/personalHead/{{ request.session.user_name }}.jpg"
                  alt="{{ request.session.user_name }}">
+            <input type="file" id="headimg-upload" style="display: none;" onchange="uploadimg()">
+
             <div style="margin-left: 10%">
                 <h1>
                     <span style=" font-weight: 600; line-height: 30px;font-size: 30px;display: block">{{ request.session.user_name }}</span>
@@ -44,7 +46,7 @@
                         <div style="border-top-left-radius: 3px;border-top-right-radius: 3px;padding-top: 8px!important;padding-bottom: 8px!important;border-color: #d1d5da!important;border: 1px solid #e1e4e8!important;box-sizing: border-box;">
                             <div style="border: 8px; border-color: lightgray; display: flex!important;text-align: center!important;padding-top: 4px!important;margin-right: 16px!important;margin-left: 16px!important;height: 100%!important;overflow: hidden!important;align-items: center!important;flex-direction: column!important;">
                                 <div style="float:left;width: 90%">
-                                <h4 style="float: left">10086 contributions in the last year</h4>
+                                <h4 style="float: left">{{ sum }} contributions in the last year</h4>
                                 </div>
                                 <div style="float:left;width: 10%"></div>
                                 <svg width="890" height="128" class="js-calendar-graph-svg">
@@ -97,6 +99,7 @@
                 <div style="position: relative;background-size: cover;background-position:center;">
                     <div style="border-top-left-radius: 3px;border-top-right-radius: 3px;padding-top: 8px!important;padding-bottom: 8px!important;border-color: #d1d5da!important;border: 1px solid #e1e4e8!important;box-sizing: border-box;">
                         <div style="border: 8px; border-color: lightgray; display: flex!important;text-align: center!important;padding-top: 4px!important;margin-right: 16px!important;margin-left: 16px!important;height: 100%!important;overflow: hidden!important;align-items: center!important;flex-direction: column!important;">
+                        {% if his %}
                             {% for h in his %}
                                 <div style="width: 100%;margin-left: 16px; padding: 24px;position: relative;border-bottom: 1px solid #e8e8e8">
                                     <div style="width: 10%;float: left">&emsp;</div>
@@ -122,12 +125,21 @@
                                             <h4 style="position: absolute;top: 35%; left: 65%">{{ h.question }} {{ h.question.title }}</h4>
                                         </a>
                                     </div>
-
-
-
-
                                 </div>
                             {% endfor %}
+                        {% else %}
+                            <div style="width: 100%;margin-left: 16px; padding: 24px;position: relative;border-bottom: 1px solid #e8e8e8">
+                                <div style="width: 10%;float: left">&emsp;</div>
+                                <div style="width: 20%;float: left">
+                                        <img id="headimg"
+                                             style=" height: 60%; border-radius: 50%; position: absolute; bottom: 24px; left: 5%; border: 1px solid #979797"
+                                             src="/static/image/personalHead/{{ request.session.user_name }}.jpg"
+                                             alt="{{ request.session.user_name }}">
+                                </div>
+                                <div><h1>摸鱼的一天真开心</h1></div>
+
+                            </div>
+                        {% endif %}
                         </div>
 
                     </div>
@@ -152,6 +164,7 @@
 
             $('#headimg').click(function () {
                 $('#headimg-upload').click();
+                {#uploadimg();#}
             })
             $('.day').mouseleave(function (e) {
                 console.log("leave");
