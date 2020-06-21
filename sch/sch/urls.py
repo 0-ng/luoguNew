@@ -21,6 +21,7 @@ import django
 import luogu.views as luogu
 import blog.views as blog
 from django.contrib.auth.views import LoginView
+from django.conf.urls.static import static
 
 app_name = 'blog'
 urlpatterns = [
@@ -48,14 +49,26 @@ urlpatterns = [
     url(r'^test/$', luogu.test),
 
 
-    # url(r"^blog$", blog.index, name='index'),
+    url(r"^blog/$", blog.index, name='index'),
     # path('', blog.index, name='index'),#网站首页
     # path('', include('blog.urls', namespace='index')),#网站首页
-    # path('list-<int:lid>.html', blog.list, name='list'),#列表页
-    # path('show-<int:sid>.html', blog.show, name='show'),#内容页
-    # path('tag/<tag>', blog.tag, name='tags'),#标签列表页
-    # path('s/', blog.search, name='search'),#搜索列表页
-    # path('about/', blog.about, name='about'),#联系我们单页
+    path('blog/list-<int:lid>.html', blog.list, name='list'),#列表页
+    path('blog/show-<int:sid>.html', blog.show, name='show'),#内容页
+    path('tag/<tag>', blog.tag, name='tags'),#标签列表页
+    path('s/', blog.search, name='search'),#搜索列表页
+    path('about/', blog.about, name='about'),#联系我们单页
+    path('writeblog', blog.write, name='write'),#联系我们单页
     # path('ueditor/', include('DjangoUeditor.urls')),
     # re_path('^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
+
+
+
+    path(r'mdeditor/', include('mdeditor.urls'))
 ]
+
+# if settings.DEBUG:
+#     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+if settings.DEBUG:
+    # static files (images, css, javascript, etc.)
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'luogu',
     'blog',
+    'mdeditor',
 ]
 
 MIDDLEWARE = [
@@ -130,5 +131,5 @@ LOGIN_REDIRECT_URL = '/status'
 #     os.path.join(BASE_DIR, "static"),  # 静态文件存放位置
 # ]
 #设置文件上传路径，图片上传、文件上传都会存放在此目录里
-# MEDIA_URL = '/media/'
-# MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

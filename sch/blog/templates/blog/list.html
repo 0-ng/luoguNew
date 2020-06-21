@@ -1,8 +1,8 @@
-﻿{% extends "base.html" %}
+﻿{% extends "blog/base.html" %}
 {% block content %}
     <div id="main-container" class="container clearfix">
         <section class="post-left">
-            <div class="breadcrumb">您的位置：   <a itemprop="breadcrumb" href="{% url 'blog:index' %}">首页</a> »
+            <div class="breadcrumb">您的位置：   <a itemprop="breadcrumb" href="/blog/">首页</a> »
                 <span class="current">{{ cname }} </span></div>
             <div class="index-main clearfix">
                 <div class="main-title">
@@ -14,21 +14,21 @@
                     <div class="article-box clearfix excerpt-1">
                         <div class="col-md-4">
                             <div class="thumbnail">
-                                <a href="{% url 'blog:index' %}show-{{ list.id }}.html" title="{{ list.title }} Quora第一">
+                                <a href="/blog/show-{{ list.id }}.html" title="{{ list.title }} Quora第一">
                                     <img src="media/{{ list.img }}"
                                          alt="{{ list.title }}" class="wp-post-image" width="240"
                                          height="160"/></a>
                             </div>
                         </div>
                         <div class="col-md-8">
-                            <h2><a href="{% url 'blog:index' %}show-{{ list.id }}.html" target="_blank"
+                            <h2><a href="/blog/show-{{ list.id }}.html" target="_blank"
                                    title="{{ list.title }}">{{ list.title }}</a></h2>
-                            <p class="txtcont hidden-xs"><a href="{% url 'blog:index' %}show-{{ list.id }}.html"
+                            <p class="txtcont hidden-xs"><a href="/blog/show-{{ list.id }}.html"
                                                             target="_blank"
                                                             title="{{ list.title }}">{{ list.excerpt }}</a>
                             </p>
                             <div class="meta"><span class="label label-info"><a
-                                    href="{% url 'blog:index' %}list-{{ list.category_id }}.html">{{ list.category.name }}</a></span>
+                                    href="/blog/list-{{ list.category_id }}.html">{{ list.category.name }}</a></span>
                                 <time class="item"><i
                                         class="fa fa-clock-o"></i>{{ list.created_time|date:"Y年m月d日" }}
                                 </time>
@@ -76,7 +76,7 @@
         <aside class="post-right hidden-xs">
             </section></section>
 
-            {% include 'right.html' %}
+            {% include 'blog/right.html' %}
 
         </aside>
     </div>

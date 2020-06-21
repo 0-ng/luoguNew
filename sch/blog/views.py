@@ -1,7 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from .models import Article, Category, Banner, Tag, Link
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+import markdown
 # Create your views here.
+
 
 #首页
 def index(request):
@@ -28,8 +30,10 @@ def index(request):
     return render(request, "blog/index.html", context)
     pass
 
+
 #列表页
 def list(request, lid):
+    print(1)
     lists = Article.objects.filter(category_id=lid)#获取通过URL传进来的lid，然后筛选出对应文章
     cname = Category.objects.get(id=lid)#获取当前文章的栏目名
     remen = Article.objects.filter(tui__id=2)[:6]#右侧的热门推荐
@@ -43,7 +47,8 @@ def list(request, lid):
         lists = paginator.page(1)  # 如果用户输入的页码不是整数时,显示第1页的内容
     except EmptyPage:
         lists = paginator.page(paginator.num_pages)  # 如果用户输入的页数不在系统的页码列表中时,显示最后一页的内容
-    return render(request, 'list.html', locals())
+    return render(request, 'blog/list.html', locals())
+
 
 #内容页
 def show(request,sid):
@@ -56,8 +61,9 @@ def show(request,sid):
     netx_blog = Article.objects.filter(created_time__lt=show.created_time,category=show.category.id).last()
     show.views = show.views + 1
     show.save()
-    return render(request, 'show.html', locals())
+    return render(request, 'blog/show.html', locals())
     pass
+
 
 #标签页
 def tag(request, tag):
@@ -74,7 +80,8 @@ def tag(request, tag):
         list = paginator.page(1)  # 如果用户输入的页码不是整数时,显示第1页的内容
     except EmptyPage:
         list = paginator.page(paginator.num_pages)  # 如果用户输入的页数不在系统的页码列表中时,显示最后一页的内容
-    return render(request, 'tags.html', locals())
+    return render(request, 'blog/tags.html', locals())
+
 
 # 搜索页
 def search(request):
@@ -91,8 +98,22 @@ def search(request):
         list = paginator.page(1) # 如果用户输入的页码不是整数时,显示第1页的内容
     except EmptyPage:
         list = paginator.page(paginator.num_pages) # 如果用户输入的页数不在系统的页码列表中时,显示最后一页的内容
-    return render(request, 'search.html', locals())
+    return render(request, 'blog/search.html', locals())
+
+
 # 关于我们
 def about(request):
     allcategory = Category.objects.all()
-    return render(request, 'page.html',locals())
+    return render(request, 'blog/page.html',locals())
+
+
+def write(request):
+    # article = get_object_or_404(Article)
+    article = Article.objects.get()
+    article.body = markdown.markdown(article.body,
+                                     extensions=[
+                                         'markdown.extensions.extra',
+                                         'markdown.extensions.codehilite',
+                                         'markdown.extensions.toc',
+                                     ])
+    return render(request, 'blog/write.html', context={'article': article})

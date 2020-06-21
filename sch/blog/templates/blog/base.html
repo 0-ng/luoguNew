@@ -20,25 +20,32 @@
 </head>
 <body class="home blog site-layout-2">
 <!-- 头部 -->
-<header class="fix-wrap" id="fix-wrap">
-    <div class="fix-main clearfix pr" id="fix-main" _hover-ignore="1"><a href="/" class="index-logo">
-        <img src= "/static/picture/black-logo.png" alt="拓普Python学院,Python!"></a>
-        <nav class="nav fl">
-            <ul id="fix-list" class="fix-list clearfix">
+<header class="fix-wrap container " id="fix-wrap">
+    <div id="fix-main" _hover-ignore="1"><a href="/" class="index-logo">
+        <div style="width: 30%; float: left">
+            <img src= "/static/picture/black-logo.png" alt="拓普Python学院,Python!">
+        </div></a>
+        <div style="width: 30%; float: left">
+            <nav >
+                <ul id="fix-list">
 
-                <li id="menu-item-117720" class="menu-item"><a href="/">首页</a></li>
-                {% for category in allcategory %}
-                    <li id="menu-item-117720" class="menu-item">
-                        <a href="{% url 'blog:index' %}list-{{ category.id }}.html">{{ category.name }}</a>
-                    </li>
-                {% endfor %}
-                <li id="menu-item-117720" class="menu-item"><a href="/about/">关于博主</a></li>
-            </ul>
-        </nav>
-        <form method="get" class="index-search  hidden-xs" action="{% url 'index' %}/s/">
-            <input class="text" name="search" type="text" placeholder="输入关键字" value="">
-            <button class="submit" type="submit"><i class="fa fa-search"></i></button>
-        </form>
+                    <li id="menu-item-117720"  style="float: left; margin: 10%"><a href="/">首页</a></li>
+                    {% for category in allcategory %}
+                        <li id="menu-item-117720" style="float: left; margin: 10% 0">
+                            <a href="blog/list-{{ category.id }}.html">{{ category.name }}</a>
+                        </li>
+                    {% endfor %}
+                    <li id="menu-item-117720" style="float: left; margin: 10%"><a href="/about/">关于博主</a></li>
+                </ul>
+            </nav>
+        </div>
+        <div style="width: 40%; float: left; margin-top: 3%">
+{#            <form method="get" action="/blog/s/">#}
+{#                <input  name="search" type="text" placeholder="输入关键字" value="">#}
+{#                <button type="submit"><i class="fa fa-search"></i></button>#}
+{#            </form>#}
+            <a href="/writeblog" style="background-color:#E33E33;color: white; padding: 2%"><span>写博客</span></a>
+        </div>
     </div>
 </header>
 
@@ -47,12 +54,12 @@
 {% endblock %}
 
 <!-- 底部 -->
-<footer class="footer">
-    <div class="copyright"> © 2010- 2018 · All Rights Reserved
-        · <a href="https://www.django.cn">Django中文网</a>
-        · <a href="http://www.miibeian.gov.cn" target="_blank">湘ICP备17023990号</a> 版权所有 © Django中文网
-    </div>
-</footer>
+{#<footer class="footer">#}
+{#    <div class="copyright"> © 2010- 2018 · All Rights Reserved#}
+{#        · <a href="https://www.django.cn">Django中文网</a>#}
+{#        · <a href="http://www.miibeian.gov.cn" target="_blank">湘ICP备17023990号</a> 版权所有 © Django中文网#}
+{#    </div>#}
+{#</footer>#}
 <script src= "/static/js/bundle.js"></script>
 <script type="text/javascript" src= "/static/js/view-history.js"></script>
 <script type='text/javascript' src= "/static/js/push.js"></script>

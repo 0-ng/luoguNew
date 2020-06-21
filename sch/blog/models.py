@@ -3,6 +3,9 @@ from django.contrib.auth.models import User
 # Create your models here.
 
 # 文章分类
+from mdeditor.fields import MDTextField
+
+
 class Category(models.Model):
     name = models.CharField('博客分类', max_length=100)
     index = models.IntegerField(default=999, verbose_name='分类排序')
@@ -46,7 +49,8 @@ class Article(models.Model):
     tags = models.ManyToManyField(Tag, verbose_name='标签', blank=True)
     # 使用外键关联标签表与标签是多对多关系
     img = models.ImageField(upload_to='article_img/%Y/%m/%d/', verbose_name='文章图片', blank=True, null=True)
-    body = models.TextField()
+    # body = models.TextField()
+    body = MDTextField()
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='作者')
     """
     文章作者，这里通过ForeignKey把文章和User关联起来
