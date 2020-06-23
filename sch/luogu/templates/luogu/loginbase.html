@@ -1,14 +1,16 @@
 <!DOCTYPE HTML>
 <html>
 <head>
+    {% load staticfiles %}
     <title>Sign Up Password Form Widget Responsive Widget Template</title>
-    <link href="/static/css/style.css" rel="stylesheet" type="text/css" media="all"/>
+{#    <link href="/static/css/style.css" rel="stylesheet" type="text/css" media="all"/>#}
+    <link href="{% static "luogu/css/style.css" %}" rel="stylesheet" type="text/css" media="all"/>
     <!-- Custom Theme files -->
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="keywords" content=""/>
-    <script src="/static/js/jquery-2.1.4.min.js"></script>
+    <script src="{% static "luogu/js/jquery-2.1.4.min.js" %}"></script>
 
     <style>
         html,
@@ -35,7 +37,7 @@
 </canvas>
 <div style="position: relative;height: 10%; padding-left: 1%; padding-top: 1%">
     <a href="/" title="返回首页">
-        <img src="/static/image/1.jpg" style="vertical-align: middle;width: 35px;height: 35px;
+        <img src="{% static "luogu//image/1.jpg" %}" style="vertical-align: middle;width: 35px;height: 35px;
         border-radius: 50%;border-style: none;box-sizing: border-box;border: 0;color: #333;">
     </a>
 </div>

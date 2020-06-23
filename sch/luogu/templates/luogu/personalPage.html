@@ -1,4 +1,5 @@
 {% extends "luogu/base.html" %}
+{% load staticfiles %}
 {% block main %}
 
 
@@ -6,7 +7,7 @@
     <div style="margin-left: 13%;margin-right: 13%">
         <div style="width: 25%;float: left;margin-top: 5%">
             <img  width="260" id="headimg" style="border-radius: 50%"
-                 src="/static/image/personalHead/{{ request.session.user_name }}.jpg"
+                 src="{% static "luogu/" %}image/personalHead/{{ request.session.user_name }}.jpg"
                  alt="{{ request.session.user_name }}">
             <input type="file" id="headimg-upload" style="display: none;" onchange="uploadimg()">
 
@@ -106,7 +107,7 @@
                                     <div style="width: 20%;float: left">
                                         <img id="headimg"
                                              style=" height: 60%; border-radius: 50%; position: absolute; bottom: 24px; left: 5%; border: 1px solid #979797"
-                                             src="/static/image/personalHead/{{ request.session.user_name }}.jpg"
+                                             src="{% static "luogu/" %}image/personalHead/{{ request.session.user_name }}.jpg"
                                              alt="{{ request.session.user_name }}">
                                     </div>
                                     <div style="width: 30%;float: left">
@@ -133,7 +134,7 @@
                                 <div style="width: 20%;float: left">
                                         <img id="headimg"
                                              style=" height: 60%; border-radius: 50%; position: absolute; bottom: 24px; left: 5%; border: 1px solid #979797"
-                                             src="/static/image/personalHead/{{ request.session.user_name }}.jpg"
+                                             src="{% static "luogu/" %}image/personalHead/{{ request.session.user_name }}.jpg"
                                              alt="{{ request.session.user_name }}">
                                 </div>
                                 <div><h1>摸鱼的一天真开心</h1></div>

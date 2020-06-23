@@ -1,5 +1,6 @@
 {% extends "luogu/base.html" %}
 
+{% load staticfiles %}
 {% block main %}
     <div style="background-color: rgba(0, 0, 0, .75); height: 15%">
         <div style="height: 10%"></div>
@@ -80,9 +81,8 @@
 
                                         <button style="height: 100%; background-color:#fff; border-color: white; border: 0; padding: 0">
                                             <img name="no"
-                                                 src="../static/icons/{% if orderBy != "no" %}中{% elif order == "asc" %}下{% elif order == "desc" %}上{% else %}中{% endif %}.svg"
+                                                 src='{% static "luogu/icons/"%}{% if orderBy != "no" %}中{% elif order == "asc" %}下{% elif order == "desc" %}上{% else %}中{% endif %}.svg'
                                                  style="height: 15px">
-
                                         </button>
                                     </a>
                                 </div>
@@ -95,7 +95,7 @@
                                     <a href="/hub/?orderBy=difficulty&order={% if orderBy == "difficulty" %}{% if order == "asc" %}desc{% elif order == "desc" %}none{% else %}asc{% endif %}{% else %}asc{% endif %}">
                                         <button style="height: 100%; background-color:#fff; border-color: white; border: 0; padding: 0">
                                             <img name="difficulty"
-                                                 src="../static/icons/{% if orderBy != "difficulty" %}中{% elif order == "asc" %}下{% elif order == "desc" %}上{% else %}中{% endif %}.svg"
+                                                 src="{% static "luogu/icons/" %}{% if orderBy != "difficulty" %}中{% elif order == "asc" %}下{% elif order == "desc" %}上{% else %}中{% endif %}.svg"
                                                  style="height: 15px">
                                         </button>
                                     </a>
@@ -107,7 +107,7 @@
 
                                         <button style="height: 100%; background-color:#fff; border-color: white; border: 0; padding: 0">
                                             <img name="no"
-                                                 src="../static/icons/{% if orderBy != "pass_ratio" %}中{% elif order == "asc" %}下{% elif order == "desc" %}上{% else %}中{% endif %}.svg"
+                                                 src="{% static "luogu/icons/" %}{% if orderBy != "pass_ratio" %}中{% elif order == "asc" %}下{% elif order == "desc" %}上{% else %}中{% endif %}.svg"
                                                  style="height: 15px">
 
                                         </button>
@@ -120,7 +120,7 @@
                             {% for a, q in questions.items %}
                                 <div style="margin: 0px 10px;overflow: hidden;">
                                     <div style="padding: 8px 6px 8px 0px; float: left; width: 5%; height: 100%; background-color: white; display:flex;align-items: center;justify-content:center;">
-                                        <img src="../static/icons/{% if q.status == 1 %}正确{% elif q.status == 2 %}错误 (1){% else %}横杠{% endif %}.svg"
+                                        <img src="{% static "luogu/icons/" %}{% if q.status == 1 %}正确{% elif q.status == 2 %}错误 (1){% else %}横杠{% endif %}.svg"
                                              style="height: 20px"></div>
                                     <div style="padding: 8px 6px 8px 0px; float: left; width: 10%; height: 100%; background-color: white; display:flex;align-items: center;justify-content:center;">{{ q.no }}</div>
                                     <div style="padding: 8px 6px 8px 0px; float: left; width: 35%;height: 100%; background-color: white">

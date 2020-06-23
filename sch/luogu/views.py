@@ -342,12 +342,12 @@ def personalPage(request):
             offset = datetime.timedelta(days=-51*7)
             last_year = monday+offset
             one_day = datetime.timedelta(days=1)
+            sum = 0
             for i in range(52):
                 tmpls = {
                     "ls":[],
                     "offset": i*16
                 }
-                sum = 0
                 if i == 51:
                     for j in range(now.weekday()+1):
                         tmp = dict()
@@ -368,14 +368,15 @@ def personalPage(request):
                         tmp['date'] = last_year.__str__()
                         # tmp['num'] = random.randint(0, 35)
                         try:
-                            tmp['num'] = contributions.get(date=last_year).num
+                            a = contributions.get(date=last_year).num
+                            tmp['num'] = a
+                            sum += a
                         except:
                             tmp['num'] = 0
                         tmp['y'] = j*15
                         last_year += one_day
                         tmpls["ls"].append(tmp)
                 ls.append(tmpls)
-
             his = History.objects.filter(username=user).order_by("-date")
             date = request.GET.get('date')
             print(date)
@@ -394,5 +395,5 @@ def personalPage(request):
     return render(request, "luogu/error.html")
 
 
-# def blob(request):
-#     return render(request, "blob.html")
+def scratchpaper(request):
+    return render(request, "luogu/scratchpaper.html")

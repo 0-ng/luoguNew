@@ -1,4 +1,5 @@
 {% extends "luogu/makeTest.html" %}
+    {% load staticfiles %}
 {% block css %}
     <style type="text/css">
         body {
@@ -155,7 +156,7 @@
         $(function () {
             var timu = editormd("question-editor", {
                 {#height: 10%,#}
-                path: '../static/makeNews/lib/',
+                path: "{% static 'luogu/makeNews/lib/' %}",
                 codeFold: true,
                 saveHTMLToTextarea: true,    // 保存 HTML 到 Textarea
                 searchReplace: true,
@@ -176,7 +177,7 @@
             });
             var daan = editormd("answer-editor", {
                 {#height: 250,#}
-                path: '../static/makeNews/lib/',
+                path: "{% static 'luogu/makeNews/lib/' %}",
                 codeFold: true,
                 saveHTMLToTextarea: true,    // 保存 HTML 到 Textarea
                 searchReplace: true,

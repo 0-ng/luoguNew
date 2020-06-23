@@ -1,5 +1,5 @@
 {% extends "luogu/base.html" %}
-
+{% load staticfiles %}
 {% block main %}
         <main>
             <div style="margin-bottom: 32px">
@@ -23,28 +23,29 @@
                                             <div class="carousel-inner" role="listbox">
                                                 <!-- 必须有一个item加上active-->
                                                 <div class="item active">
-                                                    <img alt="" src="/static/image/demo1.jpg">
+                                                    <img alt="" src="{% static 'luogu/image/demo1.jpg' %}">
+
                                                     <div class="carousel-caption">
                                                         <h3>文字一</h3>
                                                         <p>文字二</p>
                                                     </div>
                                                 </div>
                                                 <div class="item">
-                                                    <img alt="" src="/static/image/demo1.jpg">
+                                                    <img alt="" src="{% static 'luogu/image/demo1.jpg' %}">
                                                     <div class="carousel-caption">
                                                         <h3>文字er</h3>
                                                         <p>文字二</p>
                                                     </div>
                                                 </div>
                                                 <div class="item">
-                                                    <img alt="" src="/static/image/demo1.jpg">
+                                                    <img alt="" src="{% static 'luogu/image/demo1.jpg' %}">
                                                     <div class="carousel-caption">
                                                         <h3>文字er</h3>
                                                         <p>文字三</p>
                                                     </div>
                                                 </div>
                                                 <div class="item">
-                                                    <img alt="" src="/static/image/demo1.jpg">
+                                                    <img alt="" src="{% static 'luogu/image/demo1.jpg' %}">
                                                     <div class="carousel-caption">
                                                         <h3>文字er</h3>
                                                         <p>文字四</p>
@@ -70,7 +71,8 @@
                                         <!-- 设置面板样式一End -->
                                     </div>
                                     <div style="width: 33.333333333%;padding: 0px 10px;float: left">
-                                        <img alt="" src="/static/image/demo4.jpg">
+                                        <img alt="" src="{% static 'luogu/image/demo4.jpg' %}">
+
                                     </div>
                                 </div>
                             </div>
@@ -107,13 +109,14 @@
                             <div style="margin-bottom: 15px;background-color: rgba(255,255,255,.7);">
                                 <div style="padding: 15px;margin: 0px 10px;overflow: hidden;">
                                     <div style="width: 33.333333333%;padding: 0px 10px;float: left;">
-                                        <img src="/static/image/demo1_1.jpg">
+                                        <img src="{% static 'luogu/image/demo1_1.jpg' %}">
+
                                     </div>
                                     <div style="width: 33.333333333%;padding: 0px 10px;float: left;">
-                                        <img src="/static/image/demo1_2.jpg">
+                                        <img src="{% static 'luogu/image/demo1_2.jpg' %}">
                                     </div>
                                     <div style="width: 33.333333333%;padding: 0px 10px;float: left;">
-                                        <img src="/static/image/demo1_3.jpg">
+                                        <img src="{% static 'luogu/image/demo1_3.jpg' %}">
                                     </div>
                                 </div>
                             </div>
