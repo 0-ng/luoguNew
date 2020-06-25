@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+    {% load staticfiles %}
+	<meta charset="UTF-8">
+	<title>画图板</title>
+	<script src="{% static 'luogu/js/scratchpaper_jquery.js' %}"></script>
+	<script src="{% static 'luogu/js/scratchpaper_jquery.bigcolorpicker.js' %}"></script>
+	<script src="{% static 'luogu/js/scratchpaper_draw.js' %}"></script>
+	<script src="{% static 'luogu/js/scratchpaper_storage.js' %}"></script>
+	<script src="{% static 'luogu/js/scratchpaper_main.js' %}"></script>
+	<link rel="shortcut icon" href="http://littlewhitechen.github.io/img/icon/litIcon.ico">
+
+	<link rel="stylesheet" href="{% static 'luogu/css/scratchpaper_canvas.css' %}" type="text/css" />
+	<link rel="stylesheet" href="{% static 'luogu/css/scratchpaper_jquery.bigcolorpicker.css' %}" type="text/css" />
+
+
+
+    <link href="{% static 'luogu/css/common.css' %}" rel="stylesheet">
+    <link href="{% static 'luogu/css/index.css' %}" rel="stylesheet">
+{#    <link href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" rel="stylesheet">#}
+{#     <script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>#}
+    <!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。这个牛逼 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"></script>
+{##}
+    <link rel="stylesheet" href="{% static 'luogu/makeNews/css/editormd.css' %}"/>
+{#    <script src="https://cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>#}
+    <script src="{% static 'luogu/makeNews/editormd.min.js' %}"></script>
+
+    <!--引入样式文件-->
+{#    <link rel="stylesheet" href="{% static 'luogu/makeNews/examples/css/style.css' %}" />#}
+    <link rel="stylesheet" href="{% static 'luogu/makeNews/css/editormd.preview.css' %}" />
+
+    <!--引入js文件-->
+{#    <script src="{% static 'luogu/makeNews/examples/js/jquery.min.js' %}"></script>#}
+    <script src="{% static 'luogu/makeNews/lib/marked.min.js' %}"></script>
+    <script src="{% static 'luogu/makeNews/lib/prettify.min.js' %}"></script>
+    <script src="{% static 'luogu/makeNews/lib/raphael.min.js' %}"></script>
+    <script src="{% static 'luogu/makeNews/lib/underscore.min.js' %}"></script>
+    <script src="{% static 'luogu/makeNews/lib/sequence-diagram.min.js' %}"></script>
+    <script src="{% static 'luogu/makeNews/lib/flowchart.min.js' %}"></script>
+    <script src="{% static 'luogu/makeNews/lib/jquery.flowchart.min.js' %}"></script>
+    <script src="{% static 'luogu/makeNews/editormd.js' %}"></script>
+</head>
+<body>
+{#<div style="height: 80%;">#}
+    <div id="draw">
+            <div id="logo" style="background: url({% static 'luogu/image/home.png' %}) no-repeat left 2px;">多功能绘画板</div>
+
+            <ul class="draw_controller cf">
+                <li class="normal pencil" title="铅笔" style="background-image: url({% static 'luogu/image/draw.png' %})"></li>
+                <li class="normal handwriting" title="涂鸦" style="background-image: url({% static 'luogu/image/draw.png' %})"></li>
+                <li class="normal line showLine" title="线条大小" style="background-image: url({% static 'luogu/image/draw.png' %})"></li>
+                <li class="normal showColor" id="chooseColor" title="选择颜色" style="background-image: url({% static 'luogu/image/draw.png' %})"></li>
+                <li class="normal rubber" title="橡皮擦" style="background-image: url({% static 'luogu/image/draw.png' %})"></li>
+
+                <span>|</span>
+
+                <li class="normal drawLine" title="画直线" style="background-image: url({% static 'luogu/image/draw.png' %})"></li>
+                <li class="normal square" title="方形" style="background-image: url({% static 'luogu/image/draw.png' %})"></li>
+                <li class="normal circle" title="圆" style="background-image: url({% static 'luogu/image/draw.png' %})"></li>
+                <li class="normal fill" title="填充前景" style="background-image: url({% static 'luogu/image/draw.png' %})"></li>
+
+                <span>|</span>
+
+                <li class="normal cancel" title="撤销上一个操作" style="background-image: url({% static 'luogu/image/draw.png' %})"></li>
+                <li class="normal next" title="重做上一个操作" style="background-image: url({% static 'luogu/image/draw.png' %})"></li>
+                <li class="normal clearContext" title="清屏" style="background-image: url({% static 'luogu/image/draw.png' %})"></li>
+{#                <li class="normal save" title="保存" style="background-image: url({% static 'luogu/image/draw.png' %})"></li>#}
+                <li class="normal downloadImage" title="下载" style="background-image: url({% static 'luogu/image/draw.png' %})"><a href="#" download="picture.png"  id="downloadImage_a"></a></li>
+            </ul>
+
+            <div class="canvas_container" style="background: url({% static 'luogu/image/background.png' %}) no-repeat ">
+                <canvas id="canvas" style="cursor: url({% static 'luogu/image/cursor.gif' %}) 2 2,crosshair;">
+                    浏览器不支持哦，亲
+                </canvas>
+
+                <canvas id="canvas_bak"></canvas>
+            </div>
+            <p class="tip">小提示：可以拖拽传入图片编辑哦~</p>
+
+            <div id="line_size"  class="line_size normal">
+                <ul>
+                    <!-- <li><button data-value="0.5" class="small"><span style="width: 1px; height: 1px;"></span></button></li> -->
+                    <li><button data-value="1" class="small"><span style="width: 2px; height: 2px;"></span></button></li>
+                    <!-- <li><button data-value="2" class="small"><span style="width: 3px; height: 3px;"></span></button></li> -->
+                    <li><button data-value="3" class="small selected"><span style="width: 4px; height: 4px;"></span></button></li>
+                    <!-- <li><button data-value="4"><span style="width: 6px; height: 6px;"></span></button></li> -->
+                    <li><button data-value="5"><span style="width: 8px; height: 8px;"></span></button></li>
+                    <li><button data-value="7"><span style="width: 10px; height: 10px;"></span></button></li>
+                    <!-- <li><button data-value="9"><span style="width: 12px; height: 12px;"></span></button></li> -->
+                    <!-- <li><button data-value="16"><span style="width: 16px; height: 16px;"></span></button></li> -->
+                    <!-- <li><button data-value="32" class="large"><span style="width: 28px; height: 28px;"></span></button></li> -->
+                </ul>
+            </div>
+    </div>
+{#    <div style="height: 100%;float: left; width: 50%">#}
+{#        <div id="showHistory" class="cf" style="float: none">#}
+{#            <h2>绘画保存记录</h2>#}
+{#        </div>#}
+{#    </div>#}
+{#</div>#}
+
+<div style="height: 20%">
+
+    <div id="question-editor" style="min-height: 300px">
+    <textarea id="question" style="display:none;">##公式
+#### 使用KaTex编写公式
+[KaTex怎么写?](https://katex.org/docs/api.html)</textarea>
+    </div>
+    <script type="text/javascript">
+        $(function () {
+            var timu = editormd("question-editor", {
+                height: 50,
+                width: 960,
+                path: "{% static 'luogu/makeNews/lib/' %}",
+                codeFold: true,
+                saveHTMLToTextarea: true,    // 保存 HTML 到 Textarea
+                searchReplace: true,
+                htmlDecode: "style,script,iframe|on*",            // 开启 HTML 标签解析，为了安全性，默认不开启
+                toolbar: false,             //关闭工具栏
+                emoji: true,
+                taskList: true,
+                tocm: true,         // Using [TOCM]
+                tex: true,                   // 开启科学公式TeX语言支持，默认关闭
+                flowChart: true,             // 开启流程图支持，默认关闭
+                sequenceDiagram: true,       // 开启时序/序列图支持，默认关闭,
+                imageUpload: true,
+                imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+                imageUploadURL: "./php/upload.php",
+                onload: function () {
+                    console.log('onload', this);
+                }
+            });
+        });
+
+    </script>
+</div>
+</body>
+</html>

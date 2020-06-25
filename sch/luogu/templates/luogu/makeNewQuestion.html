@@ -131,27 +131,27 @@
     </div>
     <div id="question-editor" style="width: 80%;min-height: 300px">
     <textarea id="question" style="display:none;">##题目
-#### 使用KeTex编写题目
+#### 使用KaTex编写题目
 [KaTex怎么写?](https://katex.org/docs/api.html)</textarea>
     </div>
     <div id="answer-editor" style="width: 80%;min-height: 300px">
     <textarea id="answer"; style="display:none;">##答案
-#### 使用KeTex编写答案</textarea>
+#### 使用KaTex编写答案</textarea>
     </div>
     </div>
 {% endblock %}
 
 {% block js %}
-                <script type="text/javascript">
-                    document.getElementById('zhezhao').style.display="none";
-                    function dianwo(){
-                        document.getElementById('zhezhao').style.display="";
-                        document.getElementById('zhezhao').style.zIndex=51;
-                    }
-                    function hidder(){
-                        document.getElementById('zhezhao').style.display="none";
-                    }
-                </script>
+    <script type="text/javascript">
+        document.getElementById('zhezhao').style.display="none";
+        function dianwo(){
+            document.getElementById('zhezhao').style.display="";
+            document.getElementById('zhezhao').style.zIndex=51;
+        }
+        function hidder(){
+            document.getElementById('zhezhao').style.display="none";
+        }
+    </script>
     <script type="text/javascript">
         $(function () {
             var timu = editormd("question-editor", {
