@@ -5,8 +5,6 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
 from .models import User, Question, myUser, Status, Contributions, Tag, History
 from django.contrib import auth
-from django.views.decorators.csrf import csrf_exempt
-from django.forms.models import model_to_dict
 from fuzzywuzzy import fuzz
 import datetime
 # Create your views here.
@@ -22,7 +20,40 @@ def acc_login(request):
 
 
 def index(request):
-    return render(request, r"luogu/tmp.html")
+    '''猜你在做'''
+    choices = {
+        '函数与极限': 1,
+        '导数与微分': 2,
+        '微分中值定理与导数的应用': 3,
+        '不定积分': 4,
+        '定积分': 5,
+        '微分方程': 6,
+        '向量代数与空间解析几何': 7,
+        '多元函数微分法及其应用': 8,
+        '重积分': 9,
+        '曲线积分与曲面积分': 10,
+        '无穷级数': 11
+    }
+    tags = Tag.objects.all()
+    ls = list(set([i.name for i in tags]))
+    tagls = []
+    num = min(len(ls), 4)
+    print("NUM", num)
+    for i in range(num):
+        if i%2 == 0:
+            tagls.append([])
+        tagls[-1].append({"name": ls[i], "num": choices[ls[i]]})
+
+
+    '''推荐'''
+
+
+    '''实时'''
+    his = History.objects.all().order_by("-date")
+    print(his)
+    for i in his:
+        print(i.date)
+    return render(request, r"luogu/tmp.html", {'tagls': tagls, 'his': his})
     return render(request, "luogu/error.html")
 
 
@@ -151,7 +182,8 @@ def hub(request):
         ret[i.no]["status"] = 0
     attemped = Status.objects.filter(username=request.user.username)
     for i in attemped:
-        ret[i.no]["status"] = i.status
+        if i.no in ret.keys():
+            ret[i.no]["status"] = i.status
     return render(request, "luogu/hub.html", {"questions": ret, "order": order, "orderBy": orderBy})
     return render(request, "luogu/error.html")
 
