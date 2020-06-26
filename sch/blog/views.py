@@ -7,14 +7,16 @@ import markdown
 
 #首页
 def index(request):
+    print(1)
     allcategory = Category.objects.all()
-    banner = Banner.objects.filter(is_active=True)[0:4]#查询所有幻灯图数据，并进行切片
+    banner = Banner.objects.filter(is_active=True)#查询所有幻灯图数据，并进行切片
     tui = Article.objects.filter(tui__id=1)[:3]#查询推荐位ID为1的文章
     allarticle = Article.objects.all().order_by('-id')[0:10]
     #hot = Article.objects.all().order_by('?')[:10]#随机推荐
     #hot = Article.objects.filter(tui__id=3)[:10]   #通过推荐进行查询，以推荐ID是3为例
-    hot = Article.objects.all().order_by('views')[:10]#通过浏览数进行排序
+    hot = Article.objects.all().order_by('-views')[:10]#通过浏览数进行排序
     remen = Article.objects.filter(tui__id=2)[:6]
+    print(remen)
     tags = Tag.objects.all()
     link = Link.objects.all()
     context = {
@@ -51,16 +53,34 @@ def list(request, lid):
 
 
 #内容页
-def show(request,sid):
+def show(request, sid):
+    print("???")
+    print(sid)
+    print("???")
     show = Article.objects.get(id=sid)#查询指定ID的文章
+    print(2)
     allcategory = Category.objects.all()#导航上的分类
+    print(3)
     tags = Tag.objects.all()#右侧所有标签
+    print(3)
     remen = Article.objects.filter(tui__id=2)[:6]#右侧热门推荐
+    print(5)
     hot = Article.objects.all().order_by('?')[:10]#内容下面的您可能感兴趣的文章，随机推荐
+    print(5)
     previous_blog = Article.objects.filter(created_time__gt=show.created_time,category=show.category.id).first()
+    print(5)
     netx_blog = Article.objects.filter(created_time__lt=show.created_time,category=show.category.id).last()
     show.views = show.views + 1
     show.save()
+
+
+    show.body = markdown.markdown(show.body,
+                                     extensions=[
+                                         'markdown.extensions.extra',
+                                         'markdown.extensions.codehilite',
+                                         'markdown.extensions.toc',
+                                     ])
+
     return render(request, 'blog/show.html', locals())
     pass
 

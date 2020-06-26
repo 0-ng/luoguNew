@@ -48,7 +48,7 @@ class Article(models.Model):
     # 使用外键关联分类表与分类是一对多关系
     tags = models.ManyToManyField(Tag, verbose_name='标签', blank=True)
     # 使用外键关联标签表与标签是多对多关系
-    img = models.ImageField(upload_to='article_img/%Y/%m/%d/', verbose_name='文章图片', blank=True, null=True)
+    img = models.ImageField(upload_to='blog_img/%Y/%m/%d/', verbose_name='文章图片', blank=True, null=True)
     # body = models.TextField()
     body = MDTextField()
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='作者')

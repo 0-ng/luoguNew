@@ -1,3 +1,5 @@
+{% load staticfiles %}
+
 <section class="widget post-right-item">
     <h4 class="post-right-title">热门推荐</h4>
     <ul class="post-hot clearfix">
@@ -7,7 +9,7 @@
 
                 <a href="/blog/show-{{ k.id }}.html"
                    title="{{ k.title }}"><img
-                        src="{% url 'index' %}media/{{ k.img }}"
+                        src="{% static 'blog' %}/{{ k.img }}"
                         alt="{{ k.title }}" class="wp-post-image" width="120"
                         height="80"/></a>
             </div>
@@ -18,7 +20,7 @@
     </ul>
 </section>
 
-</section>
+
 <section class="widget post-right-item"><h4 class="post-right-title">所有标签</h4>
     <div class="tags">
         {% for tag in tags %}
@@ -26,7 +28,6 @@
         {% endfor %}
     </div>
 </section>
-</section><!-- /关注我们 -->
 {#<div class="post-right-item">#}
 {#    <h4 class="post-right-title">关注我们</h4>#}
 {#    <div class="wid-about">#}

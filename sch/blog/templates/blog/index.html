@@ -1,4 +1,5 @@
 ﻿{% extends "blog/base.html" %}
+{% load staticfiles %}
 {% block content %}
     <div id="main-container" class="container clearfix">
         <section class="post-left">
@@ -11,7 +12,7 @@
                             {% for b in banner %}
                             <li class="slide fix-width">
                                 <a href="{{ b.link_url }}" title="{{ b.text_info }}">
-                                    <img src="/blog/media/{{ b.img }}"
+                                    <img src="{% static 'blog' %}/{{ b.img }}"
                                          alt="{{ b.text_info }}"
                                          class="wp-post-image" width="370" height="290"/></a>
                                 <span class="text ani-left"><strong>{{ b.text_info }}</strong></span>
@@ -50,7 +51,7 @@
                         <div class="col-md-4">
                             <div class="thumbnail">
                                 <a href="/blog/show-{{ a.id }}.html" title="{{ a.title }}">
-                                    <img src="media/{{ a.img }}"
+                                    <img src="{% static 'blog' %}/{{ a.img }}"
                                          alt="{{ a.title }}" class="wp-post-image" width="240" height="160"/></a>
                             </div>
                         </div>
@@ -76,27 +77,27 @@
         <!-- /post-left -->
         <!-- /post-right -->
         <aside class="post-right hidden-xs">
-            </section>
+{#            </section>#}
             <section class="widget post-right-item">
                 <h4 class="post-right-title">热门文章排行</h4>
                 <ol class="hot-list">
                 {% for h in hot %}
-                    <li><a href="{% url 'index' %}show-{{ h.id }}.html" title="{{ h.title }}">{{ h.title }}</a></li>
+                    <li><a href="/blog/show-{{ h.id }}.html" title="{{ h.title }}">{{ h.title }}</a></li>
                 {% endfor %}
                 </ol>
             </section>
-            </section>
-            </section>
+{#            </section>#}
+{#            </section>#}
             {% include 'blog/right.html' %}
 
         </aside>
-        <div class="FriendLink hidden-xs clearfix">
-            <div class="title"><h3>友情链接：</h3></div>
-            <ul class="clears">
-                {% for l in link %}
-                    <li><a href="{{ l.linkurl }}" target="_blank">{{ l.name }}</a></li>
-                {% endfor %}
-            </ul>
-        </div>
+{#        <div class="FriendLink hidden-xs clearfix">#}
+{#            <div class="title"><h3>友情链接：</h3></div>#}
+{#            <ul class="clears">#}
+{#                {% for l in link %}#}
+{#                    <li><a href="{{ l.linkurl }}" target="_blank">{{ l.name }}</a></li>#}
+{#                {% endfor %}#}
+{#            </ul>#}
+{#        </div>#}
     </div>
 {% endblock %}

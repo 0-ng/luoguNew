@@ -38,7 +38,6 @@ def index(request):
     ls = list(set([i.name for i in tags]))
     tagls = []
     num = min(len(ls), 4)
-    print("NUM", num)
     for i in range(num):
         if i%2 == 0:
             tagls.append([])
@@ -46,14 +45,27 @@ def index(request):
 
 
     '''推荐'''
-
+    username = request.user.username
+    recommend = None
+    if username:
+        # print(username)
+        pre = History.objects.filter(username=username).latest("date").question.tag.all()
+        rd = random.choice(pre)
+        q = Question.objects.filter(tag__name=rd)
+        # print(q)
+        for i in range(5):
+            recommend = question = random.choice(q)
+            status = Status.objects.filter(username=username, no=question.no)
+            if status and status[0].status == 1:
+                continue
+            recommend = question
+            break
+    # print(recommend)
 
     '''实时'''
     his = History.objects.all().order_by("-date")
-    print(his)
-    for i in his:
-        print(i.date)
-    return render(request, r"luogu/tmp.html", {'tagls': tagls, 'his': his})
+    his = his[:min(15, his.count())]
+    return render(request, r"luogu/tmp.html", {'tagls': tagls, 'recommend': recommend, 'his': his})
     return render(request, "luogu/error.html")
 
 
@@ -158,7 +170,7 @@ def hub(request):
             '无穷级数'
         ]
         print("tag ", select_tag)
-        ls = ls.filter(tag__name__contains=choices[int(select_tag)])
+        ls = ls.filter(tag__name=choices[int(select_tag)])
         print("fill ok")
 
     no = request.GET.get('no')

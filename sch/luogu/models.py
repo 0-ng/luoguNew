@@ -50,7 +50,6 @@ class Question(models.Model):
     def __str__(self):
         return self.no
 
-
     class Meta:
         db_table="Question"
 
@@ -83,3 +82,6 @@ class History(models.Model):
     class Meta:
         db_table="History"
         get_latest_by = "date"
+    def __str__(self):
+        return self.username + " " + self.question.no
+
