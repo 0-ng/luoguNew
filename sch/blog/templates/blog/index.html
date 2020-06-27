@@ -51,8 +51,10 @@
                         <div class="col-md-4">
                             <div class="thumbnail">
                                 <a href="/blog/show-{{ a.id }}.html" title="{{ a.title }}">
+                                    {% if a.img %}
                                     <img src="{% static 'blog' %}/{{ a.img }}"
                                          alt="{{ a.title }}" class="wp-post-image" width="240" height="160"/></a>
+                                    {% endif %}
                             </div>
                         </div>
                         <div class="col-md-8">

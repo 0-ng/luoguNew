@@ -55,7 +55,7 @@ class Article(models.Model):
     """
     文章作者，这里通过ForeignKey把文章和User关联起来
     """
-    views = models.PositiveIntegerField('阅读量', default=0)
+    views = models.PositiveIntegerField('阅读量', blank=True, default=0)
     tui = models.ForeignKey(Tui, on_delete=models.DO_NOTHING, verbose_name='推荐位', blank=True, null=True)
     created_time = models.DateTimeField('发布时间', auto_now_add=True)
     modified_time = models.DateTimeField('修改时间', auto_now=True)

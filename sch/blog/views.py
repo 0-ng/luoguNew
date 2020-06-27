@@ -1,3 +1,6 @@
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404
 from .models import Article, Category, Banner, Tag, Link
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -67,9 +70,9 @@ def show(request, sid):
     print(5)
     hot = Article.objects.all().order_by('?')[:10]#内容下面的您可能感兴趣的文章，随机推荐
     print(5)
-    previous_blog = Article.objects.filter(created_time__gt=show.created_time,category=show.category.id).first()
+    # previous_blog = Article.objects.filter(created_time__gt=show.created_time,category=show.category.id).first()
     print(5)
-    netx_blog = Article.objects.filter(created_time__lt=show.created_time,category=show.category.id).last()
+    # netx_blog = Article.objects.filter(created_time__lt=show.created_time,category=show.category.id).last()
     show.views = show.views + 1
     show.save()
 
@@ -127,13 +130,54 @@ def about(request):
     return render(request, 'blog/page.html',locals())
 
 
+@login_required
 def write(request):
     # article = get_object_or_404(Article)
-    article = Article.objects.get()
-    article.body = markdown.markdown(article.body,
-                                     extensions=[
-                                         'markdown.extensions.extra',
-                                         'markdown.extensions.codehilite',
-                                         'markdown.extensions.toc',
-                                     ])
-    return render(request, 'blog/write.html', context={'article': article})
+    # article = Article.objects.get()
+    # article.body = markdown.markdown(article.body,
+    #                                  extensions=[
+    #                                      'markdown.extensions.extra',
+    #                                      'markdown.extensions.codehilite',
+    #                                      'markdown.extensions.toc',
+    #                                  ])
+    if request.method == 'POST':
+        try:
+            content = request.POST.get('content')
+            title = request.POST.get('title')
+
+            if content.split() == [] or title.split() == []:
+                return JsonResponse({"result": False})
+
+
+            user = User.objects.get(username=request.user)
+            A = Article(title=title, body=content, user=user)
+            # print(1)
+            A.save()
+
+            print(content)
+            print(title)
+            return JsonResponse({"result": True})
+        except:
+            return render(request, 'luogu/error.html')
+    else:
+        return render(request, 'blog/write.html')
+
+
+def personal(request, name):
+    print(name)
+    benren = True if request.user == name else False
+    try:
+        user = User.objects.get(username=name)
+        ls = Article.objects.filter(user=user)
+        # for i in ls:
+        #     i.body = markdown.markdown(i.body,
+        #                                  extensions=[
+        #                                      'markdown.extensions.extra',
+        #                                      'markdown.extensions.codehilite',
+        #                                      'markdown.extensions.toc',
+        #                                  ])
+        return render(request, "blog/personalPage.html",
+                      {"user": user, "a": ls, 'benren': benren})
+    except:
+        pass
+    return render(request, 'luogu/error.html')

@@ -1,5 +1,10 @@
 {% extends "luogu/base.html" %}
 {% load staticfiles %}
+{% block js %}
+    "{% static "luogu/" %}
+<script  src="{% static 'luogu/js/' %}calendar_index.js"></script>
+<link rel="stylesheet" href="{% static 'luogu/css/' %}calendar_style.css">
+{% endblock %}
 {% block main %}
     <main>
         <div style="margin: 2% 15%;margin-bottom: 1%">
@@ -18,10 +23,9 @@
                             </ol>
                             <!-- 图片列表,如需添加文字说明，在item里加上carousel-caption就可以 -->
                             <div class="carousel-inner" role="listbox">
-                                <!-- 必须有一个item加上active-->
+                                <!-- 必须有 一个item加上active-->
                                 <div class="item active">
                                     <img alt="" src="{% static 'luogu/image/ban/1.png' %}">
-
                                     <div class="carousel-caption">
 {#                                        <h3>文字一</h3>#}
 {#                                        <p>文字二</p>#}
@@ -61,8 +65,22 @@
                         <!-- 设置面板样式一End -->
                     </div>
                     <div style="width: 33.333333333%;padding: 0px 10px;float: left">
-                        <img alt="" src="{% static 'luogu/image/demo4.jpg' %}">
-
+{#                        <img alt="" src="{% static 'luogu/image/demo4.jpg' %}">#}
+<div class="calendar">
+	<div class="header">
+		<a data-action="prev-month" href="javascript:void(0)" title="Previous Month"><i></i></a>
+		<div class="text" data-render="month-year"></div>
+		<a data-action="next-month" href="javascript:void(0)" title="Next Month"><i></i></a>
+	</div>
+	<div class="months" data-flow="left">
+		<div class="month month-a">
+			<div class="render render-a"></div>
+		</div>
+		<div class="month month-b">
+			<div class="render render-b"></div>
+		</div>
+	</div>
+</div>
                     </div>
                 </div>
             </div>
@@ -147,10 +165,12 @@
                     <div style="width: 100%;margin-left: 16px; padding: 24px;position: relative;border-bottom: 1px solid #e8e8e8">
                         <div style="width: 10%;float: left">&emsp;</div>
                         <div style="width: 10%;float: left">
+                            <a href="/user/{{ h.username }}">
                             <img id="headimg"
                                  style=" width:60%; border-radius: 50%; border: 1px solid #979797"
                                  src="{% static "luogu/" %}image/personalHead/{{ h.username }}.jpg"
                                  alt="{{ h.username }}">
+                            </a>
                         </div>
                         <div style="width: 20%;float: left; margin-top: 1.5%">
                             <h4 style="font-weight: bold; color: green">{{ h.username }}</h4>
@@ -193,10 +213,6 @@
 
 
 
-
-
-{% endblock %}
-{% block js %}
 
 
 {% endblock %}

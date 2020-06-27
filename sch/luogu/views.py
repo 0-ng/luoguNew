@@ -65,14 +65,16 @@ def index(request):
     '''实时'''
     his = History.objects.all().order_by("-date")
     his = his[:min(15, his.count())]
+    print(his)
     return render(request, r"luogu/tmp.html", {'tagls': tagls, 'recommend': recommend, 'his': his})
     return render(request, "luogu/error.html")
 
 
 def logout(request):
     auth.logout(request)
-    return render(request, "luogu/tmp.html")
-    return render(request, "luogu/error.html")
+    return index(request)
+    # return render(request, "luogu/tmp.html")
+    # return render(request, "luogu/error.html")
 
 
 
@@ -364,11 +366,12 @@ def makeNews(request):
     return render(request, "luogu/error.html")
 
 
-@login_required
-def personalPage(request):
+def personalPage(request, name):
     if request.method == "POST":
+        if request.user.username != name:
+            return JsonResponse({"result": False})
         img = request.FILES.get('img_file')
-        path = request.user.username
+        path = name
         url = "luogu/static/image/personalHead/" + path + ".jpg"
 
         with open(url, 'wb') as f:
@@ -376,9 +379,9 @@ def personalPage(request):
                 f.write(chunk)
         return JsonResponse({"result": True})
     try:
-        user = User.objects.get(username=request.path.split('/')[2])
+        benren = True if request.user.username == name else False
+        user = User.objects.get(username=name)
         if user:
-            print(1)
             contributions = Contributions.objects.filter(username=user.username)
             ls = []
             now = datetime.datetime.now().date()
@@ -396,7 +399,9 @@ def personalPage(request):
                     for j in range(now.weekday()+1):
                         tmp = dict()
                         tmp['date'] = last_year.__str__()
-                        # tmp['num'] = random.randint(0, 35)
+                        # a = random.randint(0, 35)
+                        # tmp['num'] = a
+                        # sum += a
                         try:
                             a = contributions.get(date=last_year).num
                             tmp['num'] = a
@@ -410,7 +415,9 @@ def personalPage(request):
                     for j in range(7):
                         tmp = dict()
                         tmp['date'] = last_year.__str__()
-                        # tmp['num'] = random.randint(0, 35)
+                        # a = random.randint(0, 35)
+                        # tmp['num'] = a
+                        # sum += a
                         try:
                             a = contributions.get(date=last_year).num
                             tmp['num'] = a
@@ -431,7 +438,7 @@ def personalPage(request):
             else:
                 his = his[:min(10, his.count())]
 
-            return render(request, "luogu/personalPage.html", {"user": user, "a": ls, "his": his, "sum": sum})
+            return render(request, "luogu/personalPage.html", {"username": name, "user": user, "a": ls, "his": his, "sum": sum, 'benren': benren})
         else:
             return render(request, "luogu/error.html")
     except:

@@ -14,6 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.conf.urls import url
+from django.urls import path
 from . import views as luogu
 from django.contrib.auth.views import LoginView
 
@@ -35,7 +36,7 @@ urlpatterns = [
     url('feedback$', luogu.feedback),
     url(r'^hub/M[0-9]{4}', luogu.detail),
     url('^$', luogu.index),
-    url('user/', luogu.personalPage),
+    path('user/<name>/', luogu.personalPage),
 
     url(r'^accounts/login/', LoginView.as_view(template_name="/login/")),
     url(r'^test/$', luogu.test),
