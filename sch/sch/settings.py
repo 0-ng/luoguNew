@@ -93,9 +93,11 @@ DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.mysql',
 #         'NAME': 'luogu',
-#         'USER': 'luogu',
-#         'PASSWORD': '123qwe',
-#         'HOST': '127.0.0.1',
+#         'USER': 'root',
+#         'PASSWORD': '',
+#         # 'PASSWORD': '123qwe',
+#         'HOST': 'localhost',
+#         # 'HOST': '127.0.0.1',
 #         'PORT': '',
 #     }
 # }

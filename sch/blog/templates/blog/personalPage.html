@@ -33,7 +33,7 @@
                         <div style="border: 8px; border-color: lightgray; display: flex!important;padding-top: 4px!important;margin-right: 16px!important;margin-left: 16px!important;height: 100%!important;overflow: hidden!important;flex-direction: column!important;">
                         {% if a %}
                             {% for blog in a %}
-                                <div style="padding: 16px 24px 12px 24px; border-bottom: 1px solid #f0f2f5">
+                                <div class="blog" data-articleid="{{ blog.id }}" style="position: relative; padding: 16px 24px 12px 24px; border-bottom: 1px solid #f0f2f5">
                                     <h4><a href="/blog/show-{{ blog.id }}.html" style="color: #222226">{{ blog.title }}</a></h4>
                                     <p style="margin-top: 6px">
                                         <a href="/blog/show-{{ blog.id }}.html" style="color: #999aaa">{{ blog.body|truncatechars:"160"|safe }}</a>
@@ -44,6 +44,12 @@
                                             <span>views:{{ blog.views }}</span>
                                         </p>
                                     </div>
+                                    {% if benren %}
+                                        <div style="position: absolute; bottom: 20px; right: 20px;">
+                                            <button class="btn-delete" style="color: #e33e33; border: none; background-color:transparent;display: none">删除</button>
+                                        </div>
+                                    {% endif %}
+
                                 </div>
                             {% endfor %}
                         {% else %}
@@ -72,10 +78,66 @@
     </main>
 
 {% endblock %}
+
+{% block global %}
+<div class="mask" style="display: none;position: fixed;width: 100%;height: 100%;background-color:rgba(211,211,211,0.7);"></div>
+<div class="clearfix" style="display: none; padding: 24px;position: fixed;top: 50%;left: 50%;border: 1px solid #ddd;background-color:#fff;margin-left: -200px;margin-top: -72px;width: 400px;height: 154px">
+    <div style="margin-bottom: 16px">
+        <span class="float-left" style="font-size: 18px">提示</span>
+    </div>
+    <div style="font-size: 14px;color: #4f4f4f;min-height: 42px">
+        确定要删除当前文章?
+    </div>
+    <div class="float-right" style="float: right !important;">
+        <a id="cancel" style="cursor: pointer;color: #999;font-size: 12px;text-decoration: none;">取消</a>
+        <a id="confirm" style="cursor: pointer;margin-left: 12px; text-decoration: none;color: #c92027">确定</a>
+    </div>
+</div>
+{% endblock %}
+
+
 {% block js %}
     <script>
-        $(function () {
-            $("[data-toggle='popover']").popover();
+        var no=null;
+        $(".blog").hover(function () {
+            $(this).find('button').show();
+        }, function () {
+            $(this).find('button').hide();
         });
+        $(".btn-delete").click(function () {
+            console.log($(this).parents(".blog").data('articleid'));
+            no=$(this).parents(".blog").data('articleid');
+            $(".mask").show();
+            $(".clearfix").show();
+        })
+        $("#cancel").click(function () {
+            no=null;
+            $(".mask").hide();
+            $(".clearfix").hide();
+        })
+        $("#confirm").click(function () {
+            console.log(no);
+            $(".mask").hide();
+            $(".clearfix").hide();
+
+            $.ajaxSetup({
+                data:{
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                }
+            });
+
+            $.ajax({
+                url: "/blog/deleteArticle",
+                type: "post",
+                async: false,
+                data: {
+                    "id": no,
+                    csrfmiddlewaretoken: '{{ csrf_token  }}'
+                },
+                success: function (res) {
+                    window.location.reload(true);
+                }
+            })
+        })
     </script>
 {% endblock %}

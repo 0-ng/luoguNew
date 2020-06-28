@@ -20,54 +20,61 @@ def acc_login(request):
 
 
 def index(request):
-    '''猜你在做'''
-    choices = {
-        '函数与极限': 1,
-        '导数与微分': 2,
-        '微分中值定理与导数的应用': 3,
-        '不定积分': 4,
-        '定积分': 5,
-        '微分方程': 6,
-        '向量代数与空间解析几何': 7,
-        '多元函数微分法及其应用': 8,
-        '重积分': 9,
-        '曲线积分与曲面积分': 10,
-        '无穷级数': 11
-    }
-    tags = Tag.objects.all()
-    ls = list(set([i.name for i in tags]))
-    tagls = []
-    num = min(len(ls), 4)
-    for i in range(num):
-        if i%2 == 0:
-            tagls.append([])
-        tagls[-1].append({"name": ls[i], "num": choices[ls[i]]})
+    try:
+        '''猜你在做'''
+        choices = {
+            '函数与极限': 1,
+            '导数与微分': 2,
+            '微分中值定理与导数的应用': 3,
+            '不定积分': 4,
+            '定积分': 5,
+            '微分方程': 6,
+            '向量代数与空间解析几何': 7,
+            '多元函数微分法及其应用': 8,
+            '重积分': 9,
+            '曲线积分与曲面积分': 10,
+            '无穷级数': 11
+        }
+        tags = Tag.objects.all()
+        ls = list(set([i.name for i in tags]))
+        tagls = []
+        num = min(len(ls), 4)
+        for i in range(num):
+            if i%2 == 0:
+                tagls.append([])
+            tagls[-1].append({"name": ls[i], "num": choices[ls[i]]})
 
 
-    '''推荐'''
-    username = request.user.username
-    recommend = None
-    if username:
-        # print(username)
-        pre = History.objects.filter(username=username).latest("date").question.tag.all()
-        rd = random.choice(pre)
-        q = Question.objects.filter(tag__name=rd)
-        # print(q)
-        for i in range(5):
-            recommend = question = random.choice(q)
-            status = Status.objects.filter(username=username, no=question.no)
-            if status and status[0].status == 1:
-                continue
-            recommend = question
-            break
-    # print(recommend)
+        '''推荐'''
+        username = request.user.username
+        recommend = None
+        if username:
+            # print(username)
+            try:
+                pre = History.objects.filter(username=username)
+                if pre:
+                    pre = pre.latest("date").question.tag.all()
+                    rd = random.choice(pre)
+                    q = Question.objects.filter(tag__name=rd)
+                    # print(q)
+                    for i in range(5):
+                        recommend = question = random.choice(q)
+                        status = Status.objects.filter(username=username, no=question.no)
+                        if status and status[0].status == 1:
+                            continue
+                        recommend = question
+                        break
+            except:
+                pass
+        # print(recommend)
 
-    '''实时'''
-    his = History.objects.all().order_by("-date")
-    his = his[:min(15, his.count())]
-    print(his)
-    return render(request, r"luogu/tmp.html", {'tagls': tagls, 'recommend': recommend, 'his': his})
-    return render(request, "luogu/error.html")
+        '''实时'''
+        his = History.objects.all().order_by("-date")
+        his = his[:min(15, his.count())]
+        print(his)
+        return render(request, r"luogu/tmp.html", {'tagls': tagls, 'recommend': recommend, 'his': his})
+    except:
+        return render(request, "luogu/error.html")
 
 
 def logout(request):
@@ -320,14 +327,19 @@ def makeNews(request):
     answer = request.POST.get('answer')
     title = request.POST.get('title')
     tags = json.loads(request.POST.get('tags'))
+    print(question)
+    print(answer)
+    print(title)
+    print(tags)
     No = "%04d" % (Question.objects.count()+1)
     if question.split() == [] or answer.split() == [] or title.split() == []:
         return JsonResponse({"result": False})
-
+    print(1)
     try:
         Q = Question(subject=subject, no=subject+No, title=title, question=question, answer=answer)
         # print(1)
         Q.save()
+        print(2)
         choices = [
             "",
             '函数与极限',
@@ -343,23 +355,27 @@ def makeNews(request):
             '无穷级数'
         ]
         for i in tags:
+            print("i=", i)
             try:
                 tag = Tag.objects.get(name=choices[int(i)])
             except:
-                tag = Tag(name=choices[int(i)])
-                tag.save()
-            # print(tag.name)
-            # print("tag ok ")
+                print(choices[int(i)])
+                Tag.objects.create(name=choices[int(i)])
+                print("???")
+                tag = Tag.objects.get(name=choices[int(i)])
+                # tag.save()
+            print(tag.name)
+            print("tag ok ")
             Q.tag.add(tag)
-            # print("Q ok")
+            print("Q ok")
 
-        # print(2)
+        print(2)
     except Exception as err:
-        # print(3)
+        print(3)
         result = False
         message = str(err)
     else:
-        # print(4)
+        print(4)
         result = True
         message = "Register success"
     return JsonResponse({"result": result})

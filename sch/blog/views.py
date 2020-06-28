@@ -164,11 +164,10 @@ def write(request):
 
 
 def personal(request, name):
-    print(name)
-    benren = True if request.user == name else False
+    benren = True if request.user.username == name else False
     try:
         user = User.objects.get(username=name)
-        ls = Article.objects.filter(user=user)
+        ls = Article.objects.filter(user=user).order_by('-created_time')
         # for i in ls:
         #     i.body = markdown.markdown(i.body,
         #                                  extensions=[
@@ -181,3 +180,17 @@ def personal(request, name):
     except:
         pass
     return render(request, 'luogu/error.html')
+
+
+def deleteArticle(request):
+    if request.method == 'POST':
+        try:
+            id = request.POST.get('id')
+            if request.user != Article.objects.get(id=id).user:
+                print("false")
+                return JsonResponse({"result": False})
+            Article.objects.filter(id=id).delete()
+            print(id)
+            return JsonResponse({"result": True})
+        except:
+            return render(request, 'luogu/error.html')
