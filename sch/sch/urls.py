@@ -19,13 +19,17 @@ from django.urls import path, re_path, include
 from django.conf.urls import url
 from django.conf.urls.static import static
 from django.views.generic.base import RedirectView
+from jet.dashboard.dashboard_modules import google_analytics_views
 
 
 urlpatterns = [
-    url('admin/', admin.site.urls),
+    # url('admin/', admin.site.urls),
+    url(r'^jet/', include('jet.urls', 'jet')),  # Django JET URLS
+    url(r'^jet/dashboard/', include('jet.dashboard.urls', 'jet-dashboard')),
+    url(r'^admin/', admin.site.urls),
     path('', include('luogu.urls')),
-    path('blog/', include('blog.urls')),
-    url(r'^favicon.ico$', RedirectView.as_view(url=r'/static/favicon.ico')),
+    path('blog/', include('blog.urls')), # Django JET dashboard URLS
+    # url(r'^favicon.ico$', RedirectView.as_view(url=r'/static/favicon.ico')),
 
 
     # url('index$', luogu.index),

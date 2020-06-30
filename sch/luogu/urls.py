@@ -33,8 +33,10 @@ urlpatterns = [
     url('makeNews/submit$', luogu.makeNews),
     url(r'^scratchpaper/$', luogu.scratchpaper),
     url(r'^hub/$', luogu.hub),
+    path(r'detail/', luogu.detail),
     url('feedback$', luogu.feedback),
-    url(r'^hub/M[0-9]{4}', luogu.detail),
+    # url(r'^hub/M[0-9]{4}', luogu.detail),
+    path('hub/<hubno>', luogu.detail),
     url('^$', luogu.index),
     path('user/<name>/', luogu.personalPage),
 

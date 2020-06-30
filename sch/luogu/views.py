@@ -209,9 +209,25 @@ def hub(request):
     return render(request, "luogu/error.html")
 
 
-def detail(request):
+def detail(request, hubno=None):
     try:
-        ls = Question.objects.get(no=request.path.split('/')[-1])
+        goto = request.GET.get("goto")
+        if goto:
+            no = request.GET.get("no")
+            ls = Question.objects.get(no=no)
+            return render(request, "luogu/detail.html", {"question": ls})
+
+        gotorandom = request.GET.get("gotorandom")
+        if gotorandom:
+            ls = Question.objects.all()
+            ls = random.choice(ls)
+            return render(request, "luogu/detail.html", {"question": ls})
+    except:
+        return render(request, "luogu/error.html")
+
+    try:
+        # ls = Question.objects.get(no=request.path.split('/')[-1])
+        ls = Question.objects.get(no=hubno)
     except:
         return render(request, "luogu/error.html")
     return render(request, "luogu/detail.html", {"question": ls})

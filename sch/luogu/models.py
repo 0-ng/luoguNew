@@ -85,3 +85,18 @@ class History(models.Model):
     def __str__(self):
         return self.username + " " + self.question.no
 
+
+# JET_MODULE_GOOGLE_ANALYTICS_CLIENT_SECRETS_FILE = os.path.join(PROJECT_DIR, 'client_secrets.json')
+#
+# from django.utils.translation import ugettext_lazy as _
+# from jet.dashboard.dashboard import Dashboard, AppIndexDashboard
+# from jet.dashboard.dashboard_modules import google_analytics
+#
+#
+# class CustomIndexDashboard(Dashboard):
+#     columns = 3
+#
+#     def init_with_context(self, context):
+#        self.available_children.append(google_analytics.GoogleAnalyticsVisitorsTotals)
+#        self.available_children.append(google_analytics.GoogleAnalyticsVisitorsChart)
+#        self.available_children.append(google_analytics.GoogleAnalyticsPeriodVisitors)
