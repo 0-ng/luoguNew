@@ -29,47 +29,9 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     path('', include('luogu.urls')),
     path('blog/', include('blog.urls')), # Django JET dashboard URLS
-    # url(r'^favicon.ico$', RedirectView.as_view(url=r'/static/favicon.ico')),
+    url(r'^favicon.ico$', RedirectView.as_view(url=r'/static/favicon.ico')),
 
 
-    # url('index$', luogu.index),
-    # url('index.html$', luogu.index),
-    # url(r'^login/$', luogu.login),
-    # url('logout$', luogu.logout),
-    # url('^404$', luogu.error),
-    # # url('login$', 'django.contrib.auth.views.login'),
-    # # url('login/submit$', loginSubmit),
-    # url('register$', luogu.register),
-    # url('register/enter$', luogu.registerEnter),
-    # url('forgetPassword$', luogu.forgetPassword),
-    # url('changePassword$', luogu.changePassword),
-    # url('makeNews$', luogu.makeNewQuestion),
-    # url('makeNews/submit$', luogu.makeNews),
-    # url(r'^hub/$', luogu.hub),
-    # url('feedback$', luogu.feedback),
-    # url(r'^hub/M[0-9]{4}', luogu.detail),
-    # url('^$', luogu.index),
-    # url('user/', luogu.personalPage),
-    #
-    # url(r'^accounts/login/', LoginView.as_view(template_name="/login/")),
-    # url(r'^test/$', luogu.test),
-
-
-    # url(r"^blog/$", blog.index, name='index'),
-    # # path('', blog.index, name='index'),#网站首页
-    # # path('', include('blog.urls', namespace='index')),#网站首页
-    # path('blog/list-<int:lid>.html', blog.list, name='list'),#列表页
-    # path('blog/show-<int:sid>.html', blog.show, name='show'),#内容页
-    # path('tag/<tag>', blog.tag, name='tags'),#标签列表页
-    # path('s/', blog.search, name='search'),#搜索列表页
-    # path('about/', blog.about, name='about'),#联系我们单页
-    # path('writeblog', blog.write, name='write'),#联系我们单页
-    # # path('ueditor/', include('DjangoUeditor.urls')),
-    # # re_path('^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
-    #
-    #
-    #
-    # path(r'mdeditor/', include('mdeditor.urls'))
 ]
 
 # if settings.DEBUG:

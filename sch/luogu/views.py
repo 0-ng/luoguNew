@@ -9,15 +9,6 @@ from fuzzywuzzy import fuzz
 import datetime
 # Create your views here.
 
-def test(request):
-    return render(request, "luogu/垃圾.html")
-
-
-def acc_login(request):
-    return render(request, "luogu/login.html")
-
-
-
 
 def index(request):
     try:
@@ -79,62 +70,83 @@ def index(request):
 
 def logout(request):
     auth.logout(request)
-    return index(request)
-    # return render(request, "luogu/tmp.html")
-    # return render(request, "luogu/error.html")
+    return redirect('/')
 
 
 
 def login(request):
     message = "傻逼"
-    result = False
     if request.method == "POST":
         username = request.POST.get('username')
         password = request.POST.get('password')
         if username and password:
             try:
-                print(1)
                 print(username)
                 print(password)
                 user = auth.authenticate(username=username, password=password)
                 if user is not None:
-                    print(2)
                     auth.login(request, user)
                     request.session['is_login'] = True
                     request.session['user_id'] = str(user.id)
                     request.session['user_name'] = str(user)
-                    print(3)
-                    # return redirect(request, "luogu/index.html")
 
                     return JsonResponse({"result": True, "message": message})
                 else:
-                    print(4)
                     message = "密码不正确!"
             except:
-                print(5)
                 message = "用户不存在!"
             return JsonResponse({"result": False, "message": message})
-        print(6)
 
         return JsonResponse({"result": False, "message": message})
     else:
         return render(request, "luogu/login.html")
-        return render(request, "luogu/error.html")
 
 
 def register(request):
-    return render(request, "luogu/register.html")
-    return render(request, "luogu/error.html")
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        email = request.POST.get('email')
+        print(username)
+        print(password)
+        print(email)
 
+        try:
+            print(1)
+            user = User(username=username, email=email)
+            print(2)
+            user.set_password(password)
+            print(3)
+            user.save()
+            print(4)
+            myUser.objects.create(user=user)
+            print(5)
+            result = True
+            message = "Register success"
+
+            with open("/static/luogu/image/personalHead/none.jpg", 'rb') as f:
+                with open("/static/luogu/image/personalHead/{}.jpg".format(username), 'wb') as f2:
+                    f2.write(f.read())
+        except Exception as err:
+            result = False
+            message = str(err)
+
+        return JsonResponse({"result": result, "message": message})
+    else:
+        return render(request, "luogu/register.html")
+
+
+# def registerEnter(request):
+#     return render(request, "luogu/error.html")
 
 def forgetPassword(request):
     return render(request, "luogu/forgetPassword.html")
-    return render(request, "luogu/error.html")
 
 
 @login_required
 def changePassword(request):
     return render(request, "luogu/changePassword.html")
+
 
 def error(request):
     return render(request, "luogu/error.html")
@@ -142,8 +154,62 @@ def error(request):
 
 @login_required
 def makeNewQuestion(request):
-    return render(request, "luogu/makeNewQuestion.html")
-    return render(request, "luogu/error.html")
+    if request.method =='POST':
+        try:
+            subject = 'M'
+            question = request.POST.get('question')
+            answer = request.POST.get('answer')
+            title = request.POST.get('title')
+            tags = json.loads(request.POST.get('tags'))
+            print(question)
+            print(answer)
+            print(title)
+            print(tags)
+            No = "%04d" % (Question.objects.count()+1)
+            if question.split() == [] or answer.split() == [] or title.split() == []:
+                return JsonResponse({"result": False})
+            print(1)
+            try:
+                Q = Question(subject=subject, no=subject+No, title=title, question=question, answer=answer)
+                # print(1)
+                Q.save()
+                print(2)
+                choices = [
+                    "",
+                    '函数与极限',
+                    '导数与微分',
+                    '微分中值定理与导数的应用',
+                    '不定积分',
+                    '定积分',
+                    '微分方程',
+                    '向量代数与空间解析几何',
+                    '多元函数微分法及其应用',
+                    '重积分',
+                    '曲线积分与曲面积分',
+                    '无穷级数'
+                ]
+                for i in tags:
+                    print("i=", i)
+                    try:
+                        tag = Tag.objects.get(name=choices[int(i)])
+                    except:
+                        print(choices[int(i)])
+                        Tag.objects.create(name=choices[int(i)])
+                        print("???")
+                        tag = Tag.objects.get(name=choices[int(i)])
+                        # tag.save()
+                    print(tag.name)
+                    print("tag ok ")
+                    Q.tag.add(tag)
+                    print("Q ok")
+                result = True
+            except:
+                result = False
+            return JsonResponse({"result": result})
+        except:
+            return render(request, "luogu/error.html")
+    else:
+        return render(request, "luogu/makeNewQuestion.html")
 
 
 def hub(request):
@@ -157,8 +223,8 @@ def hub(request):
         elif order == "desc":
             ls = ls.order_by(orderBy)
     else:
-        orderBy == "none"
-        order == "none"
+        orderBy = "none"
+        order = "none"
 
 
     select_tag = request.GET.get('select_tag')
@@ -214,14 +280,12 @@ def detail(request, hubno=None):
         goto = request.GET.get("goto")
         if goto:
             no = request.GET.get("no")
-            ls = Question.objects.get(no=no)
-            return render(request, "luogu/detail.html", {"question": ls})
+            return redirect("/hub/{}".format(no))
 
         gotorandom = request.GET.get("gotorandom")
         if gotorandom:
-            ls = Question.objects.all()
-            ls = random.choice(ls)
-            return render(request, "luogu/detail.html", {"question": ls})
+            no = random.choice(Question.objects.all()).no
+            return redirect("/hub/{}".format(no))
     except:
         return render(request, "luogu/error.html")
 
@@ -304,107 +368,22 @@ def feedback(request):
     return render(request, "luogu/error.html")
 
 
-def registerEnter(request):
-    username = request.POST.get('username')
-    password = request.POST.get('password')
-    email = request.POST.get('email')
-    print(username)
-    print(password)
-    print(email)
-
-    try:
-        print(1)
-        user = User(username=username, email=email)
-        print(2)
-        user.set_password(password)
-        print(3)
-        user.save()
-        print(4)
-        myUser.objects.create(user=user)
-        print(5)
-        result = True
-        message = "Register success"
-
-        with open("luogu/static/image/personalHead/none.jpg", 'rb') as f:
-            with open("luogu/static/image/personalHead/{}.jpg".format(username), 'wb') as f2:
-                f2.write(f.read())
-    except Exception as err:
-        result = False
-        message = str(err)
-
-    return JsonResponse({"result": result, "message": message})
-    return render(request, "luogu/error.html")
 
 
 @login_required
 def makeNews(request):
-    subject = 'M'
-    question = request.POST.get('question')
-    answer = request.POST.get('answer')
-    title = request.POST.get('title')
-    tags = json.loads(request.POST.get('tags'))
-    print(question)
-    print(answer)
-    print(title)
-    print(tags)
-    No = "%04d" % (Question.objects.count()+1)
-    if question.split() == [] or answer.split() == [] or title.split() == []:
-        return JsonResponse({"result": False})
-    print(1)
-    try:
-        Q = Question(subject=subject, no=subject+No, title=title, question=question, answer=answer)
-        # print(1)
-        Q.save()
-        print(2)
-        choices = [
-            "",
-            '函数与极限',
-            '导数与微分',
-            '微分中值定理与导数的应用',
-            '不定积分',
-            '定积分',
-            '微分方程',
-            '向量代数与空间解析几何',
-            '多元函数微分法及其应用',
-            '重积分',
-            '曲线积分与曲面积分',
-            '无穷级数'
-        ]
-        for i in tags:
-            print("i=", i)
-            try:
-                tag = Tag.objects.get(name=choices[int(i)])
-            except:
-                print(choices[int(i)])
-                Tag.objects.create(name=choices[int(i)])
-                print("???")
-                tag = Tag.objects.get(name=choices[int(i)])
-                # tag.save()
-            print(tag.name)
-            print("tag ok ")
-            Q.tag.add(tag)
-            print("Q ok")
-
-        print(2)
-    except Exception as err:
-        print(3)
-        result = False
-        message = str(err)
-    else:
-        print(4)
-        result = True
-        message = "Register success"
-    return JsonResponse({"result": result})
     return render(request, "luogu/error.html")
 
 
 def personalPage(request, name):
     if request.method == "POST":
+        print(name)
+        print(request.user.username)
         if request.user.username != name:
             return JsonResponse({"result": False})
         img = request.FILES.get('img_file')
         path = name
-        url = "luogu/static/image/personalHead/" + path + ".jpg"
+        url = "static/luogu/image/personalHead/" + path + ".jpg"
 
         with open(url, 'wb') as f:
             for chunk in img.chunks():

@@ -26,7 +26,7 @@ urlpatterns = [
     url('logout$', luogu.logout),
     url('^404$', luogu.error),
     url('register$', luogu.register),
-    url('register/enter$', luogu.registerEnter),
+    # url('register/enter$', luogu.registerEnter),
     url('forgetPassword$', luogu.forgetPassword),
     url('changePassword$', luogu.changePassword),
     url('makeNews$', luogu.makeNewQuestion),
@@ -35,12 +35,10 @@ urlpatterns = [
     url(r'^hub/$', luogu.hub),
     path(r'detail/', luogu.detail),
     url('feedback$', luogu.feedback),
-    # url(r'^hub/M[0-9]{4}', luogu.detail),
     path('hub/<hubno>', luogu.detail),
     url('^$', luogu.index),
     path('user/<name>/', luogu.personalPage),
 
-    url(r'^accounts/login/', LoginView.as_view(template_name="/login/")),
-    url(r'^test/$', luogu.test),
+    # url(r'^accounts/login/', LoginView.as_view(template_name="/login/")),
 
 ]

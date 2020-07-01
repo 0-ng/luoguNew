@@ -1,7 +1,7 @@
 {% extends "luogu/loginbase.html" %}
 {% block content %}
 
-                <div class="signup" style="float: right;margin-left: 30%">
+                <div class="signup" style="position:absolute;right: 0">
                     <div class="modal-info" style="background:rgba(67, 91, 108, 0.7);">
                         <div class="modal-header">
                             <h2>SIGN UP</h2>
@@ -18,22 +18,26 @@
                                                    required/>
                                         </li>
                                         <li>
+{#                                                   title="Minimum 8 characters, one number, one uppercase and one lowercase letter"#}
+{#                                                   pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*"#}
                                             <input type="password" class="lock" name="password"
-                                                   title="Minimum 8 characters, one number, one uppercase and one lowercase letter"
-                                                   pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*"
+                                                   title="Minimum 8 characters, one number, one alpha"
+                                                   pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$"
                                                    placeholder="Password" id="password1" required/>
                                             <p class="validation01">
-                                                <span class="invalid">Minimum 8 characters, one number, one uppercase letter and one lowercase letter</span>
+                                                <span class="invalid">Minimum 8 characters, one number, one alpha</span>
                                                 <span class="valid">Your password meets our requirements, thank you.</span>
                                             </p>
                                         </li>
                                         <li>
+{#                                                   title="Minimum 8 characters, one number, one uppercase and one lowercase letter"#}
+{#                                                   pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*"#}
                                             <input type="password" class="lock" name="password"
-                                                   title="Minimum 8 characters, one number, one uppercase and one lowercase letter"
-                                                   pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*"
+                                                   title="Minimum 8 characters, one number, one alpha"
+                                                   pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$"
                                                    placeholder="Confirm password" id="password2" required/>
                                             <p class="validation01">
-                                                <span class="invalid">Minimum 8 characters, one number, one uppercase letter and one lowercase letter</span>
+                                                <span class="invalid">Minimum 8 characters, one number, one alpha</span>
                                                 <span class="valid">Your password meets our requirements, thank you.</span>
                                             </p>
                                         </li>
@@ -91,7 +95,7 @@
             }
         })
         $.ajax({
-            url: "/register/enter",
+            url: "/register",
             type: "post",
             data: {
                 "username": $("#username").val(),

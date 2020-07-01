@@ -192,7 +192,7 @@
                 formdata.append('img_file', img_file);
                 formdata.append('csrfmiddlewaretoken', '{{ csrf_token }}');
                 $.ajax({
-                    url: "/user/{{ request.session.user_name }}",
+                    url: "/user/{{ request.session.user_name }}/",
                     type: 'POST',
                     data: formdata,
                     processData: false,
