@@ -20,8 +20,9 @@ from django.contrib.auth.views import LoginView
 
 app_name = 'luogu'
 urlpatterns = [
-    url('index$', luogu.index),
-    url('index.html$', luogu.index),
+    # url('index$', luogu.index),
+    # url('index.html$', luogu.index),
+    url('^$', luogu.index),
     url(r'^login/$', luogu.login),
     url('logout$', luogu.logout),
     url('^404$', luogu.error),
@@ -36,9 +37,12 @@ urlpatterns = [
     path(r'detail/', luogu.detail),
     url('feedback$', luogu.feedback),
     path('hub/<hubno>', luogu.detail),
-    url('^$', luogu.index),
     path('user/<name>/', luogu.personalPage),
+    path('write_note/<no>/', luogu.write_note),
+    path('notes/<name>/', luogu.notes_list),
+    path('show-<int:sid>.html', luogu.note_show, name='show'),  # 内容页
 
+    path('test', luogu.test)
     # url(r'^accounts/login/', LoginView.as_view(template_name="/login/")),
 
 ]

@@ -38,9 +38,13 @@ urlpatterns = [
     # path('ueditor/', include('DjangoUeditor.urls')),
     # re_path('^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
 
-    path('personal/<str:name>/', blog.personal, name='personal'),  # 联系我们单页
-
+    path('personal/<str:name>/', blog.personal, name='personal'),
     path(r'md', blog.write, name='write_blog'),  # 写博客
+    # path(r'write_note/<str:no>/', blog.write_note, name='write_blog'),  # 写笔记
+
+    url(r'mdeditor/', include('mdeditor.urls')),
+    path(r'rubbish/', blog.rubbish),  # 写博客
+
 ]
 
 if settings.DEBUG:

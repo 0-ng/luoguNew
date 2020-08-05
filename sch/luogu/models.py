@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+from mdeditor.fields import MDTextField
+
 # Create your models here.
 
 class myUser(models.Model):
@@ -40,6 +42,8 @@ class Question(models.Model):
     title = models.CharField(max_length=50, null=False, blank=False, default="")
     question = models.CharField(max_length=500, null=False, blank=False, default="")
     answer = models.CharField(max_length=500, null=False, blank=False, default="")
+    # question = MDTextField()
+    # answer = MDTextField()
     tag = models.ManyToManyField(Tag)
     difficulty = models.CharField(max_length=20, null=True, blank=True, default="")
     accepted = models.IntegerField(null=True, blank=True, default=0)
@@ -86,17 +90,12 @@ class History(models.Model):
         return self.username + " " + self.question.no
 
 
-# JET_MODULE_GOOGLE_ANALYTICS_CLIENT_SECRETS_FILE = os.path.join(PROJECT_DIR, 'client_secrets.json')
-#
-# from django.utils.translation import ugettext_lazy as _
-# from jet.dashboard.dashboard import Dashboard, AppIndexDashboard
-# from jet.dashboard.dashboard_modules import google_analytics
-#
-#
-# class CustomIndexDashboard(Dashboard):
-#     columns = 3
-#
-#     def init_with_context(self, context):
-#        self.available_children.append(google_analytics.GoogleAnalyticsVisitorsTotals)
-#        self.available_children.append(google_analytics.GoogleAnalyticsVisitorsChart)
-#        self.available_children.append(google_analytics.GoogleAnalyticsPeriodVisitors)
+
+
+class Note(models.Model):
+    question_no = models.CharField(max_length=6, null=True, blank=True, default="")
+    body = MDTextField()
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='作者')
+
+
+

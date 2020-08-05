@@ -1,5 +1,37 @@
 ﻿{% extends "blog/base.html" %}
+{% load static %}
 {% block content %}
+
+  <link href="{% static 'mdeditor/css/editormd.min.css' %}" rel="stylesheet">
+  <link href="{% static 'mdeditor/css/editormd.preview.css' %}" rel="stylesheet">
+
+  <script src="{% static 'mdeditor/js/jquery.min.js' %}"></script>
+  <script src="{% static 'mdeditor/js/editormd.min.js' %}"></script>
+  <script src="{% static 'mdeditor/js/lib/marked.min.js' %}"></script>
+  <script src="{% static 'mdeditor/js/lib/prettify.min.js' %}"></script>
+  <script src="{% static 'mdeditor/js/lib/raphael.min.js' %}"></script>
+  <script src="{% static 'mdeditor/js/lib/underscore.min.js' %}"></script>
+  <script src="{% static 'mdeditor/js/lib/sequence-diagram.min.js' %}"></script>
+  <script src="{% static 'mdeditor/js/lib/flowchart.min.js' %}"></script>
+  <script src="{% static 'mdeditor/js/lib/jquery.flowchart.min.js' %}"></script>
+    <script>
+  $(function () {
+      // js 解析markdown
+      editormd.markdownToHTML("content", {
+          //htmlDecode      : "style,script,iframe",  // you can filter tags decode
+          emoji           : true,
+          taskList        : true,
+          tex             : true,  // 默认不解析
+          flowChart       : true,  // 默认不解析
+          sequenceDiagram : true,  // 默认不解析
+      });
+
+      $(".reference-link").each(function (i,obj) {
+        console.log(obj)
+      })
+  })
+
+</script>
     <!-- /主体 -->
     <div id="main-container" class="container clearfix">
         <section class="post-left">
@@ -16,9 +48,12 @@
                         <span class="item">{{ show.created_time }}</span>
 
                     </div>
-                    <article class="article-content">
-                        {{ show.body|safe }}
-                    </article>
+
+
+{#                    <article class="article-content">#}
+{#                        {{ show.body|safe }}#}
+{#                    </article>#}
+                  <div id="content"><textarea>{{ show.body|safe }}</textarea></div>
 
                     <div class="post-tag"><span class="fa fa-tags" aria-hidden="true"></span>标签：
                         {% for tag in show.tags.all %}

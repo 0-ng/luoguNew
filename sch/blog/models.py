@@ -93,3 +93,13 @@ class Link(models.Model):
     class Meta:
         verbose_name = '友情链接'
         verbose_name_plural = '友情链接'
+
+
+# class Note(models.Model):
+#     question_no = models.CharField(max_length=6, null=True, blank=True, default="")
+#     body = MDTextField()
+#     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='作者')
+
+
+
+

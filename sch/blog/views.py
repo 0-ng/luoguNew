@@ -1,12 +1,12 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.http import JsonResponse
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from .models import Article, Category, Banner, Tag, Link
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 import markdown
 # Create your views here.
-
+from .form import CreateArticleForm
 
 #首页
 def index(request):
@@ -76,15 +76,8 @@ def show(request, sid):
     show.views = show.views + 1
     show.save()
 
-
-    show.body = markdown.markdown(show.body,
-                                     extensions=[
-                                         'markdown.extensions.extra',
-                                         'markdown.extensions.codehilite',
-                                         'markdown.extensions.toc',
-                                     ])
-
     return render(request, 'blog/show.html', locals())
+    # return render(request, 'blog/rubbishshow.html', {'body': show.body})
     pass
 
 
@@ -132,14 +125,6 @@ def about(request):
 
 @login_required
 def write(request):
-    # article = get_object_or_404(Article)
-    # article = Article.objects.get()
-    # article.body = markdown.markdown(article.body,
-    #                                  extensions=[
-    #                                      'markdown.extensions.extra',
-    #                                      'markdown.extensions.codehilite',
-    #                                      'markdown.extensions.toc',
-    #                                  ])
     if request.method == 'POST':
         try:
             content = request.POST.get('content')
@@ -160,7 +145,10 @@ def write(request):
         except:
             return render(request, 'luogu/error.html')
     else:
-        return render(request, 'blog/write.html')
+        form = CreateArticleForm()
+        return render(request, 'blog/write11.html', {'form': form})
+
+    return render(request, 'blog/write.html')
 
 
 def personal(request, name):
@@ -168,13 +156,6 @@ def personal(request, name):
     try:
         user = User.objects.get(username=name)
         ls = Article.objects.filter(user=user).order_by('-created_time')
-        # for i in ls:
-        #     i.body = markdown.markdown(i.body,
-        #                                  extensions=[
-        #                                      'markdown.extensions.extra',
-        #                                      'markdown.extensions.codehilite',
-        #                                      'markdown.extensions.toc',
-        #                                  ])
         return render(request, "blog/personalPage.html",
                       {"user": user, "a": ls, 'benren': benren})
     except:
@@ -194,3 +175,50 @@ def deleteArticle(request):
             return JsonResponse({"result": True})
         except:
             return render(request, 'luogu/error.html')
+
+
+def rubbish(request):
+    if request.method == 'POST':
+        form = CreateArticleForm(request.POST)
+        if form.is_valid():
+            form.instance.user = request.user
+            form.save()
+        return redirect('/blog/show-5.html')
+    else:
+        form = CreateArticleForm()
+
+    return render(request, 'blog/rubbish.html', {'form': form})
+
+
+
+# @login_required
+# def write_note(request, no):
+#     print(1)
+#     if request.method == 'POST':
+#         print(2)
+#         try:
+#             form = CreateArticleForm(request.POST)
+#             print(form.is_valid())
+#             print(3)
+#             if form.is_valid():
+#                 article = form.save(commit=False)
+#                 article = Note(user=User.objects.get(username=request.user), question_no=no, body=article.body)
+#                 article.save()
+#                 return JsonResponse({"result": True})
+#             else:
+#                 return JsonResponse({"result": False})
+#         except:
+#             return render(request, 'luogu/error.html')
+#     else:
+#         print(3)
+#         form = CreateArticleForm()
+#         try:
+#             user = User.objects.get(username=request.user)
+#             note = Note.objects.get(user=user, question_no=no)
+#             form.body = note
+#         except:
+#             pass
+#         # print(form)
+#         return render(request, 'blog/write11.html', {'form': form, 'no': no})
+#
+#     return render(request, 'blog/write.html')

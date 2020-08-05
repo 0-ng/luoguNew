@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load staticfiles %}
+    {% load markdown_deux_tags %}
+
+    <meta charset="UTF-8">
+    <title>Title</title>
+{#    <link rel="stylesheet" href="{% static 'mdeditor/css/editormd.css' %}"/>#}
+{#    <link rel="stylesheet" href="{% static 'mdeditor/css/editormd.logo.css' %}"/>#}
+{#    <link rel="stylesheet" href="{% static 'mdeditor/css/editormd.logo.min.css' %}"/>#}
+{#    <link rel="stylesheet" href="{% static 'mdeditor/css/editormd.min.css' %}"/>#}
+{#    <link rel="stylesheet" href="{% static 'mdeditor/css/editormd.preview.css' %}"/>#}
+{#    <link rel="stylesheet" href="{% static 'mdeditor/css/editormd.preview.min.css' %}"/>#}
+{#    <link rel="stylesheet" href="{% static 'mdeditor/css/style.css' %}"/>#}
+{#    <link rel="script" href="{% static 'mdeditor/js/editormd.js' %}"/>#}
+{#    <link rel="script" href="{% static 'mdeditor/js/editormd.min.js' %}"/>#}
+{#    <link rel="script" href="{% static 'mdeditor/js/jquery.min.js' %}"/>#}
+{#    <link rel="script" href="{% static 'mdeditor/js/lib/codemirror/codemirror.min.js' %}"/>#}
+{#    <link rel="script" href="{% static 'mdeditor/js/lib/codemirror/modes.min.js' %}"/>#}
+{#    <link rel="script" href="{% static 'mdeditor/js/lib/codemirror/addons.min.js' %}"/>#}
+{#    <link rel="script" href="{% static 'mdeditor/js/lib/marked.min.js' %}"/>#}
+{#    <link rel="script" href="{% static 'mdeditor/js/lib/prettify.min.js' %}"/>#}
+{#    <link rel="script" href="{% static 'mdeditor/js/lib/raphael.min.js' %}"/>#}
+{#    <link rel="script" href="{% static 'mdeditor/js/lib/underscore.min.js' %}"/>#}
+{#    <link rel="script" href="{% static 'mdeditor/js/lib/flowchart.min.js' %}"/>#}
+{#    <link rel="script" href="{% static 'mdeditor/js/lib/jquery.flowchart.min.js' %}"/>#}
+{#    <link rel="script" href="{% static 'mdeditor/js/lib/sequence-diagram.min.js' %}"/>#}
+{#    <link rel="script" href="{% static 'mdeditor/js/lib/flowchart.min.js' %}"/>#}
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+{#    <script src="http://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.3.0/katex.min.css"></script>#}
+{#    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.3.0/katex.min.css"></script>#}
+{#    <script src="http://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.3.0/katex.min.js"></script>#}
+{#    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.3.0/katex.min.js"></script>#}
+<!--导入jquery插件-->
+</head>
+<body>
+{#<div class="editormd-preview editormd-preview-theme-default">#}
+{#    <div class="markdown-body editormd-preview-container" previewcontainer="true" style="padding: 20px;">#}
+
+        <p>
+{#              {{ body |safe }}#}
+              {{ body |markdown:"STYLE" }}
+         </p>
+{#    </div>#}
+{# </div>#}
+</body>
+</html>

@@ -1,0 +1,98 @@
+{% extends "luogu/base.html" %}
+{% load staticfiles %}
+
+{% block main %}
+    <main>
+    <div style="height: 100%">
+    <div style="width: 100%; height: 100%;">
+        <div style="margin-top: 5px; width: 60%; height: 100%; float:left;display:flex;align-items: center;">
+            <div style="float: left; height: 100%">
+                <h1 style="float: left; padding: 10px 10px">题目信息</h1>
+            </div>
+            <div style="float: left; height: 100%; width: 60%;margin-top: 10px">
+{#                <input id="title" type="text" placeholder="请输入题目"#}
+{#                       style="padding: 8px 10px ;height: 100%; width: 100%; margin: 0 0 0 0; border-color: rgb(52, 152, 219);">#}
+                {{ no }}
+            </div>
+        </div>
+        <div style="width: 10%; padding: 10px; margin: 10px; float: right; height: 100%">
+            <div style="float: left; display:flex;align-items: center;justify-content:center; ">
+
+            </div>
+        </div>
+
+    <div id="question-editor" style="width: 97%;min-height: 800px">
+
+        <form action="/blog/write_note/{{ no }}/" method="post">
+            <div>
+            {% csrf_token %}
+{#            {{form.media}}#}
+{#            {{form.as_p}}#}
+            {{form.as_table}}
+                </div>
+                <input id="btn1" type="submit" name="goto" style="border-radius: 5px;font-size: 1.4rem;color: #fff;background-color: #dd514c;border-color: #dd514c;display: inline-block;margin-bottom: 0;
+            padding: .5em 1em;font-weight: 400;line-height: 1.2;text-align: center;white-space: nowrap;border: 1px solid transparent;cursor: pointer;outline: 0;
+            transition: background-color 300ms ease-out,border-color 300ms ease-out;vertical-align: middle;text-transform: none;overflow: visible;font-family: inherit;">
+{#            <input type="submit">#}
+        </form>
+    </div>
+    </div>
+    </div>
+    </main>
+{% endblock %}
+
+{% block js %}
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+
+    <link href="https://magicbox.bk.tencent.com/static_api/v3/assets/bk-icon-2.0/iconfont.css" rel="stylesheet">
+    <link href="https://magicbox.bk.tencent.com/static_api/v3/bk/css/bk.css" rel="stylesheet">
+    <link href="https://magicbox.bk.tencent.com/static_api/v3/bk/css-pro/bk.css" rel="stylesheet">
+    <link href="{% static 'luogu/css/common.css' %}" rel="stylesheet">
+    <link href="{% static 'luogu/css/index.css' %}" rel="stylesheet">
+    <title></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+     <script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+    <!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。这个牛逼 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"></script>
+
+
+
+    <link rel="stylesheet" href="{% static 'luogu/makeNews/css/editormd.css' %}"/>
+    <script src="https://cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+    <script src="{% static 'luogu/makeNews/editormd.min.js' %}"></script>
+
+    <!--引入样式文件-->
+    <link rel="stylesheet" href="{% static 'luogu/makeNews/examples/css/style.css' %}" />
+    <link rel="stylesheet" href="{% static 'luogu/makeNews/css/editormd.preview.css' %}" />
+
+    <script type="text/javascript">
+
+        $(function () {
+            $("#btn1").click(function () {
+                $.ajaxSetup({
+                    data: {
+                        csrfmiddlewaretoken: '{{ csrf_token }}',
+                    }
+                })
+                $.ajax({
+                    url: "/blog/md/{{ no }}",
+                    type: "post",
+                    traditional: true,
+                    data: {
+                        "content": timu.getMarkdown(),
+                        "title": $("#title").val(),
+                    },
+                    success: function (res) {
+                        if (res['result'] == false) {
+                            alert("请补充完整标题、内容");
+                        } else {
+                            alert("提交成功");
+                            window.location = "/blog";
+                        }
+                    }
+                })
+            })
+        });
+
+    </script>
+{% endblock %}

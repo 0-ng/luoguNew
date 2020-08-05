@@ -1,11 +1,14 @@
 import json
 import random
+
+import markdown
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
-from .models import User, Question, myUser, Status, Contributions, Tag, History
+from .models import User, Question, myUser, Status, Contributions, Tag, History, Note
 from django.contrib import auth
 from fuzzywuzzy import fuzz
+from .myforms import CreateArticleForm
 import datetime
 # Create your views here.
 
@@ -63,7 +66,7 @@ def index(request):
         his = History.objects.all().order_by("-date")
         his = his[:min(15, his.count())]
         print(his)
-        return render(request, r"luogu/tmp.html", {'tagls': tagls, 'recommend': recommend, 'his': his})
+        return render(request, r"luogu/index.html", {'tagls': tagls, 'recommend': recommend, 'his': his})
     except:
         return render(request, "luogu/error.html")
 
@@ -112,15 +115,10 @@ def register(request):
         print(email)
 
         try:
-            print(1)
             user = User(username=username, email=email)
-            print(2)
             user.set_password(password)
-            print(3)
             user.save()
-            print(4)
             myUser.objects.create(user=user)
-            print(5)
             result = True
             message = "Register success"
 
@@ -136,8 +134,6 @@ def register(request):
         return render(request, "luogu/register.html")
 
 
-# def registerEnter(request):
-#     return render(request, "luogu/error.html")
 
 def forgetPassword(request):
     return render(request, "luogu/forgetPassword.html")
@@ -290,11 +286,23 @@ def detail(request, hubno=None):
         return render(request, "luogu/error.html")
 
     try:
-        # ls = Question.objects.get(no=request.path.split('/')[-1])
         ls = Question.objects.get(no=hubno)
+        print(request.user)
+        if request.user:
+            print(1)
+            try:
+                print(hubno)
+                User.objects.get(username=request.user)
+                print(0.5)
+                note = Note.objects.get(question_no=hubno, user=User.objects.get(username=request.user))
+                print(2)
+                note = note.body
+                print(3)
+            except:
+                note = None
     except:
         return render(request, "luogu/error.html")
-    return render(request, "luogu/detail.html", {"question": ls})
+    return render(request, "luogu/detail.html", {"question": ls, 'note': note})
     return render(request, "luogu/error.html")
 
 
@@ -368,6 +376,63 @@ def feedback(request):
     return render(request, "luogu/error.html")
 
 
+
+@login_required
+def write_note(request, no):
+    print(1)
+    if request.method == 'POST':
+        print(2)
+        try:
+            form = CreateArticleForm(request.POST)
+            print(3)
+            if form.is_valid():
+                body = form.save(commit=False).body
+                try:
+                    article = Note.objects.get(user=User.objects.get(username=request.user), question_no=no)
+                    article.body = body
+                    article.save()
+                except:
+                    article = Note(user=User.objects.get(username=request.user), question_no=no, body=body)
+                    article.save()
+                return redirect("/hub/{}".format(no))
+
+                return JsonResponse({"result": True})
+            else:
+                return JsonResponse({"result": False})
+        except:
+            return render(request, 'luogu/error.html')
+    else:
+        form = CreateArticleForm()
+        try:
+            user = User.objects.get(username=request.user)
+            note = Note.objects.get(user=user, question_no=no)
+            form.fields['body'].initial = note.body
+        except:
+            pass
+        return render(request, 'luogu/write11.html', {'form': form, 'no': no})
+
+    return render(request, 'luogu/write.html')
+
+
+def notes_list(request, name):
+    benren = True if request.user.username == name else False
+    try:
+        user = User.objects.get(username=name)
+        # notes = Note.objects.filter(user=user).order_by('-created_time')
+        notes = Note.objects.filter(user=user)
+        return render(request, "luogu/notes_list.html",
+                      {"user": user, "notes": notes, 'benren': benren})
+    except:
+        pass
+    return render(request, 'luogu/error.html')
+
+#内容页
+def note_show(request, sid):
+    print(1)
+    print(sid)
+    show = Note.objects.get(id=sid)#查询指定ID的文章
+    print(show)
+    return render(request, "luogu/note_show.html",{'note': show})
 
 
 @login_required
@@ -459,3 +524,7 @@ def personalPage(request, name):
 
 def scratchpaper(request):
     return render(request, "luogu/scratchpaper.html")
+
+
+def test(request):
+    return render(request, "luogu/垃圾.html")

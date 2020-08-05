@@ -1,0 +1,76 @@
+﻿{% extends "blog/base.html" %}
+{% load static %}
+{% block content %}
+
+	<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+	<script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
+
+
+  <link href="{% static 'mdeditor/css/editormd.min.css' %}" rel="stylesheet">
+  <link href="{% static 'mdeditor/css/editormd.preview.css' %}" rel="stylesheet">
+
+  <script src="{% static 'mdeditor/js/jquery.min.js' %}"></script>
+  <script src="{% static 'mdeditor/js/editormd.min.js' %}"></script>
+  <script src="{% static 'mdeditor/js/lib/marked.min.js' %}"></script>
+  <script src="{% static 'mdeditor/js/lib/prettify.min.js' %}"></script>
+  <script src="{% static 'mdeditor/js/lib/raphael.min.js' %}"></script>
+  <script src="{% static 'mdeditor/js/lib/underscore.min.js' %}"></script>
+  <script src="{% static 'mdeditor/js/lib/sequence-diagram.min.js' %}"></script>
+  <script src="{% static 'mdeditor/js/lib/flowchart.min.js' %}"></script>
+  <script src="{% static 'mdeditor/js/lib/jquery.flowchart.min.js' %}"></script>
+    <script>
+
+  $(function () {
+      // js 解析markdown
+      editormd.markdownToHTML("content", {
+          //htmlDecode      : "style,script,iframe",  // you can filter tags decode
+          emoji           : true,
+          taskList        : true,
+          tex             : true,  // 默认不解析
+          flowChart       : true,  // 默认不解析
+          sequenceDiagram : true,  // 默认不解析
+      });
+
+      $(".reference-link").each(function (i,obj) {
+        console.log(obj)
+      })
+  });
+
+
+
+</script>
+    <!-- /主体 -->
+{#    <main style="min-height: 900px">#}
+        <div id="main-container" class="container clearfix">
+        <section class="post-left">
+            <div class="breadcrumb">您的位置： <a itemprop="breadcrumb" href="/blog/">首页</a> » <a
+                    href="/blog/list-{{ show.category.id }}.html">{{ show.category.name }}</a> »
+                <span class="current">正文</span></div>
+            <div class="post-main clearfix">
+                <h1 class="post-title">{{ note.question_no }}</h1>
+                <div class="post-con clearfix">
+                    <div class="article-meta">
+                        <span class="item">作者：{{ note.user }}</span>
+{#                        <span class="item">浏览：{{ show.views }}</span>#}
+{#                        <span class="item">{{ show.created_time }}</span>#}
+
+                    </div>
+
+
+                  <div id="content"><textarea>{{ note.body|safe }}</textarea></div>
+
+                </div>
+
+            </div>
+            <!-- /文章 -->
+
+
+        </section>
+
+    </div>
+{#    </main>#}
+    <!-- /主体 -->
+{% endblock %}
