@@ -132,13 +132,17 @@
 
     </div>
     <div id="question-editor" style="width: 80%;min-height: 300px">
-    <textarea id="question" style="display:none;">##题目
-#### 使用KaTex编写题目
-[KaTex怎么写?](https://katex.org/docs/api.html)</textarea>
-    </div>
-    <div id="answer-editor" style="width: 80%;min-height: 300px">
-    <textarea id="answer" style="display:none;">##答案
-#### 使用KaTex编写答案</textarea>
+{#    <textarea id="question" style="display:none;">##题目#}
+{##### 使用KaTex编写题目#}
+{#[KaTex怎么写?](https://katex.org/docs/api.html)</textarea>#}
+{#    </div>#}
+{#    <div id="answer-editor" style="width: 80%;min-height: 300px">#}
+{#    <textarea id="answer" style="display:none;">##答案#}
+{##### 使用KaTex编写答案</textarea>#}
+        <form action="/" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+        </form>
     </div>
     </div>
     </main>

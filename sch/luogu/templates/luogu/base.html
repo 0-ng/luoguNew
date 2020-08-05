@@ -84,30 +84,30 @@
             <div style="display: flex;flex-direction: row;align-items: center;padding-left: 1em;padding-right: 1em;
                 height: 100%;color: #333;max-width: 1200px;margin-right: auto;ont-size: 16px;line-height: 1.5;">
 
-                <div style="color: #333;height: 100%;flex: 1;padding-left: 3em;font-size: 16px;line-height: 1.5;">
-                    <div style="float: left;display:flex;align-items: center;justify-content:center; height: 100%">
-                        <a href="/makeNews"
-                           style="margin-right: 2em;text-decoration: none;color: #3498db;font-size: 16px;line-height: 1.5;">
-                            <span style="color: rgb(38, 38, 38);">我要出题</span>
-                        </a>
-                    </div>
-                    <div style="float: left;display:flex;align-items: center;justify-content:center; height: 100%">
-                        <a href="/blog/md"
-                           style="width: 100px;vertical-align:middle;display:table-cell;margin-right:32px;vertical-align: middle;margin-right: 2em;text-decoration: none;color: #3498db;font-size: 16px;line-height: 1.5;">
-                            <span style="color: rgb(38, 38, 38);">写个博客</span>
-                        </a>
-                    </div>
-
-                </div>
-                <nav style="position: relative;color: #333;font-size: 16px;line-height: 1.5;font-weight: 400;">
+{#                <div style="color: #333;height: 100%;flex: 1;padding-left: 3em;font-size: 16px;line-height: 1.5;">#}
+{#                    <div style="float: left;display:flex;align-items: center;justify-content:center; height: 100%">#}
+{#                        <a href="/makeNews"#}
+{#                           style="margin-right: 2em;text-decoration: none;color: #3498db;font-size: 16px;line-height: 1.5;">#}
+{#                            <span style="color: rgb(38, 38, 38);">我要出题</span>#}
+{#                        </a>#}
+{#                    </div>#}
+{#                    <div style="float: left;display:flex;align-items: center;justify-content:center; height: 100%">#}
+{#                        <a href="/blog/md"#}
+{#                           style="width: 100px;vertical-align:middle;display:table-cell;margin-right:32px;vertical-align: middle;margin-right: 2em;text-decoration: none;color: #3498db;font-size: 16px;line-height: 1.5;">#}
+{#                            <span style="color: rgb(38, 38, 38);">写个博客</span>#}
+{#                        </a>#}
+{#                    </div>#}
+{##}
+{#                </div>#}
+                <nav style="right: 20%; position: absolute;color: #333;font-size: 16px;line-height: 1.5;font-weight: 400;">
                     {% if request.session.is_login %}
                         <a href="/user/{{ request.session.user_name }}"
                            style="text-decoration: none;color: inherit;background-color: transparent;font-size: 16px;line-height: 1.5;">
-                            <span style="font-size: .8em;margin-left: .5em;color: inherit;">{{ request.session.user_name }}</span>
+                            <span style="font-size: .9em;margin-left: .5em;color: inherit;">{{ request.session.user_name }}</span>
                         </a>
                         <a href="/logout"
                            style="text-decoration: none;color: inherit;background-color: transparent;font-size: 16px;line-height: 1.5;">
-                            <span style="font-size: .8em;margin-left: .5em;color: inherit;">退出</span>
+                            <span style="font-size: .9em;margin-left: .5em;color: inherit;">退出</span>
                         </a>
                         <a href="/user/{{ request.session.user_name }}">
                             <img src="{% static 'luogu/image/personalHead/' %}{{ request.session.user_name }}.jpg" style="margin-left: .4em;vertical-align: middle;width: 35px;height: 35px;
@@ -117,11 +117,11 @@
                     {% else %}
                     <a href="/login"
                        style="text-decoration: none;color: inherit;background-color: transparent;font-size: 16px;line-height: 1.5;">
-                        <span style="font-size: .8em;margin-left: .5em;color: inherit;">登录</span>
+                        <span style="font-size: .9em;margin-left: .5em;color: inherit;">登录</span>
                     </a>
                     <a href="/register"
                        style="text-decoration: none;color: inherit;background-color: transparent;font-size: 16px;line-height: 1.5;">
-                        <span style="font-size: .8em;margin-left: .5em;color: inherit;">注册</span>
+                        <span style="font-size: .9em;margin-left: .5em;color: inherit;">注册</span>
                     </a>
                         <img src="{% static 'luogu/image/personalHead/none.jpg' %}" style="margin-left: .4em;vertical-align: middle;width: 35px;height: 35px;
                         border-radius: 50%;border-style: none;box-sizing: border-box;border: 0;color: #333;font-size: 16px;line-height: 1.5;">

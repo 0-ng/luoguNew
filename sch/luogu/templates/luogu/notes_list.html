@@ -45,6 +45,11 @@
                                         </p>
                                     </div>
                                     {% if benren %}
+                                        <div style="position: absolute; bottom: 20px; right: 80px;">
+                                            <button style="color: #e33e33; border: none; background-color:transparent;display: none">
+                                                <a href="/write_note/{{ note.question_no }}">编辑</a>
+                                            </button>
+                                        </div>
                                         <div style="position: absolute; bottom: 20px; right: 20px;">
                                             <button class="btn-delete" style="color: #e33e33; border: none; background-color:transparent;display: none">删除</button>
                                         </div>
@@ -55,7 +60,7 @@
                         {% else %}
                             <div style="width: 100%;margin-left: 16px; padding: 24px;position: relative;border-bottom: 1px solid #e8e8e8">
                                 <div style="width: 10%;float: left">&emsp;</div>
-                                <div><h1>摸鱼的一天真开心</h1></div>
+                                <div><h1>摸鱼的笔记列表</h1></div>
 
                             </div>
                         {% endif %}
@@ -121,7 +126,7 @@
             });
 
             $.ajax({
-                url: "/blog/deleteArticle",
+                url: "/delete_note",
                 type: "post",
                 async: false,
                 data: {

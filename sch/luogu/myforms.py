@@ -7,3 +7,10 @@ class CreateArticleForm(forms.ModelForm):
         model = Note
         fields = ("body", )
 
+
+
+class CreateQuestion(forms.ModelForm):
+    class Meta:
+        model = Question
+        fields = ("question", "answer")
+

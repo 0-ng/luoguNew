@@ -8,7 +8,7 @@ from django.http import HttpResponse, JsonResponse
 from .models import User, Question, myUser, Status, Contributions, Tag, History, Note
 from django.contrib import auth
 from fuzzywuzzy import fuzz
-from .myforms import CreateArticleForm
+from .myforms import CreateArticleForm, CreateQuestion
 import datetime
 # Create your views here.
 
@@ -148,64 +148,65 @@ def error(request):
     return render(request, "luogu/error.html")
 
 
-@login_required
-def makeNewQuestion(request):
-    if request.method =='POST':
-        try:
-            subject = 'M'
-            question = request.POST.get('question')
-            answer = request.POST.get('answer')
-            title = request.POST.get('title')
-            tags = json.loads(request.POST.get('tags'))
-            print(question)
-            print(answer)
-            print(title)
-            print(tags)
-            No = "%04d" % (Question.objects.count()+1)
-            if question.split() == [] or answer.split() == [] or title.split() == []:
-                return JsonResponse({"result": False})
-            print(1)
-            try:
-                Q = Question(subject=subject, no=subject+No, title=title, question=question, answer=answer)
-                # print(1)
-                Q.save()
-                print(2)
-                choices = [
-                    "",
-                    '函数与极限',
-                    '导数与微分',
-                    '微分中值定理与导数的应用',
-                    '不定积分',
-                    '定积分',
-                    '微分方程',
-                    '向量代数与空间解析几何',
-                    '多元函数微分法及其应用',
-                    '重积分',
-                    '曲线积分与曲面积分',
-                    '无穷级数'
-                ]
-                for i in tags:
-                    print("i=", i)
-                    try:
-                        tag = Tag.objects.get(name=choices[int(i)])
-                    except:
-                        print(choices[int(i)])
-                        Tag.objects.create(name=choices[int(i)])
-                        print("???")
-                        tag = Tag.objects.get(name=choices[int(i)])
-                        # tag.save()
-                    print(tag.name)
-                    print("tag ok ")
-                    Q.tag.add(tag)
-                    print("Q ok")
-                result = True
-            except:
-                result = False
-            return JsonResponse({"result": result})
-        except:
-            return render(request, "luogu/error.html")
-    else:
-        return render(request, "luogu/makeNewQuestion.html")
+# @login_required
+# def makeNewQuestion(request):
+#     if request.method =='POST':
+#         try:
+#             subject = 'M'
+#             question = request.POST.get('question')
+#             answer = request.POST.get('answer')
+#             title = request.POST.get('title')
+#             tags = json.loads(request.POST.get('tags'))
+#             print(question)
+#             print(answer)
+#             print(title)
+#             print(tags)
+#             No = "%04d" % (Question.objects.count()+1)
+#             if question.split() == [] or answer.split() == [] or title.split() == []:
+#                 return JsonResponse({"result": False})
+#             print(1)
+#             try:
+#                 Q = Question(subject=subject, no=subject+No, title=title, question=question, answer=answer)
+#                 # print(1)
+#                 Q.save()
+#                 print(2)
+#                 choices = [
+#                     "",
+#                     '函数与极限',
+#                     '导数与微分',
+#                     '微分中值定理与导数的应用',
+#                     '不定积分',
+#                     '定积分',
+#                     '微分方程',
+#                     '向量代数与空间解析几何',
+#                     '多元函数微分法及其应用',
+#                     '重积分',
+#                     '曲线积分与曲面积分',
+#                     '无穷级数'
+#                 ]
+#                 for i in tags:
+#                     print("i=", i)
+#                     try:
+#                         tag = Tag.objects.get(name=choices[int(i)])
+#                     except:
+#                         print(choices[int(i)])
+#                         Tag.objects.create(name=choices[int(i)])
+#                         print("???")
+#                         tag = Tag.objects.get(name=choices[int(i)])
+#                         # tag.save()
+#                     print(tag.name)
+#                     print("tag ok ")
+#                     Q.tag.add(tag)
+#                     print("Q ok")
+#                 result = True
+#             except:
+#                 result = False
+#             return JsonResponse({"result": result})
+#         except:
+#             return render(request, "luogu/error.html")
+#     else:
+#         form = CreateQuestion()
+#         return render(request, "luogu/makeNewQuestion.html", {'form': form})
 
 
 def hub(request):
@@ -428,11 +429,28 @@ def notes_list(request, name):
 
 #内容页
 def note_show(request, sid):
-    print(1)
-    print(sid)
-    show = Note.objects.get(id=sid)#查询指定ID的文章
-    print(show)
-    return render(request, "luogu/note_show.html",{'note': show})
+    try:
+        note = Note.objects.get(id=sid)#查询指定ID的文章
+        no = note.question_no
+        question = Question.objects.get(no=no)
+        return render(request, "luogu/note_show.html",{'note': note, 'question': question})
+    except:
+        return render(request, 'luogu/error.html')
+
+
+@login_required
+def delete_note(request):
+    if request.method == 'POST':
+        no = request.POST.get('id')
+        try:
+            note = Note.objects.get(id=no)
+            if note.user.username == request.user.username:
+                note.delete()
+                return JsonResponse({"result": True})
+            else:
+                return redirect('/')
+        except:
+            return JsonResponse({"result": False})
 
 
 @login_required

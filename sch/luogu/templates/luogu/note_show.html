@@ -1,11 +1,22 @@
-﻿{% extends "blog/base.html" %}
+﻿{% extends "luogu/base.html" %}
 {% load static %}
-{% block content %}
 
-	<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
-	<script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
-	<script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+{% block jsUp %}
 
+    <meta charset="UTF-8">
+    <meta http-equiv="x-dns-prefetch-control" content="on"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=11,IE=10,IE=9,IE=8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+{#    <meta name="apple-mobile-web-app-title" content="PythonTOP,拓普Python学院">#}
+    <title></title>
+
+    <link rel='stylesheet' id='bootstrap-css' href="{% static 'blog/css/bootstrap.min.css' %}" type='text/css' media='all'/>
+    <link rel='stylesheet' id='fontawesome-css' href= "{% static 'blog/css/font-awesome.min.css' %}" type='text/css' media='all'/>
+    <link rel='stylesheet' id='stylesheet-css' href= "{% static 'blog/css/style.css' %}" type='text/css' media='all'/>
+    <link rel='stylesheet' id='raxus-css' href= "{% static 'blog/css/raxus.css' %}" type='text/css' media='all'/>
+    <link rel='stylesheet' id='open-social-style-css' href= "{% static 'blog/css/os.css' %}" type='text/css' media='all'/>
+    <meta name='robots' content='index,follow'/>
 
 
 
@@ -21,11 +32,33 @@
   <script src="{% static 'mdeditor/js/lib/sequence-diagram.min.js' %}"></script>
   <script src="{% static 'mdeditor/js/lib/flowchart.min.js' %}"></script>
   <script src="{% static 'mdeditor/js/lib/jquery.flowchart.min.js' %}"></script>
-    <script>
+
+
+	<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+	<script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<script>
 
   $(function () {
       // js 解析markdown
-      editormd.markdownToHTML("content", {
+      editormd.markdownToHTML("note", {
+          //htmlDecode      : "style,script,iframe",  // you can filter tags decode
+          emoji           : true,
+          taskList        : true,
+          tex             : true,  // 默认不解析
+          flowChart       : true,  // 默认不解析
+          sequenceDiagram : true,  // 默认不解析
+      });
+      editormd.markdownToHTML("question", {
+          //htmlDecode      : "style,script,iframe",  // you can filter tags decode
+          emoji           : true,
+          taskList        : true,
+          tex             : true,  // 默认不解析
+          flowChart       : true,  // 默认不解析
+          sequenceDiagram : true,  // 默认不解析
+      });
+      editormd.markdownToHTML("answer", {
           //htmlDecode      : "style,script,iframe",  // you can filter tags decode
           emoji           : true,
           taskList        : true,
@@ -42,35 +75,57 @@
 
 
 </script>
+
+{% endblock %}
+{% block main %}
+
     <!-- /主体 -->
 {#    <main style="min-height: 900px">#}
+    <main class="home blog site-layout-2" style="min-height: 900px">
+
         <div id="main-container" class="container clearfix">
         <section class="post-left">
             <div class="breadcrumb">您的位置： <a itemprop="breadcrumb" href="/blog/">首页</a> » <a
                     href="/blog/list-{{ show.category.id }}.html">{{ show.category.name }}</a> »
                 <span class="current">正文</span></div>
-            <div class="post-main clearfix">
+            <div class="post-main clearfix" style="min-height: 500px">
                 <h1 class="post-title">{{ note.question_no }}</h1>
                 <div class="post-con clearfix">
                     <div class="article-meta">
                         <span class="item">作者：{{ note.user }}</span>
 {#                        <span class="item">浏览：{{ show.views }}</span>#}
-{#                        <span class="item">{{ show.created_time }}</span>#}
+                        <span class="item">{{ note.created_time }}</span>
+                        <span class="item">题目跳转:<a href="/hub/{{ question.no }}">{{ question.title }}</a></span>
 
                     </div>
 
 
-                  <div id="content"><textarea>{{ note.body|safe }}</textarea></div>
+                  <div id="note"><textarea>{{ note.body|safe }}</textarea></div>
 
                 </div>
 
             </div>
             <!-- /文章 -->
 
-
+            <div class="post-main clearfix">
+                  <div id="question"><textarea>{{ question.question|safe }}</textarea></div>
+                  <div id="answer"><textarea>{{ question.answer|safe }}</textarea></div>
+            </div>
         </section>
 
     </div>
+    </main>
 {#    </main>#}
     <!-- /主体 -->
+{% endblock %}
+
+{% block js %}
+{#<script type="text/javascript" src= "{% static 'blog/js/view-history.js' %}"></script>#}
+{#<script type='text/javascript' src= "{% static 'blog/js/push.js' %}"></script>#}
+{#<script type='text/javascript' src= "{% static 'blog/js/jquery.min.js' %}"></script>#}
+{#<script type='text/javascript' src= "{% static 'blog/js/bootstrap.min.js' %}"></script>#}
+{#<script type='text/javascript' src= "{% static 'blog/js/raxus-slider.min.js' %}"></script>#}
+{#<script type='text/javascript' src= "{% static 'blog/js/loader.js' %}"></script>#}
+{#<script type='text/javascript' src= "{% static 'blog/js/bj-lazy-load.min.js' %}"></script>#}
+{#<script type='text/javascript' src= "{% static 'blog/js/os.js' %}"></script>#}
 {% endblock %}

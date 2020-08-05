@@ -40,10 +40,10 @@ class Question(models.Model):
     subject = models.CharField(max_length=5, null=True, blank=True, default="")
     no = models.CharField(max_length=6, null=True, blank=True, default="")
     title = models.CharField(max_length=50, null=False, blank=False, default="")
-    question = models.CharField(max_length=500, null=False, blank=False, default="")
-    answer = models.CharField(max_length=500, null=False, blank=False, default="")
-    # question = MDTextField()
-    # answer = MDTextField()
+    # question = models.CharField(max_length=500, null=False, blank=False, default="")
+    question = MDTextField()
+    answer = MDTextField()
+    # answer = models.CharField(max_length=500, null=False, blank=False, default="")
     tag = models.ManyToManyField(Tag)
     difficulty = models.CharField(max_length=20, null=True, blank=True, default="")
     accepted = models.IntegerField(null=True, blank=True, default=0)
@@ -97,5 +97,6 @@ class Note(models.Model):
     body = MDTextField()
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='作者')
 
+    created_time = models.DateTimeField('发布时间', auto_now_add=True)
 
 

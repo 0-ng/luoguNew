@@ -30,8 +30,8 @@ urlpatterns = [
     # url('register/enter$', luogu.registerEnter),
     url('forgetPassword$', luogu.forgetPassword),
     url('changePassword$', luogu.changePassword),
-    url('makeNews$', luogu.makeNewQuestion),
-    url('makeNews/submit$', luogu.makeNews),
+    # url('makeNews$', luogu.makeNewQuestion),
+    # url('makeNews/submit$', luogu.makeNews),
     url(r'^scratchpaper/$', luogu.scratchpaper),
     url(r'^hub/$', luogu.hub),
     path(r'detail/', luogu.detail),
@@ -41,6 +41,7 @@ urlpatterns = [
     path('write_note/<no>/', luogu.write_note),
     path('notes/<name>/', luogu.notes_list),
     path('show-<int:sid>.html', luogu.note_show, name='show'),  # 内容页
+    path('delete_note', luogu.delete_note),  # 删除笔记
 
     path('test', luogu.test)
     # url(r'^accounts/login/', LoginView.as_view(template_name="/login/")),
