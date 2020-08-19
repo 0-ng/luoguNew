@@ -12,6 +12,10 @@ from .myforms import CreateArticleForm, CreateQuestion
 import datetime
 # Create your views here.
 
+dev = True
+# dev = False
+
+
 
 def index(request):
     try:
@@ -107,26 +111,32 @@ def login(request):
 
 def register(request):
     if request.method == 'POST':
-        username = request.POST.get('username')
+        name = request.POST.get('username')
         password = request.POST.get('password')
         email = request.POST.get('email')
-        print(username)
+        print(name)
         print(password)
         print(email)
 
         try:
-            user = User(username=username, email=email)
+            user = User(username=name, email=email)
             user.set_password(password)
             user.save()
             myUser.objects.create(user=user)
             result = True
             message = "Register success"
 
-            with open("/static/luogu/image/personalHead/none.jpg", 'rb') as f:
-                with open("/static/luogu/image/personalHead/{}.jpg".format(username), 'wb') as f2:
-                    f2.write(f.read())
+            if dev:
+                with open("C:/luogu/luogu/sch/static/luogu/image/personalHead/none.jpg", 'rb') as f:
+                    with open("C:/luogu/luogu/sch/static/luogu/image/personalHead/{}.jpg".format(username), 'wb') as f2:
+                        f2.write(f.read())
+            else:
+                with open("/www/wwwroot/0ng.run/static/luogu/image/personalHead/none.jpg", 'rb') as f:
+                    with open("/www/wwwroot/0ng.run/static/luogu/image/personalHead/{}.jpg".format(name), 'wb') as f2:
+                        f2.write(f.read())
+
         except Exception as err:
-            result = False
+            result = True
             message = str(err)
 
         return JsonResponse({"result": result, "message": message})
@@ -212,18 +222,6 @@ def error(request):
 def hub(request):
     ls = Question.objects.all()
 
-    orderBy = request.GET.get('orderBy')
-    order = request.GET.get('order')
-    if orderBy:
-        if order == "asc":
-            ls = ls.order_by("-" + orderBy)
-        elif order == "desc":
-            ls = ls.order_by(orderBy)
-    else:
-        orderBy = "none"
-        order = "none"
-
-
     select_tag = request.GET.get('select_tag')
     print("select_tag", select_tag)
     if select_tag:
@@ -245,29 +243,47 @@ def hub(request):
         ls = ls.filter(tag__name=choices[int(select_tag)])
         print("fill ok")
 
-    no = request.GET.get('no')
-    # print(no)
-    if no:
-        print(1)
-        for q in ls:
-            print(2)
-            ls.filter(no=q.no).update(score=fuzz.token_sort_ratio(no, q.no))
-        print(ls)
-        ls = ls.order_by("-score")
-
-    ret = dict()
-    for i in ls:
-        ret[i.no] = dict()
-        ret[i.no]["no"] = i.no
-        ret[i.no]["title"] = i.title
-        ret[i.no]["tag"] = [j for j in i.tag.all()]
-        ret[i.no]["difficulty"] = i.difficulty
-        ret[i.no]["pass_ratio"] = i.pass_ratio
-        ret[i.no]["status"] = 0
     attemped = Status.objects.filter(username=request.user.username)
-    for i in attemped:
-        if i.no in ret.keys():
-            ret[i.no]["status"] = i.status
+    ret = []
+    for i in ls:
+        question = dict()
+        question["no"] = i.no
+        question["title"] = i.title
+        question["tag"] = [j for j in i.tag.all()]
+        question["difficulty"] = i.difficulty
+        question["pass_ratio"] = i.pass_ratio
+        # print(i.no)
+        try:
+            question["status"] = attemped.get(no=i.no).status
+        except:
+            question["status"] = 0
+        ret.append(question)
+
+
+    orderBy = request.GET.get('orderBy')
+    order = request.GET.get('order')
+    if orderBy:
+        print(ret[0])
+        print(order)
+        print(orderBy)
+        if order == "asc":
+            ret.sort(key=lambda x: x[orderBy], reverse=True)
+            # ls = ls.order_by("-" + orderBy)
+        elif order == "desc":
+            ret.sort(key=lambda x: x[orderBy])
+            # ls = ls.order_by(orderBy)
+    else:
+        orderBy = "none"
+        order = "none"
+
+
+    no = request.GET.get('no')
+    if no:
+        for question in ret:
+            question["score"]=fuzz.token_sort_ratio(no, question['no'])
+        ret.sort(key=lambda x: -x['score'])
+
+
     return render(request, "luogu/hub.html", {"questions": ret, "order": order, "orderBy": orderBy})
     return render(request, "luogu/error.html")
 
@@ -466,7 +482,11 @@ def personalPage(request, name):
             return JsonResponse({"result": False})
         img = request.FILES.get('img_file')
         path = name
-        url = "static/luogu/image/personalHead/" + path + ".jpg"
+        if dev:
+            url = "C:/luogu/luogu/sch/static/luogu/image/personalHead/" + path + ".jpg"
+        else:
+            url = "/www/wwwroot/0ng.run/static/luogu/image/personalHead/" + path + ".jpg"
+
 
         with open(url, 'wb') as f:
             for chunk in img.chunks():
@@ -528,9 +548,9 @@ def personalPage(request, name):
             if date:
                 year, month, day = date.split('-')
                 print(date.split('-'))
-                his = his.filter(date__year=year, date__month=month, date__day=day)
-            else:
-                his = his[:min(10, his.count())]
+                his = his.filter(date__contains=datetime.date(int(year), int(month), int(day)))
+            # else:
+            #     his = his[:min(10, his.count())]
 
             return render(request, "luogu/personalPage.html", {"username": name, "user": user, "a": ls, "his": his, "sum": sum, 'benren': benren})
         else:
